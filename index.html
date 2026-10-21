@@ -126,6 +126,37 @@
             color: #2b6cb0;
         }
 
+        /* Блок последних изменений */
+        .recent-section {
+            margin-bottom: 25px;
+        }
+
+        .recent-title {
+            font-size: 18px;
+            color: #718096;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .recent-card {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px dashed rgba(160, 174, 192, 0.7);
+            border-radius: 15px;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        .recent-card .r-subject { font-weight: 800; color: #2d3748; }
+        .recent-card .r-date { font-size: 12px; color: #718096; }
+
         /* КАРТОЧКИ ДЗ */
         .task-card {
             background: rgba(255, 255, 255, 0.7);
@@ -154,10 +185,22 @@
             margin-bottom: 5px;
         }
 
+        .task-subject-group {
+            display: flex;
+            flex-direction: column;
+        }
+
         .task-subject {
             color: #2d3748;
             font-size: 20px;
             font-weight: 800;
+        }
+
+        .task-date {
+            font-size: 12px;
+            color: #a0aec0;
+            font-weight: 600;
+            margin-top: 2px;
         }
 
         .task-actions {
@@ -325,13 +368,13 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        /* Всплывающая подсказка для значка */
+        /* Всплывающая подсказка для значка (теперь только по клику) */
         .badge-tooltip {
             position: absolute;
             bottom: 110%;
             left: 50%;
             transform: translateX(-50%) translateY(10px);
-            background: rgba(45, 55, 72, 0.9);
+            background: rgba(45, 55, 72, 0.95);
             color: white;
             padding: 8px 12px;
             border-radius: 10px;
@@ -350,9 +393,10 @@
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: rgba(45, 55, 72, 0.9) transparent transparent transparent;
+            border-color: rgba(45, 55, 72, 0.95) transparent transparent transparent;
         }
 
+        /* Показываем подсказку только если есть класс active-tooltip */
         .badge-item.active-tooltip .badge-tooltip {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
@@ -371,15 +415,12 @@
             color: white;
         }
 
-        /* Стили для конкретных событий */
         .event-card.event-blue {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             border: 2px solid rgba(255,255,255,0.4);
         }
 
         .event-card.event-pink {
-            background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
-            /* Делаем кислотно-розовый более насыщенным */
             background: linear-gradient(135deg, #ff007f 0%, #ff4b91 100%);
             border: 2px solid rgba(255,255,255,0.4);
         }
@@ -432,14 +473,14 @@
             bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%; /* Увеличили ширину, так как 3 кнопки */
+            width: 90%;
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 2px solid rgba(255, 255, 255, 1);
             border-radius: 100px;
             display: flex;
-            justify-content: space-around; /* Равномерно распределяем */
+            justify-content: space-around;
             align-items: center;
             padding: 8px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
@@ -572,6 +613,13 @@
             <!-- Вкладка ДЗ -->
             <div id="tab-tasks" class="tab-content active">
                 <div class="title-main">Д/З</div>
+                
+                <!-- Блок последних изменений -->
+                <div class="recent-section" id="recent-section" style="display: none;">
+                    <div class="recent-title">Последние изменения</div>
+                    <div id="recent-list"></div>
+                </div>
+
                 <div id="homework-list">
                     <div style="text-align: center; color: #718096; margin-top: 20px; font-weight: 600;">Загрузка данных...</div>
                 </div>
@@ -585,14 +633,12 @@
             <div id="tab-events" class="tab-content">
                 <div class="title-main">События</div>
                 
-                <!-- Событие 1: Выход Инжемира 3 -->
                 <div class="event-card event-blue">
                     <div class="event-title">Выход инжемира 3</div>
                     <div class="event-date">действует до 23.10.26</div>
                     <button class="event-btn" id="btn-event-1" onclick="claimBadge('inzhemir_3')">получить значок ⚙</button>
                 </div>
 
-                <!-- Событие 2: Медиабитва -->
                 <div class="event-card event-pink">
                     <div class="event-title">Медиабитва</div>
                     <div class="event-date">действует до 30.10.26</div>
@@ -630,12 +676,9 @@
             <div class="nav-item active" onclick="switchTab('tasks', this)">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
             </div>
-            
-            <!-- Новая вкладка События -->
             <div class="nav-item" onclick="switchTab('events', this)">
                 <div class="nav-emoji">🎉</div>
             </div>
-
             <div class="nav-item" onclick="switchTab('profile', this)">
                 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             </div>
@@ -668,30 +711,25 @@
     <script>
         // ==================== ЛОГИКА ПРОФИЛЯ (LOCAL STORAGE) ====================
         
-        // Инициализация данных профиля, если их нет (добавлено поле badges)
         let profileData = JSON.parse(localStorage.getItem('inzhemir_profile')) || {
             coins: 0,
             streak: 0,
             lastClaimTime: 0,
-            badges: [] // Массив с ID купленных значков
+            badges: []
         };
 
-        // На всякий случай, если старая версия профиля не имела массива badges
         if (!profileData.badges) profileData.badges = [];
 
-        // Обновление интерфейса профиля
         function updateProfileUI() {
             document.getElementById('coin-balance').innerText = profileData.coins;
             document.getElementById('streak-days').innerText = profileData.streak;
             
-            // Огонек
             const emojiEl = document.getElementById('streak-emoji');
             if (profileData.streak >= 51) emojiEl.innerText = '🧡';
             else if (profileData.streak >= 21) emojiEl.innerText = '🔥';
             else if (profileData.streak >= 7) emojiEl.innerText = '🎆';
             else emojiEl.innerText = '🥶';
 
-            // Дейлик
             const btn = document.getElementById('daily-btn');
             const text = document.getElementById('daily-text');
             const progressBar = document.getElementById('daily-progress-bar');
@@ -724,13 +762,10 @@
                 progressBar.style.transform = `scaleX(${progress})`;
             }
 
-            // Отрисовка значков в профиле
             renderBadges();
-            // Обновление кнопок в событиях
             updateEventButtons();
         }
 
-        // Получение дейлика
         function claimDaily() {
             const now = Date.now();
             const cooldown = 24 * 60 * 60 * 1000;
@@ -762,7 +797,7 @@
 
         function renderBadges() {
             const container = document.getElementById('badges-container');
-            container.innerHTML = ''; // Очищаем
+            container.innerHTML = '';
 
             if (profileData.badges.length === 0) {
                 container.innerHTML = '<div style="color: #718096; font-size: 14px; font-style: italic;">Пока нет значков</div>';
@@ -780,37 +815,34 @@
                     <div class="badge-tooltip">${info.name}</div>
                 `;
                 
-                // Обработка нажатия/наведения для показа подсказки
-                el.onclick = (e) => {
+                // Показ подсказки ТОЛЬКО по клику                el.onclick = (e) => {
                     e.stopPropagation();
-                    // Убираем активный класс у всех остальных
+                    const isActive = el.classList.contains('active-tooltip');
+                    // Убираем у всех
                     document.querySelectorAll('.badge-item').forEach(b => b.classList.remove('active-tooltip'));
-                    // Добавляем текущему
-                    el.classList.add('active-tooltip');
+                    // Если не было активно - добавляем
+                    if (!isActive) {
+                        el.classList.add('active-tooltip');
+                    }
                 };
-
-                // Закрываем подсказку при клике в любое другое место
-                document.addEventListener('click', () => {
-                    el.classList.remove('active-tooltip');
-                });
 
                 container.appendChild(el);
             });
         }
 
-        // Логика покупки/получения значков
+        // Закрываем подсказку при клике в любое место страницы
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.badge-item').forEach(b => b.classList.remove('active-tooltip'));
+        });
+
         function claimBadge(badgeId) {
             if (profileData.badges.includes(badgeId)) {
                 alert("Вы уже получили этот значок!");
                 return;
             }
-
-            // Выдаем значок (бесплатно)
             profileData.badges.push(badgeId);
             localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
             updateProfileUI();
-            
-            // Анимация
             alert("Значок успешно получен! Проверьте профиль.");
         }
 
@@ -819,22 +851,17 @@
                 alert("Вы уже купили этот значок!");
                 return;
             }
-
             if (profileData.coins < price) {
                 alert(`Недостаточно инжекоинов! Вам нужно ${price}, а у вас ${profileData.coins}.`);
                 return;
             }
-
-            // Списываем монеты и выдаем значок
             profileData.coins -= price;
             profileData.badges.push(badgeId);
             localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
             updateProfileUI();
-            
             alert(`Успешно куплено! Списано ${price} инжекоинов.`);
         }
 
-        // Обновление состояния кнопок в событиях (если уже куплено/получено)
         function updateEventButtons() {
             const btn1 = document.getElementById('btn-event-1');
             const btn2 = document.getElementById('btn-event-2');
@@ -856,9 +883,33 @@
             }
         }
 
-        // Запускаем обновление каждую секунду для таймера
         setInterval(updateProfileUI, 1000);
 
+        // ==================== ВСПОМОГАТЕЛЬНАЯ ЛОГИКА ДАТ ====================
+        
+        // Функция для форматирования даты ("сегодня", "вчера" и т.д.)
+        function getRelativeDate(timestamp) {
+            if (!timestamp) return 'давно'; // Если даты нет
+
+            const now = new Date();
+            const past = new Date(timestamp);
+            
+            // Сбрасываем время до 00:00:00 для корректного сравнения дней
+            const d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const d2 = new Date(past.getFullYear(), past.getMonth(), past.getDate());
+            
+            const diffTime = Math.abs(d1 - d2);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 0) return 'сегодня';
+            if (diffDays === 1) return 'вчера';
+            if (diffDays === 2) return 'позавчера';
+            if (diffDays === 3) return '3 дня назад';
+            if (diffDays === 4) return '4 дня назад';
+            if (diffDays === 5) return '5 дней назад';
+            if (diffDays === 6) return '6 дней назад';
+            return 'неделю и больше назад';
+        }
 
         // ==================== ЛОГИКА ДЗ (FIREBASE) ====================
         if (typeof firebase === 'undefined') {
@@ -885,6 +936,7 @@
 
                 if (!data) {
                     container.innerHTML = '<div style="color: #718096; font-size: 14px; margin-bottom: 15px;">Список пуст. Добавьте первый предмет!</div>';
+                    document.getElementById('recent-section').style.display = 'none';
                     return;
                 }
 
@@ -894,7 +946,7 @@
 
                 if (typeof data.math === 'string') {
                     const newKey = db.ref('homework').push().key;
-                    updates[newKey] = { name: "Математика", text: data.math };
+                    updates[newKey] = { name: "Математика", text: data.math, updatedAt: Date.now() };
                     updates['math'] = null;
                     migratedData[newKey] = updates[newKey];
                     delete migratedData.math;
@@ -902,7 +954,7 @@
                 }
                 if (typeof data.russian === 'string') {
                     const newKey = db.ref('homework').push().key;
-                    updates[newKey] = { name: "Русский язык", text: data.russian };
+                    updates[newKey] = { name: "Русский язык", text: data.russian, updatedAt: Date.now() };
                     updates['russian'] = null;
                     migratedData[newKey] = updates[newKey];
                     delete migratedData.russian;
@@ -916,29 +968,66 @@
             function renderHomeworks(data) {
                 const container = document.getElementById('homework-list');
                 container.innerHTML = '';
+                
+                // Получаем массив объектов для сортировки по времени
+                let itemsArray = Object.keys(data).map(key => {
+                    return { key: key, ...data[key] };
+                });
 
-                if (!data || Object.keys(data).length === 0) {
+                // Сортировка: сначала самые новые (по updatedAt), если даты нет - в конец
+                itemsArray.sort((a, b) => {
+                    const timeA = a.updatedAt || 0;
+                    const timeB = b.updatedAt || 0;
+                    return timeB - timeA;
+                });
+
+                // --- РЕНДЕР БЛОКА ПОСЛЕДНИХ ИЗМЕНЕНИЙ ---
+                const recentSection = document.getElementById('recent-section');
+                const recentList = document.getElementById('recent-list');
+                recentList.innerHTML = '';
+
+                // Берем первые 3 элемента, у которых есть время
+                const recentItems = itemsArray.filter(item => item.updatedAt).slice(0, 3);
+
+                if (recentItems.length > 0) {
+                    recentSection.style.display = 'block';
+                    recentItems.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'recent-card';
+                        div.innerHTML = `
+                            <span class="r-subject">${item.name}</span>
+                            <span class="r-date">${getRelativeDate(item.updatedAt)}</span>
+                        `;
+                        recentList.appendChild(div);
+                    });
+                } else {
+                    recentSection.style.display = 'none';
+                }
+
+                // --- РЕНДЕР ОСНОВНОГО СПИСКА ---
+                if (itemsArray.length === 0) {
                     container.innerHTML = '<div style="color: #718096; font-size: 14px; margin-bottom: 15px;">Список пуст. Добавьте первый предмет!</div>';
                     return;
                 }
 
-                Object.keys(data).forEach(key => {
-                    const item = data[key];
-                    if (!item || typeof item !== 'object') return; 
-
+                itemsArray.forEach(item => {
                     const name = item.name || 'Без названия';
                     const text = item.text || 'Не задано';
+                    const dateStr = item.updatedAt ? getRelativeDate(item.updatedAt) : 'давно';
 
                     const card = document.createElement('div');
                     card.className = 'task-card';
-                    card.onclick = () => openEditModal(key, name, text);
+                    card.onclick = () => openEditModal(item.key, name, text);
 
                     card.innerHTML = `
                         <div class="task-header">
-                            <span class="task-subject">${name}</span>
+                            <div class="task-subject-group">
+                                <span class="task-subject">${name}</span>
+                                <span class="task-date">изменено: ${dateStr}</span>
+                            </div>
                             <div class="task-actions">
                                 <svg class="task-icon edit-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                                <svg class="task-icon delete-icon" onclick="deleteSubject(event, '${key}')" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                <svg class="task-icon delete-icon" onclick="deleteSubject(event, '${item.key}')" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
                             </div>
                         </div>
                         <div class="task-content">${text}</div>
@@ -956,9 +1045,13 @@
 
             window.saveHomework = function() {
                 const newText = document.getElementById('modalInput').value;
-                db.ref('homework/' + currentEditKey + '/text').set(newText)
-                    .then(() => closeModal('editModal'))
-                    .catch(error => alert("Ошибка: " + error.message));
+                // Обновляем текст И дату изменения
+                db.ref('homework/' + currentEditKey).update({
+                    text: newText,
+                    updatedAt: Date.now()
+                })
+                .then(() => closeModal('editModal'))
+                .catch(error => alert("Ошибка: " + error.message));
             }
 
             window.openAddModal = function() {
@@ -975,7 +1068,8 @@
                 const newKey = db.ref('homework').push().key;
                 db.ref('homework/' + newKey).set({
                     name: name,
-                    text: 'Не задано'
+                    text: 'Не задано',
+                    updatedAt: Date.now() // Ставим дату создания
                 }).then(() => {
                     closeModal('addModal');
                 }).catch(error => alert("Ошибка: " + error.message));
@@ -1009,7 +1103,6 @@
             if(tabName === 'profile') updateProfileUI();
         }
 
-        // Инициализация при загрузке
         updateProfileUI();
     </script>
 </body>
