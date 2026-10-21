@@ -368,7 +368,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        /* Всплывающая подсказка для значка (теперь только по клику) */
+        /* Всплывающая подсказка для значка (по клику) */
         .badge-tooltip {
             position: absolute;
             bottom: 110%;
@@ -396,7 +396,6 @@
             border-color: rgba(45, 55, 72, 0.95) transparent transparent transparent;
         }
 
-        /* Показываем подсказку только если есть класс active-tooltip */
         .badge-item.active-tooltip .badge-tooltip {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
@@ -614,7 +613,6 @@
             <div id="tab-tasks" class="tab-content active">
                 <div class="title-main">Д/З</div>
                 
-                <!-- Блок последних изменений -->
                 <div class="recent-section" id="recent-section" style="display: none;">
                     <div class="recent-title">Последние изменения</div>
                     <div id="recent-list"></div>
@@ -710,7 +708,6 @@
 
     <script>
         // ==================== ЛОГИКА ПРОФИЛЯ (LOCAL STORAGE) ====================
-        
         let profileData = JSON.parse(localStorage.getItem('inzhemir_profile')) || {
             coins: 0,
             streak: 0,
@@ -815,12 +812,11 @@
                     <div class="badge-tooltip">${info.name}</div>
                 `;
                 
-                // Показ подсказки ТОЛЬКО по клику                el.onclick = (e) => {
+                // Показ подсказки ТОЛЬКО по клику
+                el.onclick = (e) => {
                     e.stopPropagation();
                     const isActive = el.classList.contains('active-tooltip');
-                    // Убираем у всех
                     document.querySelectorAll('.badge-item').forEach(b => b.classList.remove('active-tooltip'));
-                    // Если не было активно - добавляем
                     if (!isActive) {
                         el.classList.add('active-tooltip');
                     }
@@ -886,15 +882,13 @@
         setInterval(updateProfileUI, 1000);
 
         // ==================== ВСПОМОГАТЕЛЬНАЯ ЛОГИКА ДАТ ====================
-        
-        // Функция для форматирования даты ("сегодня", "вчера" и т.д.)
         function getRelativeDate(timestamp) {
-            if (!timestamp) return 'давно'; // Если даты нет
+            // Если даты нет (старая запись), возвращаем null, чтобы обработать отдельно
+            if (!timestamp) return null; 
 
             const now = new Date();
             const past = new Date(timestamp);
             
-            // Сбрасываем время до 00:00:00 для корректного сравнения дней
             const d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const d2 = new Date(past.getFullYear(), past.getMonth(), past.getDate());
             
@@ -944,6 +938,7 @@
                 let updates = {};
                 let migratedData = { ...data };
 
+                // Миграция старых данных (если вдруг остались math/russian)
                 if (typeof data.math === 'string') {
                     const newKey = db.ref('homework').push().key;
                     updates[newKey] = { name: "Математика", text: data.math, updatedAt: Date.now() };
@@ -969,24 +964,24 @@
                 const container = document.getElementById('homework-list');
                 container.innerHTML = '';
                 
-                // Получаем массив объектов для сортировки по времени
+                // Превращаем объект в массив для сортировки
                 let itemsArray = Object.keys(data).map(key => {
                     return { key: key, ...data[key] };
                 });
 
-                // Сортировка: сначала самые новые (по updatedAt), если даты нет - в конец
+                // Сортировка: элементы с датой идут первыми (сначала новые), без даты - в конце
                 itemsArray.sort((a, b) => {
                     const timeA = a.updatedAt || 0;
                     const timeB = b.updatedAt || 0;
                     return timeB - timeA;
                 });
 
-                // --- РЕНДЕР БЛОКА ПОСЛЕДНИХ ИЗМЕНЕНИЙ ---
+                // --- БЛОК ПОСЛЕДНИХ ИЗМЕНЕНИЙ ---
                 const recentSection = document.getElementById('recent-section');
                 const recentList = document.getElementById('recent-list');
                 recentList.innerHTML = '';
 
-                // Берем первые 3 элемента, у которых есть время
+                // Берем только те, у которых ЕСТЬ дата, максимум 3 штуки
                 const recentItems = itemsArray.filter(item => item.updatedAt).slice(0, 3);
 
                 if (recentItems.length > 0) {
@@ -1004,7 +999,7 @@
                     recentSection.style.display = 'none';
                 }
 
-                // --- РЕНДЕР ОСНОВНОГО СПИСКА ---
+                // --- ОСНОВНОЙ СПИСОК ---
                 if (itemsArray.length === 0) {
                     container.innerHTML = '<div style="color: #718096; font-size: 14px; margin-bottom: 15px;">Список пуст. Добавьте первый предмет!</div>';
                     return;
@@ -1013,6 +1008,8 @@
                 itemsArray.forEach(item => {
                     const name = item.name || 'Без названия';
                     const text = item.text || 'Не задано';
+                    
+                    // Если даты нет, пишем "давно", иначе вычисляем
                     const dateStr = item.updatedAt ? getRelativeDate(item.updatedAt) : 'давно';
 
                     const card = document.createElement('div');
@@ -1045,7 +1042,7 @@
 
             window.saveHomework = function() {
                 const newText = document.getElementById('modalInput').value;
-                // Обновляем текст И дату изменения
+                // Обновляем И текст, И время
                 db.ref('homework/' + currentEditKey).update({
                     text: newText,
                     updatedAt: Date.now()
@@ -1069,7 +1066,7 @@
                 db.ref('homework/' + newKey).set({
                     name: name,
                     text: 'Не задано',
-                    updatedAt: Date.now() // Ставим дату создания
+                    updatedAt: Date.now() // Ставим время при создании
                 }).then(() => {
                     closeModal('addModal');
                 }).catch(error => alert("Ошибка: " + error.message));
