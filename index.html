@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ИНЖЕМИР V3 - Soft Liquid Glass</title>
+    <title>РРќР–Р•РњРР  V3 - Soft Liquid Glass</title>
 
     <style>
-        /* Базовые настройки */
+        /* Р‘Р°Р·РѕРІС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -126,7 +126,7 @@
             color: #2b6cb0;
         }
 
-        /* КАРТОЧКИ ДЗ */
+        /* РљРђР РўРћР§РљР Р”Р— */
         .task-card {
             background: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(255, 255, 255, 1);
@@ -214,7 +214,7 @@
 
         .action-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
-        /* ПРОФИЛЬ (ДЕЙЛИК) */
+        /* РџР РћР¤РР›Р¬ (Р”Р•Р™Р›РРљ) */
         .profile-widgets {
             display: flex;
             align-items: center;
@@ -223,7 +223,7 @@
             margin-bottom: 25px;
         }
 
-        /* Огонек */
+        /* РћРіРѕРЅРµРє */
         .streak-box {
             display: flex;
             flex-direction: column;
@@ -254,7 +254,7 @@
             font-weight: 800;
         }
 
-        /* Кнопка Дейлика */
+        /* РљРЅРѕРїРєР° Р”РµР№Р»РёРєР° */
         .daily-btn {
             flex: 1;
             height: 90px;
@@ -302,10 +302,10 @@
         }
 
         .daily-btn.ready .daily-sub {
-            color: #38a169; /* Зеленый, если доступно */
+            color: #38a169; /* Р—РµР»РµРЅС‹Р№, РµСЃР»Рё РґРѕСЃС‚СѓРїРЅРѕ */
         }
 
-        /* Прогресс-бар внутри кнопки (визуальный эффект) */
+        /* РџСЂРѕРіСЂРµСЃСЃ-Р±Р°СЂ РІРЅСѓС‚СЂРё РєРЅРѕРїРєРё (РІРёР·СѓР°Р»СЊРЅС‹Р№ СЌС„С„РµРєС‚) */
         .daily-progress {
             position: absolute;
             bottom: 0; left: 0;
@@ -316,7 +316,7 @@
             transition: transform 1s linear;
         }
 
-        /* НИЖНЯЯ НАВИГАЦИЯ */
+        /* РќРР–РќРЇРЇ РќРђР’РР“РђР¦РРЇ */
         .bottom-nav {
             position: absolute;
             bottom: 25px;
@@ -358,7 +358,7 @@
             transform: scale(1.1);
         }
 
-        /* МОДАЛЬНЫЕ ОКНА */
+        /* РњРћР”РђР›Р¬РќР«Р• РћРљРќРђ */
         .modal-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -437,47 +437,47 @@
 
     <div class="app-container">
         <header>
-            <h1>ИНЖЕМИР V3</h1>
+            <h1>РРќР–Р•РњРР  V3</h1>
             <svg class="settings-icon" viewBox="0 0 24 24">
                 <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
             </svg>
         </header>
 
         <div class="content-area">
-            <!-- Вкладка ДЗ -->
+            <!-- Р’РєР»Р°РґРєР° Р”Р— -->
             <div id="tab-tasks" class="tab-content active">
-                <div class="title-main">Д/З</div>
+                <div class="title-main">Р”/Р—</div>
                 <div id="homework-list">
-                    <div style="text-align: center; color: #718096; margin-top: 20px; font-weight: 600;">Загрузка данных...</div>
+                    <div style="text-align: center; color: #718096; margin-top: 20px; font-weight: 600;">Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С…...</div>
                 </div>
                 <div class="action-btn" onclick="openAddModal()">
                     <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                    Добавить предмет
+                    Р”РѕР±Р°РІРёС‚СЊ РїСЂРµРґРјРµС‚
                 </div>
             </div>
 
-            <!-- Вкладка Профиль -->
+            <!-- Р’РєР»Р°РґРєР° РџСЂРѕС„РёР»СЊ -->
             <div id="tab-profile" class="tab-content">
-                <div class="title-main">Вы</div>
-                <div class="subtitle">инжекоины: <span class="highlight" id="coin-balance">0</span></div>
+                <div class="title-main">Р’С‹</div>
+                <div class="subtitle">РёРЅР¶РµРєРѕРёРЅС‹: <span class="highlight" id="coin-balance">0</span></div>
                 
-                <!-- Виджеты: Огонек и Дейлик -->
+                <!-- Р’РёРґР¶РµС‚С‹: РћРіРѕРЅРµРє Рё Р”РµР№Р»РёРє -->
                 <div class="profile-widgets">
                     <div class="streak-box">
-                        <div class="streak-emoji" id="streak-emoji">??</div>
-                        <div class="streak-count"><span id="streak-days">0</span> дн.</div>
+                        <div class="streak-emoji" id="streak-emoji">рџҐ¶</div>
+                        <div class="streak-count"><span id="streak-days">0</span> РґРЅ.</div>
                     </div>
                     
                     <button class="daily-btn ready" id="daily-btn" onclick="claimDaily()">
-                        <div class="daily-title">Дейлик??</div>
-                        <div class="daily-sub" id="daily-text">Забрать 1</div>
+                        <div class="daily-title">Р”РµР№Р»РёРєрџЋЃ</div>
+                        <div class="daily-sub" id="daily-text">Р—Р°Р±СЂР°С‚СЊ 1</div>
                         <div class="daily-progress" id="daily-progress-bar"></div>
                     </button>
                 </div>
 
-                <div class="subtitle" style="margin-top: 25px;">значки:</div>
+                <div class="subtitle" style="margin-top: 25px;">Р·РЅР°С‡РєРё:</div>
                 <div class="task-card" style="opacity: 0.6; border-style: dashed; cursor: default;">
-                    <span class="task-content" style="font-size: 16px;">Пока нет значков</span>
+                    <span class="task-content" style="font-size: 16px;">РџРѕРєР° РЅРµС‚ Р·РЅР°С‡РєРѕРІ</span>
                 </div>
             </div>
         </div>
@@ -491,22 +491,22 @@
             </div>
         </div>
 
-        <!-- Модалки ДЗ -->
+        <!-- РњРѕРґР°Р»РєРё Р”Р— -->
         <div class="modal-overlay" id="editModal" onclick="closeModalOnOverlay(event)">
             <div class="modal-content">
-                <button class="close-btn" onclick="closeModal('editModal')">?</button>
-                <div class="modal-title" id="modalSubjectName">Редактировать</div>
-                <textarea class="modal-input modal-textarea" id="modalInput" placeholder="Введите домашнее задание..."></textarea>
-                <button class="save-btn" onclick="saveHomework()">Сохранить изменения</button>
+                <button class="close-btn" onclick="closeModal('editModal')">вњ•</button>
+                <div class="modal-title" id="modalSubjectName">Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ</div>
+                <textarea class="modal-input modal-textarea" id="modalInput" placeholder="Р’РІРµРґРёС‚Рµ РґРѕРјР°С€РЅРµРµ Р·Р°РґР°РЅРёРµ..."></textarea>
+                <button class="save-btn" onclick="saveHomework()">РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ</button>
             </div>
         </div>
 
         <div class="modal-overlay" id="addModal" onclick="closeModalOnOverlay(event)">
             <div class="modal-content">
-                <button class="close-btn" onclick="closeModal('addModal')">?</button>
-                <div class="modal-title">Новый предмет</div>
-                <input type="text" class="modal-input" id="newSubjectInput" placeholder="Название (например: Физика)">
-                <button class="save-btn" onclick="addNewSubject()">Добавить в список</button>
+                <button class="close-btn" onclick="closeModal('addModal')">вњ•</button>
+                <div class="modal-title">РќРѕРІС‹Р№ РїСЂРµРґРјРµС‚</div>
+                <input type="text" class="modal-input" id="newSubjectInput" placeholder="РќР°Р·РІР°РЅРёРµ (РЅР°РїСЂРёРјРµСЂ: Р¤РёР·РёРєР°)">
+                <button class="save-btn" onclick="addNewSubject()">Р”РѕР±Р°РІРёС‚СЊ РІ СЃРїРёСЃРѕРє</button>
             </div>
         </div>
     </div>
@@ -516,112 +516,112 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        // ==================== ЛОГИКА ПРОФИЛЯ (LOCAL STORAGE) ====================
+        // ==================== Р›РћР“РРљРђ РџР РћР¤РР›РЇ (LOCAL STORAGE) ====================
         
-        // Инициализация данных профиля, если их нет
+        // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РґР°РЅРЅС‹С… РїСЂРѕС„РёР»СЏ, РµСЃР»Рё РёС… РЅРµС‚
         let profileData = JSON.parse(localStorage.getItem('inzhemir_profile')) || {
             coins: 0,
             streak: 0,
-            lastClaimTime: 0 // Время последнего получения (в миллисекундах)
+            lastClaimTime: 0 // Р’СЂРµРјСЏ РїРѕСЃР»РµРґРЅРµРіРѕ РїРѕР»СѓС‡РµРЅРёСЏ (РІ РјРёР»Р»РёСЃРµРєСѓРЅРґР°С…)
         };
 
-        // Функция обновления интерфейса профиля
+        // Р¤СѓРЅРєС†РёСЏ РѕР±РЅРѕРІР»РµРЅРёСЏ РёРЅС‚РµСЂС„РµР№СЃР° РїСЂРѕС„РёР»СЏ
         function updateProfileUI() {
             document.getElementById('coin-balance').innerText = profileData.coins;
             document.getElementById('streak-days').innerText = profileData.streak;
             
-            // Определение стадии огонька
+            // РћРїСЂРµРґРµР»РµРЅРёРµ СЃС‚Р°РґРёРё РѕРіРѕРЅСЊРєР°
             const emojiEl = document.getElementById('streak-emoji');
-            if (profileData.streak >= 51) emojiEl.innerText = '??';
-            else if (profileData.streak >= 21) emojiEl.innerText = '??';
-            else if (profileData.streak >= 7) emojiEl.innerText = '??';
-            else emojiEl.innerText = '??'; // 0-6 дней
+            if (profileData.streak >= 51) emojiEl.innerText = 'рџ§Ў';
+            else if (profileData.streak >= 21) emojiEl.innerText = 'рџ”Ґ';
+            else if (profileData.streak >= 7) emojiEl.innerText = 'рџЋ†';
+            else emojiEl.innerText = 'рџҐ¶'; // 0-6 РґРЅРµР№
 
-            // Логика таймера дейлика
+            // Р›РѕРіРёРєР° С‚Р°Р№РјРµСЂР° РґРµР№Р»РёРєР°
             const btn = document.getElementById('daily-btn');
             const text = document.getElementById('daily-text');
             const progressBar = document.getElementById('daily-progress-bar');
             
             const now = Date.now();
-            const cooldown = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
+            const cooldown = 24 * 60 * 60 * 1000; // 24 С‡Р°СЃР° РІ РјРёР»Р»РёСЃРµРєСѓРЅРґР°С…
             const timePassed = now - profileData.lastClaimTime;
 
-            // Проверка, не пропустил ли пользователь день (если прошло больше 48 часов)
+            // РџСЂРѕРІРµСЂРєР°, РЅРµ РїСЂРѕРїСѓСЃС‚РёР» Р»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РґРµРЅСЊ (РµСЃР»Рё РїСЂРѕС€Р»Рѕ Р±РѕР»СЊС€Рµ 48 С‡Р°СЃРѕРІ)
             if (profileData.lastClaimTime > 0 && timePassed > 48 * 60 * 60 * 1000) {
                 if (profileData.streak > 0) {
-                    profileData.streak = 0; // Сбрасываем огонек
+                    profileData.streak = 0; // РЎР±СЂР°СЃС‹РІР°РµРј РѕРіРѕРЅРµРє
                     localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
-                    updateProfileUI(); // Перерисовываем
+                    updateProfileUI(); // РџРµСЂРµСЂРёСЃРѕРІС‹РІР°РµРј
                 }
             }
 
             if (timePassed >= cooldown) {
-                // Дейлик доступен
+                // Р”РµР№Р»РёРє РґРѕСЃС‚СѓРїРµРЅ
                 btn.disabled = false;
                 btn.classList.add('ready');
-                text.innerText = "Забрать 1";
+                text.innerText = "Р—Р°Р±СЂР°С‚СЊ 1";
                 progressBar.style.transform = "scaleX(1)";
             } else {
-                // Дейлик на кулдауне
+                // Р”РµР№Р»РёРє РЅР° РєСѓР»РґР°СѓРЅРµ
                 btn.disabled = true;
                 btn.classList.remove('ready');
                 
-                // Расчет оставшегося времени
+                // Р Р°СЃС‡РµС‚ РѕСЃС‚Р°РІС€РµРіРѕСЃСЏ РІСЂРµРјРµРЅРё
                 const timeLeft = cooldown - timePassed;
                 const hours = Math.floor(timeLeft / (1000 * 60 * 60));
                 const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
                 
-                text.innerText = `через ${hours}ч ${minutes}м`;
+                text.innerText = `С‡РµСЂРµР· ${hours}С‡ ${minutes}Рј`;
                 
-                // Прогресс бар (плавно заполняется)
+                // РџСЂРѕРіСЂРµСЃСЃ Р±Р°СЂ (РїР»Р°РІРЅРѕ Р·Р°РїРѕР»РЅСЏРµС‚СЃСЏ)
                 const progress = timePassed / cooldown;
                 progressBar.style.transform = `scaleX(${progress})`;
             }
         }
 
-        // Функция получения дейлика
+        // Р¤СѓРЅРєС†РёСЏ РїРѕР»СѓС‡РµРЅРёСЏ РґРµР№Р»РёРєР°
         function claimDaily() {
             const now = Date.now();
             const cooldown = 24 * 60 * 60 * 1000;
             const timePassed = now - profileData.lastClaimTime;
 
-            // Проверка, можно ли получить
+            // РџСЂРѕРІРµСЂРєР°, РјРѕР¶РЅРѕ Р»Рё РїРѕР»СѓС‡РёС‚СЊ
             if (timePassed >= cooldown || profileData.lastClaimTime === 0) {
                 
-                // Логика стрика (огонька)
-                // Если прошло больше 48 часов с последнего получения - сбрасываем
+                // Р›РѕРіРёРєР° СЃС‚СЂРёРєР° (РѕРіРѕРЅСЊРєР°)
+                // Р•СЃР»Рё РїСЂРѕС€Р»Рѕ Р±РѕР»СЊС€Рµ 48 С‡Р°СЃРѕРІ СЃ РїРѕСЃР»РµРґРЅРµРіРѕ РїРѕР»СѓС‡РµРЅРёСЏ - СЃР±СЂР°СЃС‹РІР°РµРј
                 if (profileData.lastClaimTime > 0 && timePassed > 48 * 60 * 60 * 1000) {
                     profileData.streak = 1; 
                 } else {
-                    // Если получили вовремя (в течение 48 часов), увеличиваем
+                    // Р•СЃР»Рё РїРѕР»СѓС‡РёР»Рё РІРѕРІСЂРµРјСЏ (РІ С‚РµС‡РµРЅРёРµ 48 С‡Р°СЃРѕРІ), СѓРІРµР»РёС‡РёРІР°РµРј
                     profileData.streak += 1;
                 }
 
-                // Начисляем монеты
+                // РќР°С‡РёСЃР»СЏРµРј РјРѕРЅРµС‚С‹
                 profileData.coins += 1;
                 profileData.lastClaimTime = now;
 
-                // Сохраняем
+                // РЎРѕС…СЂР°РЅСЏРµРј
                 localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
                 
-                // Обновляем интерфейс
+                // РћР±РЅРѕРІР»СЏРµРј РёРЅС‚РµСЂС„РµР№СЃ
                 updateProfileUI();
                 
-                // Небольшая анимация кнопки
+                // РќРµР±РѕР»СЊС€Р°СЏ Р°РЅРёРјР°С†РёСЏ РєРЅРѕРїРєРё
                 const btn = document.getElementById('daily-btn');
                 btn.style.transform = "scale(0.95)";
                 setTimeout(() => btn.style.transform = "scale(1)", 150);
             }
         }
 
-        // Запускаем таймер обновления каждую секунду, чтобы обновлять текст на кнопке
+        // Р—Р°РїСѓСЃРєР°РµРј С‚Р°Р№РјРµСЂ РѕР±РЅРѕРІР»РµРЅРёСЏ РєР°Р¶РґСѓСЋ СЃРµРєСѓРЅРґСѓ, С‡С‚РѕР±С‹ РѕР±РЅРѕРІР»СЏС‚СЊ С‚РµРєСЃС‚ РЅР° РєРЅРѕРїРєРµ
         setInterval(updateProfileUI, 1000);
 
 
-        // ==================== ЛОГИКА ДОМАШНЕГО ЗАДАНИЯ (FIREBASE) ====================
+        // ==================== Р›РћР“РРљРђ Р”РћРњРђРЁРќР•Р“Рћ Р—РђР”РђРќРРЇ (FIREBASE) ====================
         
         if (typeof firebase === 'undefined') {
-            document.getElementById('homework-list').innerHTML = '<div style="color: #e53e3e; font-size: 14px; text-align: center;">Ошибка: Не удалось загрузить Firebase. Проверьте интернет или отключите блокировщик рекламы.</div>';
+            document.getElementById('homework-list').innerHTML = '<div style="color: #e53e3e; font-size: 14px; text-align: center;">РћС€РёР±РєР°: РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ Firebase. РџСЂРѕРІРµСЂСЊС‚Рµ РёРЅС‚РµСЂРЅРµС‚ РёР»Рё РѕС‚РєР»СЋС‡РёС‚Рµ Р±Р»РѕРєРёСЂРѕРІС‰РёРє СЂРµРєР»Р°РјС‹.</div>';
         } else {
             const firebaseConfig = {
                 apiKey: "AIzaSyAU4opyTFmHt7LsSC2ue8y4S4T_rtWYBOo",
@@ -643,7 +643,7 @@
                 const container = document.getElementById('homework-list');
 
                 if (!data) {
-                    container.innerHTML = '<div style="color: #718096; font-size: 14px; margin-bottom: 15px;">Список пуст. Добавьте первый предмет!</div>';
+                    container.innerHTML = '<div style="color: #718096; font-size: 14px; margin-bottom: 15px;">РЎРїРёСЃРѕРє РїСѓСЃС‚. Р”РѕР±Р°РІСЊС‚Рµ РїРµСЂРІС‹Р№ РїСЂРµРґРјРµС‚!</div>';
                     return;
                 }
 
@@ -653,7 +653,7 @@
 
                 if (typeof data.math === 'string') {
                     const newKey = db.ref('homework').push().key;
-                    updates[newKey] = { name: "Математика", text: data.math };
+                    updates[newKey] = { name: "РњР°С‚РµРјР°С‚РёРєР°", text: data.math };
                     updates['math'] = null;
                     migratedData[newKey] = updates[newKey];
                     delete migratedData.math;
@@ -661,7 +661,7 @@
                 }
                 if (typeof data.russian === 'string') {
                     const newKey = db.ref('homework').push().key;
-                    updates[newKey] = { name: "Русский язык", text: data.russian };
+                    updates[newKey] = { name: "Р СѓСЃСЃРєРёР№ СЏР·С‹Рє", text: data.russian };
                     updates['russian'] = null;
                     migratedData[newKey] = updates[newKey];
                     delete migratedData.russian;
@@ -680,7 +680,7 @@
                 container.innerHTML = '';
 
                 if (!data || Object.keys(data).length === 0) {
-                    container.innerHTML = '<div style="color: #718096; font-size: 14px; margin-bottom: 15px;">Список пуст. Добавьте первый предмет!</div>';
+                    container.innerHTML = '<div style="color: #718096; font-size: 14px; margin-bottom: 15px;">РЎРїРёСЃРѕРє РїСѓСЃС‚. Р”РѕР±Р°РІСЊС‚Рµ РїРµСЂРІС‹Р№ РїСЂРµРґРјРµС‚!</div>';
                     return;
                 }
 
@@ -688,8 +688,8 @@
                     const item = data[key];
                     if (!item || typeof item !== 'object') return; 
 
-                    const name = item.name || 'Без названия';
-                    const text = item.text || 'Не задано';
+                    const name = item.name || 'Р‘РµР· РЅР°Р·РІР°РЅРёСЏ';
+                    const text = item.text || 'РќРµ Р·Р°РґР°РЅРѕ';
 
                     const card = document.createElement('div');
                     card.className = 'task-card';
@@ -712,7 +712,7 @@
             window.openEditModal = function(key, name, text) {
                 currentEditKey = key;
                 document.getElementById('modalSubjectName').innerText = name;
-                document.getElementById('modalInput').value = (text === 'Не задано') ? '' : text;
+                document.getElementById('modalInput').value = (text === 'РќРµ Р·Р°РґР°РЅРѕ') ? '' : text;
                 document.getElementById('editModal').classList.add('active');
             }
 
@@ -720,7 +720,7 @@
                 const newText = document.getElementById('modalInput').value;
                 db.ref('homework/' + currentEditKey + '/text').set(newText)
                     .then(() => closeModal('editModal'))
-                    .catch(error => alert("Ошибка: " + error.message));
+                    .catch(error => alert("РћС€РёР±РєР°: " + error.message));
             }
 
             window.openAddModal = function() {
@@ -731,27 +731,27 @@
             window.addNewSubject = function() {
                 const name = document.getElementById('newSubjectInput').value.trim();
                 if (!name) {
-                    alert("Пожалуйста, введите название предмета.");
+                    alert("РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІРІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ РїСЂРµРґРјРµС‚Р°.");
                     return;
                 }
                 const newKey = db.ref('homework').push().key;
                 db.ref('homework/' + newKey).set({
                     name: name,
-                    text: 'Не задано'
+                    text: 'РќРµ Р·Р°РґР°РЅРѕ'
                 }).then(() => {
                     closeModal('addModal');
-                }).catch(error => alert("Ошибка: " + error.message));
+                }).catch(error => alert("РћС€РёР±РєР°: " + error.message));
             }
 
             window.deleteSubject = function(event, key) {
                 event.stopPropagation();
-                if (confirm('Вы уверены, что хотите удалить этот предмет?')) {
+                if (confirm('Р’С‹ СѓРІРµСЂРµРЅС‹, С‡С‚Рѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ СЌС‚РѕС‚ РїСЂРµРґРјРµС‚?')) {
                     db.ref('homework/' + key).remove();
                 }
             }
         }
 
-        // Общие функции интерфейса
+        // РћР±С‰РёРµ С„СѓРЅРєС†РёРё РёРЅС‚РµСЂС„РµР№СЃР°
         window.closeModal = function(modalId) {
             document.getElementById(modalId).classList.remove('active');
         }
@@ -768,11 +768,11 @@
             document.getElementById('tab-' + tabName).classList.add('active');
             element.classList.add('active');
             
-            // При переходе в профиль принудительно обновляем UI
+            // РџСЂРё РїРµСЂРµС…РѕРґРµ РІ РїСЂРѕС„РёР»СЊ РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕ РѕР±РЅРѕРІР»СЏРµРј UI
             if(tabName === 'profile') updateProfileUI();
         }
 
-        // Инициализация при загрузке
+        // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїСЂРё Р·Р°РіСЂСѓР·РєРµ
         updateProfileUI();
     </script>
 </body>
