@@ -214,7 +214,7 @@
 
         .action-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
-        /* ПРОФИЛЬ (ДЕЙЛИК) */
+        /* ПРОФИЛЬ */
         .profile-widgets {
             display: flex;
             align-items: center;
@@ -223,7 +223,6 @@
             margin-bottom: 25px;
         }
 
-        /* Огонек */
         .streak-box {
             display: flex;
             flex-direction: column;
@@ -244,9 +243,7 @@
             transition: transform 0.3s;
         }
         
-        .streak-box:hover .streak-emoji {
-            transform: scale(1.2);
-        }
+        .streak-box:hover .streak-emoji { transform: scale(1.2); }
 
         .streak-count {
             font-size: 16px;
@@ -254,7 +251,6 @@
             font-weight: 800;
         }
 
-        /* Кнопка Дейлика */
         .daily-btn {
             flex: 1;
             height: 90px;
@@ -286,26 +282,10 @@
             box-shadow: none;
         }
 
-        .daily-title {
-            font-size: 24px;
-            color: #2d3748;
-            font-weight: 800;
-            margin-bottom: 5px;
-            z-index: 2;
-        }
+        .daily-title { font-size: 24px; color: #2d3748; font-weight: 800; margin-bottom: 5px; z-index: 2; }
+        .daily-sub { font-size: 14px; color: #718096; font-weight: 600; z-index: 2; }
+        .daily-btn.ready .daily-sub { color: #38a169; }
 
-        .daily-sub {
-            font-size: 14px;
-            color: #718096;
-            font-weight: 600;
-            z-index: 2;
-        }
-
-        .daily-btn.ready .daily-sub {
-            color: #38a169; /* Зеленый, если доступно */
-        }
-
-        /* Прогресс-бар внутри кнопки (визуальный эффект) */
         .daily-progress {
             position: absolute;
             bottom: 0; left: 0;
@@ -316,20 +296,151 @@
             transition: transform 1s linear;
         }
 
+        /* Значки в профиле */
+        .badges-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .badge-item {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(255, 255, 255, 1);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .badge-item:hover {
+            transform: scale(1.1);
+            background: #ffffff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Всплывающая подсказка для значка */
+        .badge-tooltip {
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: rgba(45, 55, 72, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s;
+            z-index: 50;
+        }
+
+        .badge-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%; left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(45, 55, 72, 0.9) transparent transparent transparent;
+        }
+
+        .badge-item.active-tooltip .badge-tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ВКЛАДКА СОБЫТИЙ */
+        .event-card {
+            border-radius: 25px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* Стили для конкретных событий */
+        .event-card.event-blue {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .event-card.event-pink {
+            background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
+            /* Делаем кислотно-розовый более насыщенным */
+            background: linear-gradient(135deg, #ff007f 0%, #ff4b91 100%);
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .event-title {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .event-date {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .event-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 15px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #2d3748;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .event-btn:hover {
+            transform: translateY(-2px);
+            background: #ffffff;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .event-btn:disabled {
+            background: rgba(255,255,255,0.5);
+            color: #718096;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         /* НИЖНЯЯ НАВИГАЦИЯ */
         .bottom-nav {
             position: absolute;
             bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80%;
+            width: 90%; /* Увеличили ширину, так как 3 кнопки */
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 2px solid rgba(255, 255, 255, 1);
             border-radius: 100px;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around; /* Равномерно распределяем */
+            align-items: center;
             padding: 8px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
             z-index: 10;
@@ -356,6 +467,20 @@
         .nav-item.active svg {
             fill: #2b6cb0;
             transform: scale(1.1);
+        }
+
+        .nav-emoji {
+            font-size: 28px;
+            line-height: 1;
+            transition: all 0.3s ease;
+            filter: grayscale(100%);
+            opacity: 0.7;
+        }
+
+        .nav-item.active .nav-emoji {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.2);
         }
 
         /* МОДАЛЬНЫЕ ОКНА */
@@ -456,12 +581,30 @@
                 </div>
             </div>
 
+            <!-- Вкладка События -->
+            <div id="tab-events" class="tab-content">
+                <div class="title-main">События</div>
+                
+                <!-- Событие 1: Выход Инжемира 3 -->
+                <div class="event-card event-blue">
+                    <div class="event-title">Выход инжемира 3</div>
+                    <div class="event-date">действует до 23.10.26</div>
+                    <button class="event-btn" id="btn-event-1" onclick="claimBadge('inzhemir_3')">получить значок ⚙</button>
+                </div>
+
+                <!-- Событие 2: Медиабитва -->
+                <div class="event-card event-pink">
+                    <div class="event-title">Медиабитва</div>
+                    <div class="event-date">действует до 30.10.26</div>
+                    <button class="event-btn" id="btn-event-2" onclick="buyBadge('mediabitva', 7)">купить за 7 инжекоинов значок 📷</button>
+                </div>
+            </div>
+
             <!-- Вкладка Профиль -->
             <div id="tab-profile" class="tab-content">
                 <div class="title-main">Вы</div>
                 <div class="subtitle">инжекоины: <span class="highlight" id="coin-balance">0</span></div>
                 
-                <!-- Виджеты: Огонек и Дейлик -->
                 <div class="profile-widgets">
                     <div class="streak-box">
                         <div class="streak-emoji" id="streak-emoji">🥶</div>
@@ -476,16 +619,23 @@
                 </div>
 
                 <div class="subtitle" style="margin-top: 25px;">значки:</div>
-                <div class="task-card" style="opacity: 0.6; border-style: dashed; cursor: default;">
-                    <span class="task-content" style="font-size: 16px;">Пока нет значков</span>
+                <div class="badges-container" id="badges-container">
+                    <!-- Сюда будут добавляться значки -->
                 </div>
             </div>
         </div>
 
+        <!-- НИЖНЯЯ НАВИГАЦИЯ -->
         <div class="bottom-nav">
             <div class="nav-item active" onclick="switchTab('tasks', this)">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
             </div>
+            
+            <!-- Новая вкладка События -->
+            <div class="nav-item" onclick="switchTab('events', this)">
+                <div class="nav-emoji">🎉</div>
+            </div>
+
             <div class="nav-item" onclick="switchTab('profile', this)">
                 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             </div>
@@ -518,110 +668,201 @@
     <script>
         // ==================== ЛОГИКА ПРОФИЛЯ (LOCAL STORAGE) ====================
         
-        // Инициализация данных профиля, если их нет
+        // Инициализация данных профиля, если их нет (добавлено поле badges)
         let profileData = JSON.parse(localStorage.getItem('inzhemir_profile')) || {
             coins: 0,
             streak: 0,
-            lastClaimTime: 0 // Время последнего получения (в миллисекундах)
+            lastClaimTime: 0,
+            badges: [] // Массив с ID купленных значков
         };
 
-        // Функция обновления интерфейса профиля
+        // На всякий случай, если старая версия профиля не имела массива badges
+        if (!profileData.badges) profileData.badges = [];
+
+        // Обновление интерфейса профиля
         function updateProfileUI() {
             document.getElementById('coin-balance').innerText = profileData.coins;
             document.getElementById('streak-days').innerText = profileData.streak;
             
-            // Определение стадии огонька
+            // Огонек
             const emojiEl = document.getElementById('streak-emoji');
             if (profileData.streak >= 51) emojiEl.innerText = '🧡';
             else if (profileData.streak >= 21) emojiEl.innerText = '🔥';
             else if (profileData.streak >= 7) emojiEl.innerText = '🎆';
-            else emojiEl.innerText = '🥶'; // 0-6 дней
+            else emojiEl.innerText = '🥶';
 
-            // Логика таймера дейлика
+            // Дейлик
             const btn = document.getElementById('daily-btn');
             const text = document.getElementById('daily-text');
             const progressBar = document.getElementById('daily-progress-bar');
             
             const now = Date.now();
-            const cooldown = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
+            const cooldown = 24 * 60 * 60 * 1000;
             const timePassed = now - profileData.lastClaimTime;
 
-            // Проверка, не пропустил ли пользователь день (если прошло больше 48 часов)
             if (profileData.lastClaimTime > 0 && timePassed > 48 * 60 * 60 * 1000) {
                 if (profileData.streak > 0) {
-                    profileData.streak = 0; // Сбрасываем огонек
+                    profileData.streak = 0;
                     localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
-                    updateProfileUI(); // Перерисовываем
+                    updateProfileUI();
                 }
             }
 
             if (timePassed >= cooldown) {
-                // Дейлик доступен
                 btn.disabled = false;
                 btn.classList.add('ready');
                 text.innerText = "Забрать 1";
                 progressBar.style.transform = "scaleX(1)";
             } else {
-                // Дейлик на кулдауне
                 btn.disabled = true;
                 btn.classList.remove('ready');
-                
-                // Расчет оставшегося времени
                 const timeLeft = cooldown - timePassed;
                 const hours = Math.floor(timeLeft / (1000 * 60 * 60));
                 const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                
                 text.innerText = `через ${hours}ч ${minutes}м`;
-                
-                // Прогресс бар (плавно заполняется)
                 const progress = timePassed / cooldown;
                 progressBar.style.transform = `scaleX(${progress})`;
             }
+
+            // Отрисовка значков в профиле
+            renderBadges();
+            // Обновление кнопок в событиях
+            updateEventButtons();
         }
 
-        // Функция получения дейлика
+        // Получение дейлика
         function claimDaily() {
             const now = Date.now();
             const cooldown = 24 * 60 * 60 * 1000;
             const timePassed = now - profileData.lastClaimTime;
 
-            // Проверка, можно ли получить
             if (timePassed >= cooldown || profileData.lastClaimTime === 0) {
-                
-                // Логика стрика (огонька)
-                // Если прошло больше 48 часов с последнего получения - сбрасываем
                 if (profileData.lastClaimTime > 0 && timePassed > 48 * 60 * 60 * 1000) {
                     profileData.streak = 1; 
                 } else {
-                    // Если получили вовремя (в течение 48 часов), увеличиваем
                     profileData.streak += 1;
                 }
 
-                // Начисляем монеты
                 profileData.coins += 1;
                 profileData.lastClaimTime = now;
-
-                // Сохраняем
                 localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
-                
-                // Обновляем интерфейс
                 updateProfileUI();
                 
-                // Небольшая анимация кнопки
                 const btn = document.getElementById('daily-btn');
                 btn.style.transform = "scale(0.95)";
                 setTimeout(() => btn.style.transform = "scale(1)", 150);
             }
         }
 
-        // Запускаем таймер обновления каждую секунду, чтобы обновлять текст на кнопке
+        // ==================== ЗНАЧКИ ====================
+        const badgeInfo = {
+            'inzhemir_3': { emoji: '⚙', name: 'выход инжемира 3' },
+            'mediabitva': { emoji: '📷', name: 'медиабитва 2026' }
+        };
+
+        function renderBadges() {
+            const container = document.getElementById('badges-container');
+            container.innerHTML = ''; // Очищаем
+
+            if (profileData.badges.length === 0) {
+                container.innerHTML = '<div style="color: #718096; font-size: 14px; font-style: italic;">Пока нет значков</div>';
+                return;
+            }
+
+            profileData.badges.forEach(badgeId => {
+                const info = badgeInfo[badgeId];
+                if (!info) return;
+
+                const el = document.createElement('div');
+                el.className = 'badge-item';
+                el.innerHTML = `
+                    ${info.emoji}
+                    <div class="badge-tooltip">${info.name}</div>
+                `;
+                
+                // Обработка нажатия/наведения для показа подсказки
+                el.onclick = (e) => {
+                    e.stopPropagation();
+                    // Убираем активный класс у всех остальных
+                    document.querySelectorAll('.badge-item').forEach(b => b.classList.remove('active-tooltip'));
+                    // Добавляем текущему
+                    el.classList.add('active-tooltip');
+                };
+
+                // Закрываем подсказку при клике в любое другое место
+                document.addEventListener('click', () => {
+                    el.classList.remove('active-tooltip');
+                });
+
+                container.appendChild(el);
+            });
+        }
+
+        // Логика покупки/получения значков
+        function claimBadge(badgeId) {
+            if (profileData.badges.includes(badgeId)) {
+                alert("Вы уже получили этот значок!");
+                return;
+            }
+
+            // Выдаем значок (бесплатно)
+            profileData.badges.push(badgeId);
+            localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
+            updateProfileUI();
+            
+            // Анимация
+            alert("Значок успешно получен! Проверьте профиль.");
+        }
+
+        function buyBadge(badgeId, price) {
+            if (profileData.badges.includes(badgeId)) {
+                alert("Вы уже купили этот значок!");
+                return;
+            }
+
+            if (profileData.coins < price) {
+                alert(`Недостаточно инжекоинов! Вам нужно ${price}, а у вас ${profileData.coins}.`);
+                return;
+            }
+
+            // Списываем монеты и выдаем значок
+            profileData.coins -= price;
+            profileData.badges.push(badgeId);
+            localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
+            updateProfileUI();
+            
+            alert(`Успешно куплено! Списано ${price} инжекоинов.`);
+        }
+
+        // Обновление состояния кнопок в событиях (если уже куплено/получено)
+        function updateEventButtons() {
+            const btn1 = document.getElementById('btn-event-1');
+            const btn2 = document.getElementById('btn-event-2');
+
+            if (profileData.badges.includes('inzhemir_3')) {
+                btn1.disabled = true;
+                btn1.innerText = "значок получен ⚙";
+            } else {
+                btn1.disabled = false;
+                btn1.innerText = "получить значок ⚙";
+            }
+
+            if (profileData.badges.includes('mediabitva')) {
+                btn2.disabled = true;
+                btn2.innerText = "значок куплен 📷";
+            } else {
+                btn2.disabled = false;
+                btn2.innerText = "купить за 7 инжекоинов значок 📷";
+            }
+        }
+
+        // Запускаем обновление каждую секунду для таймера
         setInterval(updateProfileUI, 1000);
 
 
-        // ==================== ЛОГИКА ДОМАШНЕГО ЗАДАНИЯ (FIREBASE) ====================
-        
+        // ==================== ЛОГИКА ДЗ (FIREBASE) ====================
         if (typeof firebase === 'undefined') {
-            document.getElementById('homework-list').innerHTML = '<div style="color: #e53e3e; font-size: 14px; text-align: center;">Ошибка: Не удалось загрузить Firebase. Проверьте интернет или отключите блокировщик рекламы.</div>';
+            document.getElementById('homework-list').innerHTML = '<div style="color: #e53e3e; font-size: 14px; text-align: center;">Ошибка: Не удалось загрузить Firebase.</div>';
         } else {
             const firebaseConfig = {
                 apiKey: "AIzaSyAU4opyTFmHt7LsSC2ue8y4S4T_rtWYBOo",
@@ -668,10 +909,7 @@
                     needsMigration = true;
                 }
 
-                if (needsMigration) {
-                    db.ref('homework').update(updates);
-                }
-
+                if (needsMigration) db.ref('homework').update(updates);
                 renderHomeworks(needsMigration ? migratedData : data);
             });
 
@@ -751,7 +989,7 @@
             }
         }
 
-        // Общие функции интерфейса
+        // ==================== ОБЩИЕ ФУНКЦИИ ====================
         window.closeModal = function(modalId) {
             document.getElementById(modalId).classList.remove('active');
         }
@@ -768,7 +1006,6 @@
             document.getElementById('tab-' + tabName).classList.add('active');
             element.classList.add('active');
             
-            // При переходе в профиль принудительно обновляем UI
             if(tabName === 'profile') updateProfileUI();
         }
 
