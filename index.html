@@ -424,6 +424,11 @@
             border: 2px solid rgba(255,255,255,0.4);
         }
 
+        .event-card.event-green {
+            background: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%);
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
         .event-title {
             font-size: 26px;
             font-weight: 800;
@@ -642,6 +647,13 @@
                     <div class="event-date">действует до 30.10.26</div>
                     <button class="event-btn" id="btn-event-2" onclick="buyBadge('mediabitva', 7)">купить за 7 инжекоинов значок 📷</button>
                 </div>
+
+                <!-- НОВОЕ СОБЫТИЕ: ДР ЕП -->
+                <div class="event-card event-green">
+                    <div class="event-title">день рождения Екатерины Павловны</div>
+                    <div class="event-date">действует до 23.10.26</div>
+                    <button class="event-btn" id="btn-event-3" onclick="claimBadge('dr_ep_26')">получить значок 🎂</button>
+                </div>
             </div>
 
             <!-- Вкладка Профиль -->
@@ -788,8 +800,9 @@
 
         // ==================== ЗНАЧКИ ====================
         const badgeInfo = {
-            'inzhemir_3': { emoji: '⚙️', name: 'выход инжемира 3' },
-            'mediabitva': { emoji: '📷', name: 'медиабитва 2026' }
+            'inzhemir_3': { emoji: '⚙', name: 'выход инжемира 3' },
+            'mediabitva': { emoji: '📷', name: 'медиабитва 2026' },
+            'dr_ep_26': { emoji: '🎂', name: 'ДР ЕП 26' } // Добавлен новый значок
         };
 
         function renderBadges() {
@@ -812,7 +825,6 @@
                     <div class="badge-tooltip">${info.name}</div>
                 `;
                 
-                // Показ подсказки ТОЛЬКО по клику
                 el.onclick = (e) => {
                     e.stopPropagation();
                     const isActive = el.classList.contains('active-tooltip');
@@ -826,7 +838,6 @@
             });
         }
 
-        // Закрываем подсказку при клике в любое место страницы
         document.addEventListener('click', () => {
             document.querySelectorAll('.badge-item').forEach(b => b.classList.remove('active-tooltip'));
         });
@@ -859,17 +870,18 @@
         }
 
         function updateEventButtons() {
+            // Событие 1 (Выход Инжемира)
             const btn1 = document.getElementById('btn-event-1');
-            const btn2 = document.getElementById('btn-event-2');
-
             if (profileData.badges.includes('inzhemir_3')) {
                 btn1.disabled = true;
-                btn1.innerText = "значок получен ⚙️";
+                btn1.innerText = "значок получен ⚙";
             } else {
                 btn1.disabled = false;
-                btn1.innerText = "получить значок ⚙️";
+                btn1.innerText = "получить значок ⚙";
             }
 
+            // Событие 2 (Медиабитва)
+            const btn2 = document.getElementById('btn-event-2');
             if (profileData.badges.includes('mediabitva')) {
                 btn2.disabled = true;
                 btn2.innerText = "значок куплен 📷";
@@ -877,13 +889,22 @@
                 btn2.disabled = false;
                 btn2.innerText = "купить за 7 инжекоинов значок 📷";
             }
+
+            // Событие 3 (ДР ЕП)
+            const btn3 = document.getElementById('btn-event-3');
+            if (profileData.badges.includes('dr_ep_26')) {
+                btn3.disabled = true;
+                btn3.innerText = "значок получен 🎂";
+            } else {
+                btn3.disabled = false;
+                btn3.innerText = "получить значок 🎂";
+            }
         }
 
         setInterval(updateProfileUI, 1000);
 
         // ==================== ВСПОМОГАТЕЛЬНАЯ ЛОГИКА ДАТ ====================
         function getRelativeDate(timestamp) {
-            // Если даты нет (старая запись), возвращаем null, чтобы обработать отдельно
             if (!timestamp) return null; 
 
             const now = new Date();
@@ -938,7 +959,6 @@
                 let updates = {};
                 let migratedData = { ...data };
 
-                // Миграция старых данных (если вдруг остались math/russian)
                 if (typeof data.math === 'string') {
                     const newKey = db.ref('homework').push().key;
                     updates[newKey] = { name: "Математика", text: data.math, updatedAt: Date.now() };
@@ -964,24 +984,20 @@
                 const container = document.getElementById('homework-list');
                 container.innerHTML = '';
                 
-                // Превращаем объект в массив для сортировки
                 let itemsArray = Object.keys(data).map(key => {
                     return { key: key, ...data[key] };
                 });
 
-                // Сортировка: элементы с датой идут первыми (сначала новые), без даты - в конце
                 itemsArray.sort((a, b) => {
                     const timeA = a.updatedAt || 0;
                     const timeB = b.updatedAt || 0;
                     return timeB - timeA;
                 });
 
-                // --- БЛОК ПОСЛЕДНИХ ИЗМЕНЕНИЙ ---
                 const recentSection = document.getElementById('recent-section');
                 const recentList = document.getElementById('recent-list');
                 recentList.innerHTML = '';
 
-                // Берем только те, у которых ЕСТЬ дата, максимум 3 штуки
                 const recentItems = itemsArray.filter(item => item.updatedAt).slice(0, 3);
 
                 if (recentItems.length > 0) {
@@ -999,7 +1015,6 @@
                     recentSection.style.display = 'none';
                 }
 
-                // --- ОСНОВНОЙ СПИСОК ---
                 if (itemsArray.length === 0) {
                     container.innerHTML = '<div style="color: #718096; font-size: 14px; margin-bottom: 15px;">Список пуст. Добавьте первый предмет!</div>';
                     return;
@@ -1008,8 +1023,6 @@
                 itemsArray.forEach(item => {
                     const name = item.name || 'Без названия';
                     const text = item.text || 'Не задано';
-                    
-                    // Если даты нет, пишем "давно", иначе вычисляем
                     const dateStr = item.updatedAt ? getRelativeDate(item.updatedAt) : 'давно';
 
                     const card = document.createElement('div');
@@ -1042,7 +1055,6 @@
 
             window.saveHomework = function() {
                 const newText = document.getElementById('modalInput').value;
-                // Обновляем И текст, И время
                 db.ref('homework/' + currentEditKey).update({
                     text: newText,
                     updatedAt: Date.now()
@@ -1066,7 +1078,7 @@
                 db.ref('homework/' + newKey).set({
                     name: name,
                     text: 'Не задано',
-                    updatedAt: Date.now() // Ставим время при создании
+                    updatedAt: Date.now()
                 }).then(() => {
                     closeModal('addModal');
                 }).catch(error => alert("Ошибка: " + error.message));
