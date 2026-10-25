@@ -12,21 +12,17 @@
     --ink:      #fff8f0;
     --ink-soft: #ffeedd;
   }
+  *{ box-sizing: border-box; font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Segoe Print", cursive; }
+  [hidden]{ display: none !important; }
 
-  *{
-    box-sizing: border-box;
-    font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Segoe Print", cursive;
-  }
-
-  html, body { height: 100%; }
-
+  html, body { min-height: 100%; }
   body{
     margin: 0;
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    padding: 24px 16px;
+    padding: 20px 16px 60px;
     background:
       radial-gradient(circle at 50% -15%, #fff1e0 0%, var(--bg-soft) 28%, var(--bg-mid) 62%, var(--bg-deep) 100%);
     background-attachment: fixed;
@@ -36,34 +32,17 @@
     touch-action: manipulation;
   }
 
-  /* ================= ПУЗЫРЬКИ ГАЗА ================= */
-  #bubbles{
-    position: fixed;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
-  }
-
+  /* === Пузырьки === */
+  #bubbles{ position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
   .bubble{
-    position: absolute;
-    top: -80px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 32% 28%,
-                rgba(255,255,255,.95) 0%,
-                rgba(255,255,255,.35) 42%,
-                rgba(255,255,255,.08) 70%,
-                rgba(255,255,255,0) 100%);
+    position: absolute; top: -80px; border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.95) 0%, rgba(255,255,255,.35) 42%, rgba(255,255,255,.08) 70%, rgba(255,255,255,0) 100%);
     border: 1px solid rgba(255,255,255,.55);
-    box-shadow: inset -3px -4px 8px rgba(255,180,120,.35),
-                0 0 14px rgba(255,255,255,.35);
-    animation-name: bubbleFall;
-    animation-timing-function: linear;
-    animation-iteration-count: 1;
-    animation-fill-mode: both;
+    box-shadow: inset -3px -4px 8px rgba(255,180,120,.35), 0 0 14px rgba(255,255,255,.35);
+    animation-name: bubbleFall; animation-timing-function: linear;
+    animation-iteration-count: 1; animation-fill-mode: both;
     will-change: transform, opacity;
   }
-
   @keyframes bubbleFall{
     0%   { transform: translate(0, -10vh) scale(.45);      opacity: 0; }
     10%  {                                                opacity: var(--op, .6); }
@@ -73,208 +52,253 @@
     100% { transform: translate(-8px, 112vh) scale(1.2);   opacity: 0; }
   }
 
-  /* ================= КОНТЕНТ ================= */
   .stage{
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 18px; width: 100%; max-width: 520px;
   }
 
   h1{
-    margin: 0;
-    font-size: clamp(1.7rem, 6.5vw, 3.4rem);
-    line-height: 1.15;
-    text-align: center;
-    color: var(--ink);
+    margin: 0; font-size: clamp(1.7rem, 6.5vw, 3rem);
+    line-height: 1.15; text-align: center; color: var(--ink);
     letter-spacing: 1px;
-    text-shadow:
-      0 3px 0 #ff9a4d,
-      0 8px 18px rgba(185,70,0,.35),
-      0 0 26px rgba(255,255,255,.55);
+    text-shadow: 0 3px 0 #ff9a4d, 0 8px 18px rgba(185,70,0,.35), 0 0 26px rgba(255,255,255,.55);
     animation: titleFloat 3.6s ease-in-out infinite;
   }
-
   @keyframes titleFloat{
     0%, 100% { transform: translateY(0) rotate(-1.2deg); }
     50%      { transform: translateY(-9px) rotate(1.2deg); }
   }
 
-  /* ---- счётчик ---- */
   .counter{
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    padding: 12px 30px;
-    border-radius: 999px;
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 12px 30px; border-radius: 999px;
     background: rgba(255,255,255,.22);
     border: 2px solid rgba(255,255,255,.5);
-    box-shadow:
-      0 10px 24px rgba(200,90,20,.25),
-      inset 0 0 22px rgba(255,255,255,.28);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 10px 24px rgba(200,90,20,.25), inset 0 0 22px rgba(255,255,255,.28);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
     color: var(--ink-soft);
     text-shadow: 0 2px 6px rgba(190,80,0,.4);
   }
-
-  #count{
-    font-size: clamp(1.7rem, 5.5vw, 2.7rem);
-    font-weight: bold;
-    display: inline-block;
-  }
-
-  .counter small{
-    font-size: clamp(.85rem, 2.6vw, 1.05rem);
-    opacity: .9;
-  }
-
+  #count{ font-size: clamp(1.7rem, 5.5vw, 2.7rem); font-weight: bold; display: inline-block; }
+  .counter small{ font-size: clamp(.85rem, 2.6vw, 1.05rem); opacity: .9; }
   .counter.pop{ animation: counterPop .32s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes counterPop{ 0%{transform:scale(1);} 40%{transform:scale(1.16);} 100%{transform:scale(1);} }
 
-  @keyframes counterPop{
-    0%   { transform: scale(1); }
-    40%  { transform: scale(1.16); }
-    100% { transform: scale(1); }
-  }
-
-  /* ---- картинка ---- */
   .click-area{
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    padding: 10px;
+    position: relative; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; user-select: none; -webkit-user-select: none; padding: 10px;
   }
-
   .glow{
-    position: absolute;
-    width: 420px;
-    height: 420px;
-    max-width: 92vw;
-    max-height: 92vw;
-    border-radius: 50%;
-    background: radial-gradient(circle,
-      rgba(255,255,255,.65) 0%,
-      rgba(255,232,205,.38) 42%,
-      rgba(255,200,150,0) 72%);
-    animation: glowPulse 3.2s ease-in-out infinite;
-    pointer-events: none;
+    position: absolute; width: 420px; height: 420px;
+    max-width: 92vw; max-height: 92vw; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,.65) 0%, rgba(255,232,205,.38) 42%, rgba(255,200,150,0) 72%);
+    animation: glowPulse 3.2s ease-in-out infinite; pointer-events: none;
   }
-
   @keyframes glowPulse{
     0%, 100% { transform: scale(.88); opacity: .65; }
     50%      { transform: scale(1.14); opacity: 1; }
   }
-
   .bob{ animation: bob 3.6s ease-in-out infinite; }
-
   @keyframes bob{
     0%, 100% { transform: translateY(0) rotate(-1deg); }
     50%      { transform: translateY(-13px) rotate(1.5deg); }
   }
-
   #lyova{
-    width: min(320px, 62vw);
-    display: block;
-    position: relative;
+    width: min(280px, 56vw); display: block; position: relative;
     filter: drop-shadow(0 18px 26px rgba(190,80,0,.35));
     transition: transform .18s cubic-bezier(.34,1.56,.64,1);
-    -webkit-user-drag: none;
-    pointer-events: none; /* клик ловит .click-area */
+    -webkit-user-drag: none; pointer-events: none;
   }
-
   .click-area:hover #lyova{ transform: scale(1.05) rotate(-1deg); }
-
   .click-area.bump #lyova{ animation: imgBump .38s ease; }
-
   @keyframes imgBump{
     0%   { transform: scale(.9)  rotate(0deg); }
     40%  { transform: scale(1.13) rotate(-2deg); }
     70%  { transform: scale(.97) rotate(1.5deg); }
     100% { transform: scale(1)   rotate(0deg); }
   }
-
-  /* заглушка, если картинки нет рядом */
   .fallback{
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    width: min(320px, 62vw);
-    height: min(320px, 62vw);
-    border-radius: 28px;
-    border: 3px dashed rgba(255,255,255,.7);
-    background: rgba(255,255,255,.18);
-    text-align: center;
-    font-size: 1rem;
-    color: var(--ink);
-    text-shadow: 0 2px 6px rgba(190,80,0,.4);
-    padding: 14px;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    gap: 6px; width: min(280px, 56vw); height: min(280px, 56vw);
+    border-radius: 28px; border: 3px dashed rgba(255,255,255,.7);
+    background: rgba(255,255,255,.18); text-align: center;
+    font-size: .95rem; color: var(--ink);
+    text-shadow: 0 2px 6px rgba(190,80,0,.4); padding: 14px;
   }
-
-  /* ---- всплывающие "+1" ---- */
   .plus{
-    position: fixed;
-    z-index: 20;
-    pointer-events: none;
-    font-size: 30px;
-    font-weight: bold;
-    color: #fff;
+    position: fixed; z-index: 20; pointer-events: none;
+    font-size: 30px; font-weight: bold; color: #fff;
     text-shadow: 0 0 14px #ff7a1a, 0 3px 6px rgba(150,60,0,.65);
     transform: translate(-50%, -50%);
     animation: plusUp .9s ease-out forwards;
   }
-
   @keyframes plusUp{
-    0%   { transform: translate(-50%,-50%) scale(.4);  opacity: 0; }
+    0%   { transform: translate(-50%,-50%) scale(.4);   opacity: 0; }
     25%  { transform: translate(-50%,-85%) scale(1.25); opacity: 1; }
     100% { transform: translate(-50%,-230%) scale(.95); opacity: 0; }
   }
 
-  @media (prefers-reduced-motion: reduce){
-    h1, .bob, .glow{ animation: none; }
+  /* === Ник === */
+  .nick-section{
+    width: min(420px, 92vw);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .nick-form{ display: flex; gap: 8px; width: 100%; }
+  .nick-form input{
+    flex: 1; min-width: 0;
+    padding: 12px 16px; font-size: 1rem;
+    border-radius: 999px; border: 2px solid rgba(255,255,255,.55);
+    background: rgba(255,255,255,.3);
+    color: var(--ink); outline: none;
+    text-shadow: 0 1px 3px rgba(190,80,0,.35);
+    font-family: inherit;
+  }
+  .nick-form input::placeholder{ color: rgba(255,248,240,.75); }
+  .nick-form input:focus{ border-color: #fff; box-shadow: 0 0 0 4px rgba(255,255,255,.3); }
+  .nick-form button, .link-btn{
+    font-family: inherit; cursor: pointer;
+    border-radius: 999px; border: 2px solid rgba(255,255,255,.55);
+    background: linear-gradient(180deg, #ffb878, #ff8a3d);
+    color: #fff; text-shadow: 0 2px 4px rgba(150,50,0,.5);
+    box-shadow: 0 6px 14px rgba(200,80,0,.35);
+    padding: 12px 20px; font-size: 1rem;
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  }
+  .nick-form button:hover, .link-btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(200,80,0,.45);
+    filter: brightness(1.05);
+  }
+  .nick-form button:active, .link-btn:active{ transform: translateY(0); }
+
+  .nick-status{
+    font-size: 1rem; color: var(--ink-soft);
+    text-shadow: 0 2px 6px rgba(190,80,0,.4);
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;
+  }
+  .nick-status strong{
+    color: #fff; font-size: 1.1rem;
+    text-shadow: 0 0 12px rgba(255,255,255,.7), 0 2px 4px rgba(150,50,0,.5);
+  }
+  .link-btn{
+    padding: 5px 12px; font-size: .85rem;
+    background: rgba(255,255,255,.2);
+    box-shadow: none; border: 1px solid rgba(255,255,255,.55);
+    text-shadow: 0 1px 2px rgba(150,50,0,.4);
+  }
+
+  /* === Таблица лидеров === */
+  .leaderboard{
+    width: min(460px, 92vw);
+    background: rgba(255,255,255,.2);
+    border: 2px solid rgba(255,255,255,.5);
+    border-radius: 24px;
+    padding: 16px 14px 12px;
+    box-shadow: 0 14px 32px rgba(200,80,0,.28), inset 0 0 22px rgba(255,255,255,.25);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .leaderboard h2{
+    margin: 0 0 10px; text-align: center;
+    font-size: 1.4rem; color: var(--ink);
+    text-shadow: 0 2px 0 #ff9a4d, 0 4px 10px rgba(185,70,0,.35);
+  }
+  .lb-list{
+    display: flex; flex-direction: column; gap: 6px;
+    max-height: 380px; overflow-y: auto; padding-right: 4px;
+  }
+  .lb-list::-webkit-scrollbar{ width: 8px; }
+  .lb-list::-webkit-scrollbar-thumb{ background: rgba(255,255,255,.5); border-radius: 4px; }
+  .lb-row{
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-radius: 12px;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.35);
+    color: var(--ink-soft);
+    text-shadow: 0 1px 3px rgba(190,80,0,.35);
+    transition: background .2s ease, transform .2s ease;
+  }
+  .lb-row:hover{ background: rgba(255,255,255,.3); transform: translateX(3px); }
+  .lb-row.me{
+    background: linear-gradient(90deg, rgba(255,220,150,.6), rgba(255,190,120,.5));
+    border-color: #fff;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(150,50,0,.6), 0 0 8px rgba(255,255,255,.5);
+  }
+  .lb-rank{ flex-shrink: 0; min-width: 32px; text-align: center; font-weight: bold; font-size: 1.05rem; }
+  .lb-rank.top1{ color: #ffd700; text-shadow: 0 0 10px #ffa500, 0 2px 4px rgba(150,50,0,.6); font-size: 1.3rem; }
+  .lb-rank.top2{ color: #e6e6e6; text-shadow: 0 0 8px #c0c0c0, 0 2px 4px rgba(150,50,0,.6); font-size: 1.2rem; }
+  .lb-rank.top3{ color: #cd7f32; text-shadow: 0 0 8px #b87333, 0 2px 4px rgba(150,50,0,.6); font-size: 1.15rem; }
+  .lb-name{ flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .98rem; }
+  .lb-score{ flex-shrink: 0; font-weight: bold; font-size: 1rem; }
+  .lb-empty{ text-align: center; padding: 16px; opacity: .8; font-size: .95rem; }
+  .lb-me-tag{
+    font-size: .7rem; padding: 2px 6px; border-radius: 6px;
+    background: rgba(255,255,255,.55); color: #c05a10;
+    font-weight: bold; margin-left: 4px; text-shadow: none;
   }
 </style>
 </head>
 <body>
-
-  <!-- фон: пузырьки газа -->
   <div id="bubbles"></div>
 
   <main class="stage">
     <h1>лёва Фанта кликер</h1>
 
     <div class="counter" id="counter">
-      <span id="count">0</span>
-      <small>кликов</small>
+      <span id="count">0</span><small>кликов</small>
     </div>
 
     <div class="click-area" id="clickArea">
       <div class="glow"></div>
       <div class="bob">
         <img id="lyova" src="lyova fanta.png" alt="лёва Фанта">
-        <div class="fallback" id="fallback">
-          🥤 lyova fanta.png<br>
-          <small>положи картинку в ту же папку, что и html</small>
-        </div>
+        <div class="fallback" id="fallback">🥤 lyova fanta.png<br><small>положи картинку рядом с html</small></div>
       </div>
     </div>
+
+    <section class="nick-section">
+      <div class="nick-form" id="nickForm">
+        <input id="nickInput" type="text" maxlength="20" placeholder="Твой ник для рейтинга" autocomplete="off">
+        <button id="nickSave">В рейтинг!</button>
+      </div>
+      <div class="nick-status" id="nickStatus" hidden>
+        Ты в рейтинге как: <strong id="nickDisplay"></strong>
+        <button class="link-btn" id="nickChange">изменить</button>
+      </div>
+    </section>
+
+    <section class="leaderboard">
+      <h2>🏆 Таблица лидеров</h2>
+      <div class="lb-list" id="lbList">
+        <div class="lb-empty">Загрузка...</div>
+      </div>
+    </section>
   </main>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
-/* ==================== COOKIES ==================== */
+/* ==================== Firebase ==================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyAU4opyTFmHt7LsSC2ue8y4S4T_rtWYBOo",
+  authDomain: "pixelbattle-a085d.firebaseapp.com",
+  databaseURL: "https://pixelbattle-a085d-default-rtdb.firebaseio.com",
+  projectId: "pixelbattle-a085d",
+  storageBucket: "pixelbattle-a085d.firebasestorage.app",
+  messagingSenderId: "704091500505",
+  appId: "1:704091500505:web:bbf90758b48b056cad73c8"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const leaderRef = db.ref("leaderboard");
+
+/* ==================== Cookies ==================== */
 function setCookie(name, value, days){
   const d = new Date();
   d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
   document.cookie = name + "=" + encodeURIComponent(value) + "; expires=" + d.toUTCString() + "; path=/; SameSite=Lax";
 }
-
 function getCookie(name){
   const parts = document.cookie.split("; ");
   for (let i = 0; i < parts.length; i++){
@@ -284,41 +308,114 @@ function getCookie(name){
   return null;
 }
 
-/* ==================== СЧЁТ ==================== */
-const countEl   = document.getElementById("count");
+/* ==================== ID игрока ==================== */
+function getUserId(){
+  let id = localStorage.getItem("lyovaUserId");
+  if (!id){
+    id = "u_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+    localStorage.setItem("lyovaUserId", id);
+  }
+  return id;
+}
+const userId = getUserId();
+const myRef = leaderRef.child(userId);
+
+/* ==================== Счёт ==================== */
+const countEl = document.getElementById("count");
 const counterEl = document.getElementById("counter");
 const clickArea = document.getElementById("clickArea");
-const lyovaImg  = document.getElementById("lyova");
-const fallback  = document.getElementById("fallback");
+const lyovaImg = document.getElementById("lyova");
+const fallbackEl = document.getElementById("fallback");
 
 let clicks = parseInt(getCookie("lyovaClicks") || "0", 10);
 if (!Number.isFinite(clicks) || clicks < 0) clicks = 0;
 countEl.textContent = clicks.toLocaleString("ru-RU");
 
-/* если картинки нет — показываем заглушку, но кликать всё равно можно */
 lyovaImg.addEventListener("error", () => {
   lyovaImg.style.display = "none";
-  fallback.style.display = "flex";
+  fallbackEl.style.display = "flex";
 });
 
-/* ==================== КЛИК ==================== */
+/* ==================== Ник ==================== */
+const nickForm = document.getElementById("nickForm");
+const nickInput = document.getElementById("nickInput");
+const nickStatus = document.getElementById("nickStatus");
+const nickDisplay = document.getElementById("nickDisplay");
+const nickChangeBtn = document.getElementById("nickChange");
+const nickSaveBtn = document.getElementById("nickSave");
+
+let nick = localStorage.getItem("lyovaNick") || "";
+
+function showNickUI(){
+  if (nick){
+    nickForm.hidden = true;
+    nickStatus.hidden = false;
+    nickDisplay.textContent = nick;
+  } else {
+    nickForm.hidden = false;
+    nickStatus.hidden = true;
+    nickDisplay.textContent = "";
+  }
+}
+showNickUI();
+
+function saveNick(name){
+  nick = name;
+  localStorage.setItem("lyovaNick", nick);
+  showNickUI();
+  myRef.update({ name: nick, clicks: clicks, updated: Date.now() })
+    .catch(err => console.warn("Firebase save error:", err));
+}
+
+nickSaveBtn.addEventListener("click", () => {
+  const v = nickInput.value.trim().replace(/\s+/g, " ").slice(0, 20);
+  if (!v){ nickInput.focus(); return; }
+  saveNick(v);
+});
+
+nickInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") nickSaveBtn.click();
+});
+
+nickChangeBtn.addEventListener("click", () => {
+  nickInput.value = nick;
+  nick = "";
+  localStorage.removeItem("lyovaNick");
+  showNickUI();
+  nickInput.focus();
+});
+
+/* ==================== Клик ==================== */
+let lastSave = 0;
+const SAVE_INTERVAL = 700; // мс между запросами в Firebase
+
+function pushClicks(force){
+  if (!nick) return;
+  const now = Date.now();
+  if (!force && now - lastSave < SAVE_INTERVAL) return;
+  lastSave = now;
+  myRef.update({
+    name: nick,
+    clicks: clicks,
+    updated: now
+  }).catch(err => console.warn("Firebase update error:", err));
+}
+
 clickArea.addEventListener("click", (e) => {
   clicks++;
   countEl.textContent = clicks.toLocaleString("ru-RU");
   setCookie("lyovaClicks", clicks, 365);
+  pushClicks(false);
 
-  /* анимация счётчика */
   counterEl.classList.remove("pop");
   void counterEl.offsetWidth;
   counterEl.classList.add("pop");
 
-  /* анимация картинки */
   clickArea.classList.remove("bump");
   void clickArea.offsetWidth;
   clickArea.classList.add("bump");
   setTimeout(() => clickArea.classList.remove("bump"), 400);
 
-  /* "+1" в месте клика */
   spawnPlus(e.clientX, e.clientY);
 });
 
@@ -327,42 +424,98 @@ function spawnPlus(x, y){
   el.className = "plus";
   el.textContent = "+1";
   el.style.left = (x + (Math.random() * 30 - 15)) + "px";
-  el.style.top  = y + "px";
+  el.style.top = y + "px";
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 950);
 }
 
-/* ==================== ПУЗЫРЬКИ ==================== */
-const bubblesBox = document.getElementById("bubbles");
+// сохранить при уходе со страницы
+window.addEventListener("beforeunload", () => {
+  if (nick) myRef.update({ name: nick, clicks: clicks, updated: Date.now() });
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") pushClicks(true);
+});
 
+/* ==================== Таблица лидеров ==================== */
+const lbList = document.getElementById("lbList");
+const MAX_ENTRIES = 20;
+
+leaderRef.orderByChild("clicks").limitToLast(MAX_ENTRIES).on("value", (snap) => {
+  const items = [];
+  snap.forEach(child => {
+    const v = child.val();
+    if (v && typeof v.clicks === "number" && typeof v.name === "string"){
+      items.push({ id: child.key, name: v.name, clicks: v.clicks });
+    }
+  });
+  items.sort((a, b) => b.clicks - a.clicks);
+  renderLeaderboard(items);
+}, (err) => {
+  console.error("Leaderboard read error:", err);
+  lbList.innerHTML = '<div class="lb-empty">Не удалось загрузить таблицу 😢<br><small>проверь правила Firebase</small></div>';
+});
+
+function renderLeaderboard(items){
+  if (!items.length){
+    lbList.innerHTML = '<div class="lb-empty">Пока никого нет — стань первым!</div>';
+    return;
+  }
+  lbList.innerHTML = "";
+  items.forEach((item, i) => {
+    const row = document.createElement("div");
+    row.className = "lb-row" + (item.id === userId ? " me" : "");
+
+    const rank = document.createElement("div");
+    rank.className = "lb-rank" + (i === 0 ? " top1" : i === 1 ? " top2" : i === 2 ? " top3" : "");
+    rank.textContent = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : (i + 1);
+
+    const name = document.createElement("div");
+    name.className = "lb-name";
+    name.textContent = item.name;
+    if (item.id === userId){
+      const tag = document.createElement("span");
+      tag.className = "lb-me-tag";
+      tag.textContent = "ты";
+      name.appendChild(tag);
+    }
+
+    const score = document.createElement("div");
+    score.className = "lb-score";
+    score.textContent = item.clicks.toLocaleString("ru-RU");
+
+    row.appendChild(rank);
+    row.appendChild(name);
+    row.appendChild(score);
+    lbList.appendChild(row);
+  });
+}
+
+/* ==================== Пузырьки ==================== */
+const bubblesBox = document.getElementById("bubbles");
 function createBubble(initial){
   const b = document.createElement("div");
   b.className = "bubble";
-
   const size = 8 + Math.random() * 32;
-  const dur  = 6 + Math.random() * 8;
+  const dur = 6 + Math.random() * 8;
   const delay = initial ? -Math.random() * dur : 0;
-
-  b.style.width  = size + "px";
+  b.style.width = size + "px";
   b.style.height = size + "px";
-  b.style.left   = (Math.random() * 100) + "vw";
+  b.style.left = (Math.random() * 100) + "vw";
   b.style.setProperty("--op", (0.28 + Math.random() * 0.5).toFixed(2));
   b.style.animationDuration = dur + "s";
   b.style.animationDelay = delay + "s";
-
   bubblesBox.appendChild(b);
-
   const life = Math.max(500, (dur + delay) * 1000 + 200);
   setTimeout(() => b.remove(), life);
 }
-
-/* стартовая волна пузырьков */
 for (let i = 0; i < 30; i++) createBubble(true);
-
-/* постоянный поток */
 setInterval(() => {
   if (bubblesBox.childElementCount < 90) createBubble(false);
 }, 280);
+
+/* ==================== Синхронизация при старте ==================== */
+if (nick) pushClicks(true);
 </script>
 </body>
 </html>
