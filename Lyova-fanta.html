@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>лёва Фанта кликер</title>
+<style>
+  :root{
+    --bg-soft:  #ffe0bd;
+    --bg-mid:   #ffbd85;
+    --bg-deep:  #ff9a4d;
+    --ink:      #fff8f0;
+    --ink-soft: #ffeedd;
+  }
+
+  *{
+    box-sizing: border-box;
+    font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Segoe Print", cursive;
+  }
+
+  html, body { height: 100%; }
+
+  body{
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    background:
+      radial-gradient(circle at 50% -15%, #fff1e0 0%, var(--bg-soft) 28%, var(--bg-mid) 62%, var(--bg-deep) 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ================= ПУЗЫРЬКИ ГАЗА ================= */
+  #bubbles{
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .bubble{
+    position: absolute;
+    top: -80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%,
+                rgba(255,255,255,.95) 0%,
+                rgba(255,255,255,.35) 42%,
+                rgba(255,255,255,.08) 70%,
+                rgba(255,255,255,0) 100%);
+    border: 1px solid rgba(255,255,255,.55);
+    box-shadow: inset -3px -4px 8px rgba(255,180,120,.35),
+                0 0 14px rgba(255,255,255,.35);
+    animation-name: bubbleFall;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    will-change: transform, opacity;
+  }
+
+  @keyframes bubbleFall{
+    0%   { transform: translate(0, -10vh) scale(.45);      opacity: 0; }
+    10%  {                                                opacity: var(--op, .6); }
+    25%  { transform: translate(16px, 22vh) scale(.7);     opacity: var(--op, .6); }
+    50%  { transform: translate(-14px, 48vh) scale(.88);   opacity: var(--op, .6); }
+    75%  { transform: translate(15px, 74vh) scale(1);      opacity: var(--op, .6); }
+    100% { transform: translate(-8px, 112vh) scale(1.2);   opacity: 0; }
+  }
+
+  /* ================= КОНТЕНТ ================= */
+  .stage{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
+  h1{
+    margin: 0;
+    font-size: clamp(1.7rem, 6.5vw, 3.4rem);
+    line-height: 1.15;
+    text-align: center;
+    color: var(--ink);
+    letter-spacing: 1px;
+    text-shadow:
+      0 3px 0 #ff9a4d,
+      0 8px 18px rgba(185,70,0,.35),
+      0 0 26px rgba(255,255,255,.55);
+    animation: titleFloat 3.6s ease-in-out infinite;
+  }
+
+  @keyframes titleFloat{
+    0%, 100% { transform: translateY(0) rotate(-1.2deg); }
+    50%      { transform: translateY(-9px) rotate(1.2deg); }
+  }
+
+  /* ---- счётчик ---- */
+  .counter{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 12px 30px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.22);
+    border: 2px solid rgba(255,255,255,.5);
+    box-shadow:
+      0 10px 24px rgba(200,90,20,.25),
+      inset 0 0 22px rgba(255,255,255,.28);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--ink-soft);
+    text-shadow: 0 2px 6px rgba(190,80,0,.4);
+  }
+
+  #count{
+    font-size: clamp(1.7rem, 5.5vw, 2.7rem);
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  .counter small{
+    font-size: clamp(.85rem, 2.6vw, 1.05rem);
+    opacity: .9;
+  }
+
+  .counter.pop{ animation: counterPop .32s cubic-bezier(.34,1.56,.64,1); }
+
+  @keyframes counterPop{
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.16); }
+    100% { transform: scale(1); }
+  }
+
+  /* ---- картинка ---- */
+  .click-area{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    padding: 10px;
+  }
+
+  .glow{
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    max-width: 92vw;
+    max-height: 92vw;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+      rgba(255,255,255,.65) 0%,
+      rgba(255,232,205,.38) 42%,
+      rgba(255,200,150,0) 72%);
+    animation: glowPulse 3.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes glowPulse{
+    0%, 100% { transform: scale(.88); opacity: .65; }
+    50%      { transform: scale(1.14); opacity: 1; }
+  }
+
+  .bob{ animation: bob 3.6s ease-in-out infinite; }
+
+  @keyframes bob{
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50%      { transform: translateY(-13px) rotate(1.5deg); }
+  }
+
+  #lyova{
+    width: min(320px, 62vw);
+    display: block;
+    position: relative;
+    filter: drop-shadow(0 18px 26px rgba(190,80,0,.35));
+    transition: transform .18s cubic-bezier(.34,1.56,.64,1);
+    -webkit-user-drag: none;
+    pointer-events: none; /* клик ловит .click-area */
+  }
+
+  .click-area:hover #lyova{ transform: scale(1.05) rotate(-1deg); }
+
+  .click-area.bump #lyova{ animation: imgBump .38s ease; }
+
+  @keyframes imgBump{
+    0%   { transform: scale(.9)  rotate(0deg); }
+    40%  { transform: scale(1.13) rotate(-2deg); }
+    70%  { transform: scale(.97) rotate(1.5deg); }
+    100% { transform: scale(1)   rotate(0deg); }
+  }
+
+  /* заглушка, если картинки нет рядом */
+  .fallback{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: min(320px, 62vw);
+    height: min(320px, 62vw);
+    border-radius: 28px;
+    border: 3px dashed rgba(255,255,255,.7);
+    background: rgba(255,255,255,.18);
+    text-align: center;
+    font-size: 1rem;
+    color: var(--ink);
+    text-shadow: 0 2px 6px rgba(190,80,0,.4);
+    padding: 14px;
+  }
+
+  /* ---- всплывающие "+1" ---- */
+  .plus{
+    position: fixed;
+    z-index: 20;
+    pointer-events: none;
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 14px #ff7a1a, 0 3px 6px rgba(150,60,0,.65);
+    transform: translate(-50%, -50%);
+    animation: plusUp .9s ease-out forwards;
+  }
+
+  @keyframes plusUp{
+    0%   { transform: translate(-50%,-50%) scale(.4);  opacity: 0; }
+    25%  { transform: translate(-50%,-85%) scale(1.25); opacity: 1; }
+    100% { transform: translate(-50%,-230%) scale(.95); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    h1, .bob, .glow{ animation: none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- фон: пузырьки газа -->
+  <div id="bubbles"></div>
+
+  <main class="stage">
+    <h1>лёва Фанта кликер</h1>
+
+    <div class="counter" id="counter">
+      <span id="count">0</span>
+      <small>кликов</small>
+    </div>
+
+    <div class="click-area" id="clickArea">
+      <div class="glow"></div>
+      <div class="bob">
+        <img id="lyova" src="lyova fanta.png" alt="лёва Фанта">
+        <div class="fallback" id="fallback">
+          🥤 lyova fanta.png<br>
+          <small>положи картинку в ту же папку, что и html</small>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<script>
+/* ==================== COOKIES ==================== */
+function setCookie(name, value, days){
+  const d = new Date();
+  d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = name + "=" + encodeURIComponent(value) + "; expires=" + d.toUTCString() + "; path=/; SameSite=Lax";
+}
+
+function getCookie(name){
+  const parts = document.cookie.split("; ");
+  for (let i = 0; i < parts.length; i++){
+    const idx = parts[i].indexOf("=");
+    if (parts[i].slice(0, idx) === name) return decodeURIComponent(parts[i].slice(idx + 1));
+  }
+  return null;
+}
+
+/* ==================== СЧЁТ ==================== */
+const countEl   = document.getElementById("count");
+const counterEl = document.getElementById("counter");
+const clickArea = document.getElementById("clickArea");
+const lyovaImg  = document.getElementById("lyova");
+const fallback  = document.getElementById("fallback");
+
+let clicks = parseInt(getCookie("lyovaClicks") || "0", 10);
+if (!Number.isFinite(clicks) || clicks < 0) clicks = 0;
+countEl.textContent = clicks.toLocaleString("ru-RU");
+
+/* если картинки нет — показываем заглушку, но кликать всё равно можно */
+lyovaImg.addEventListener("error", () => {
+  lyovaImg.style.display = "none";
+  fallback.style.display = "flex";
+});
+
+/* ==================== КЛИК ==================== */
+clickArea.addEventListener("click", (e) => {
+  clicks++;
+  countEl.textContent = clicks.toLocaleString("ru-RU");
+  setCookie("lyovaClicks", clicks, 365);
+
+  /* анимация счётчика */
+  counterEl.classList.remove("pop");
+  void counterEl.offsetWidth;
+  counterEl.classList.add("pop");
+
+  /* анимация картинки */
+  clickArea.classList.remove("bump");
+  void clickArea.offsetWidth;
+  clickArea.classList.add("bump");
+  setTimeout(() => clickArea.classList.remove("bump"), 400);
+
+  /* "+1" в месте клика */
+  spawnPlus(e.clientX, e.clientY);
+});
+
+function spawnPlus(x, y){
+  const el = document.createElement("div");
+  el.className = "plus";
+  el.textContent = "+1";
+  el.style.left = (x + (Math.random() * 30 - 15)) + "px";
+  el.style.top  = y + "px";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 950);
+}
+
+/* ==================== ПУЗЫРЬКИ ==================== */
+const bubblesBox = document.getElementById("bubbles");
+
+function createBubble(initial){
+  const b = document.createElement("div");
+  b.className = "bubble";
+
+  const size = 8 + Math.random() * 32;
+  const dur  = 6 + Math.random() * 8;
+  const delay = initial ? -Math.random() * dur : 0;
+
+  b.style.width  = size + "px";
+  b.style.height = size + "px";
+  b.style.left   = (Math.random() * 100) + "vw";
+  b.style.setProperty("--op", (0.28 + Math.random() * 0.5).toFixed(2));
+  b.style.animationDuration = dur + "s";
+  b.style.animationDelay = delay + "s";
+
+  bubblesBox.appendChild(b);
+
+  const life = Math.max(500, (dur + delay) * 1000 + 200);
+  setTimeout(() => b.remove(), life);
+}
+
+/* стартовая волна пузырьков */
+for (let i = 0; i < 30; i++) createBubble(true);
+
+/* постоянный поток */
+setInterval(() => {
+  if (bubblesBox.childElementCount < 90) createBubble(false);
+}, 280);
+</script>
+</body>
+</html>
