@@ -85,6 +85,19 @@
   .counter.pop{ animation: counterPop .32s cubic-bezier(.34,1.56,.64,1); }
   @keyframes counterPop{ 0%{transform:scale(1);} 40%{transform:scale(1.16);} 100%{transform:scale(1);} }
 
+  .level-line{
+    display: flex; align-items: baseline; gap: 16px;
+    color: var(--ink-soft);
+    text-shadow: 0 2px 6px rgba(190,80,0,.4);
+    font-size: 1.05rem;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .level-line strong{
+    color: #fff; font-size: 1.3rem;
+    text-shadow: 0 0 10px rgba(255,255,255,.6), 0 2px 4px rgba(150,50,0,.5);
+  }
+  .level-line-power{ font-size: .88rem; opacity: .88; }
+
   .click-area{
     position: relative; display: flex; align-items: center; justify-content: center;
     cursor: pointer; user-select: none; -webkit-user-select: none; padding: 10px;
@@ -139,6 +152,27 @@
     100% { transform: translate(-50%,-230%) scale(.95); opacity: 0; }
   }
 
+  /* === Кнопка прокачки === */
+  .upgrade-btn{
+    font-family: inherit; cursor: pointer;
+    padding: 13px 28px; border-radius: 999px;
+    border: 2px solid rgba(255,255,255,.55);
+    background: linear-gradient(180deg, #ffb878, #ff8a3d);
+    color: #fff; font-size: 1.05rem; font-weight: bold;
+    text-shadow: 0 2px 4px rgba(150,50,0,.5);
+    box-shadow: 0 8px 18px rgba(200,80,0,.4);
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    margin-top: -4px;
+  }
+  .upgrade-btn:hover:not(:disabled){
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(200,80,0,.5);
+    filter: brightness(1.05);
+  }
+  .upgrade-btn:active:not(:disabled){ transform: translateY(0); }
+  .upgrade-btn:disabled{ opacity: .55; cursor: not-allowed; filter: grayscale(.35); }
+  .upgrade-btn .cost{ font-size: .9rem; font-weight: normal; opacity: .92; margin-left: 4px; }
+
   /* === Ник === */
   .nick-section{
     width: min(420px, 92vw);
@@ -171,7 +205,6 @@
     filter: brightness(1.05);
   }
   .nick-form button:active, .link-btn:active{ transform: translateY(0); }
-
   .nick-status{
     font-size: 1rem; color: var(--ink-soft);
     text-shadow: 0 2px 6px rgba(190,80,0,.4);
@@ -221,8 +254,7 @@
   .lb-row:hover{ background: rgba(255,255,255,.3); transform: translateX(3px); }
   .lb-row.me{
     background: linear-gradient(90deg, rgba(255,220,150,.6), rgba(255,190,120,.5));
-    border-color: #fff;
-    color: #fff;
+    border-color: #fff; color: #fff;
     text-shadow: 0 1px 3px rgba(150,50,0,.6), 0 0 8px rgba(255,255,255,.5);
   }
   .lb-rank{ flex-shrink: 0; min-width: 32px; text-align: center; font-weight: bold; font-size: 1.05rem; }
@@ -237,6 +269,116 @@
     background: rgba(255,255,255,.55); color: #c05a10;
     font-weight: bold; margin-left: 4px; text-shadow: none;
   }
+
+  /* === Сохранение === */
+  .save-section{
+    width: min(460px, 92vw);
+    display: flex; flex-direction: column; gap: 12px; align-items: stretch;
+  }
+  .save-btn{
+    font-family: inherit; cursor: pointer;
+    padding: 14px 20px; border-radius: 999px;
+    border: 2px solid rgba(255,255,255,.55);
+    background: linear-gradient(180deg, #ffb878, #ff8a3d);
+    color: #fff; font-size: 1.02rem; font-weight: bold;
+    text-shadow: 0 2px 4px rgba(150,50,0,.5);
+    box-shadow: 0 8px 18px rgba(200,80,0,.4);
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  }
+  .save-btn:hover:not(:disabled){
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(200,80,0,.5);
+    filter: brightness(1.05);
+  }
+  .save-btn:active:not(:disabled){ transform: translateY(0); }
+  .save-btn:disabled{ opacity: .55; cursor: not-allowed; filter: grayscale(.35); }
+
+  .save-status{
+    text-align: center;
+    padding: 14px 20px; border-radius: 999px;
+    background: rgba(255,255,255,.25);
+    border: 2px solid rgba(255,255,255,.5);
+    color: #fff; font-weight: bold; font-size: 1.02rem;
+    text-shadow: 0 0 10px rgba(255,255,255,.6), 0 2px 4px rgba(150,50,0,.5);
+    box-shadow: 0 8px 18px rgba(200,80,0,.25);
+  }
+
+  .load-section{ display: flex; gap: 8px; }
+  .load-section input{
+    flex: 1; min-width: 0;
+    padding: 12px 16px; font-size: 1rem;
+    border-radius: 999px; border: 2px solid rgba(255,255,255,.55);
+    background: rgba(255,255,255,.3);
+    color: var(--ink); outline: none;
+    text-shadow: 0 1px 3px rgba(190,80,0,.35);
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: bold;
+  }
+  .load-section input::placeholder{
+    color: rgba(255,248,240,.75);
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: normal;
+  }
+  .load-section input:focus{ border-color: #fff; box-shadow: 0 0 0 4px rgba(255,255,255,.3); }
+
+  /* === Модалка с кодом === */
+  .code-reveal{
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(120,50,0,.55);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    animation: fadeIn .3s ease;
+  }
+  @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+  .code-reveal-inner{
+    background: linear-gradient(160deg, #fff3e3, #ffd9b5);
+    border-radius: 28px;
+    padding: 28px 24px 22px;
+    max-width: 440px; width: 100%;
+    max-height: 92vh; overflow-y: auto;
+    text-align: center; color: #8a3a00;
+    box-shadow: 0 20px 50px rgba(120,50,0,.5), 0 0 0 4px rgba(255,255,255,.5);
+    animation: modalPop .4s cubic-bezier(.34,1.56,.64,1);
+    text-shadow: none;
+  }
+  @keyframes modalPop{
+    0%   { transform: scale(.85); opacity: 0; }
+    100% { transform: scale(1);   opacity: 1; }
+  }
+  .code-reveal-icon{ font-size: 2.4rem; margin-bottom: 4px; }
+  .code-reveal-inner h3{ margin: 0 0 14px; font-size: 1.35rem; color: #b14d00; }
+  .code-reveal-code{
+    font-size: 2.2rem; font-weight: bold;
+    letter-spacing: 7px;
+    padding: 14px 20px; border-radius: 16px;
+    background: #fff; color: #c14a00;
+    border: 3px dashed #ff8a3d;
+    margin-bottom: 16px;
+    user-select: all; -webkit-user-select: all;
+    font-family: "Courier New", monospace;
+  }
+  .code-reveal-warning{
+    font-size: .95rem; line-height: 1.5;
+    color: #8a3a00; margin: 0 0 18px;
+  }
+  .code-reveal-warning strong{ color: #c14a00; font-size: 1.05rem; }
+  .code-reveal-close{
+    font-family: inherit; cursor: pointer;
+    padding: 13px 28px; border-radius: 999px; border: none;
+    background: linear-gradient(180deg, #ff9a4d, #e05a00);
+    color: #fff; font-size: 1rem; font-weight: bold;
+    text-shadow: 0 1px 2px rgba(100,30,0,.5);
+    box-shadow: 0 8px 18px rgba(180,60,0,.4);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .code-reveal-close:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(180,60,0,.5);
+  }
 </style>
 </head>
 <body>
@@ -249,6 +391,11 @@
       <span id="count">0</span><small>кликов</small>
     </div>
 
+    <div class="level-line">
+      <span>ваш уровень: <strong id="levelDisplay">1</strong></span>
+      <span class="level-line-power">+<span id="powerDisplay">1</span> за клик</span>
+    </div>
+
     <div class="click-area" id="clickArea">
       <div class="glow"></div>
       <div class="bob">
@@ -256,6 +403,10 @@
         <div class="fallback" id="fallback">🥤 lyova fanta.png<br><small>положи картинку рядом с html</small></div>
       </div>
     </div>
+
+    <button class="upgrade-btn" id="upgradeBtn">
+      прокачать клики <span class="cost">(10 000)</span>
+    </button>
 
     <section class="nick-section">
       <div class="nick-form" id="nickForm">
@@ -274,7 +425,30 @@
         <div class="lb-empty">Загрузка...</div>
       </div>
     </section>
+
+    <section class="save-section">
+      <button class="save-btn" id="saveBtn">сохранить прогресс на сервер (10 000)</button>
+      <div class="save-status" id="saveStatus" hidden>✓ Прогресс сохраняется на сервере</div>
+      <div class="load-section">
+        <input id="loadCode" type="text" maxlength="6" placeholder="ввести код сохранения" autocomplete="off" spellcheck="false">
+        <button class="link-btn" id="loadBtn">Загрузить</button>
+      </div>
+    </section>
   </main>
+
+  <div class="code-reveal" id="codeReveal" hidden>
+    <div class="code-reveal-inner">
+      <div class="code-reveal-icon">⚠️</div>
+      <h3>Твой код сохранения</h3>
+      <div class="code-reveal-code" id="codeRevealCode">ABCDEF</div>
+      <p class="code-reveal-warning">
+        <strong>Запиши или запомни этот код!</strong><br>
+        <strong>Ты больше не увидишь его</strong> после закрытия этого окна.<br>
+        Без кода ты не сможешь загрузить свой прогресс на другом устройстве или браузере.
+      </p>
+      <button class="code-reveal-close" id="codeRevealClose">Я записал(а) код</button>
+    </div>
+  </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
@@ -292,6 +466,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const leaderRef = db.ref("leaderboard");
+const savesRef = db.ref("saves");
 
 /* ==================== Cookies ==================== */
 function setCookie(name, value, days){
@@ -308,7 +483,7 @@ function getCookie(name){
   return null;
 }
 
-/* ==================== ID игрока ==================== */
+/* ==================== Идентификация ==================== */
 function getUserId(){
   let id = localStorage.getItem("lyovaUserId");
   if (!id){
@@ -317,35 +492,91 @@ function getUserId(){
   }
   return id;
 }
-const userId = getUserId();
-const myRef = leaderRef.child(userId);
-
-/* ==================== Счёт ==================== */
-const countEl = document.getElementById("count");
-const counterEl = document.getElementById("counter");
-const clickArea = document.getElementById("clickArea");
-const lyovaImg = document.getElementById("lyova");
-const fallbackEl = document.getElementById("fallback");
-
-let clicks = parseInt(getCookie("lyovaClicks") || "0", 10);
-if (!Number.isFinite(clicks) || clicks < 0) clicks = 0;
-countEl.textContent = clicks.toLocaleString("ru-RU");
-
-lyovaImg.addEventListener("error", () => {
-  lyovaImg.style.display = "none";
-  fallbackEl.style.display = "flex";
-});
-
-/* ==================== Ник ==================== */
-const nickForm = document.getElementById("nickForm");
-const nickInput = document.getElementById("nickInput");
-const nickStatus = document.getElementById("nickStatus");
-const nickDisplay = document.getElementById("nickDisplay");
-const nickChangeBtn = document.getElementById("nickChange");
-const nickSaveBtn = document.getElementById("nickSave");
-
+let userId = getUserId();
+let myRef = leaderRef.child(userId);
 let nick = localStorage.getItem("lyovaNick") || "";
 
+/* ==================== Состояние ==================== */
+const DEFAULT_STATE = {
+  clicks: 0,
+  totalEarned: 0,
+  level: 1,
+  clickPower: 1,
+  upgradeCost: 10000,
+  hasSavePrivilege: false,
+  saveCode: ""
+};
+
+function loadState(){
+  const raw = getCookie("lyovaState");
+  if (raw){
+    try {
+      const parsed = JSON.parse(raw);
+      return Object.assign({}, DEFAULT_STATE, parsed);
+    } catch(e){}
+  }
+  // миграция со старого cookie
+  const old = parseInt(getCookie("lyovaClicks") || "0", 10);
+  if (Number.isFinite(old) && old > 0){
+    return Object.assign({}, DEFAULT_STATE, { clicks: old, totalEarned: old });
+  }
+  return Object.assign({}, DEFAULT_STATE);
+}
+
+let state = loadState();
+
+function saveState(){
+  setCookie("lyovaState", JSON.stringify(state), 365);
+}
+
+/* ==================== UI ссылки ==================== */
+const countEl         = document.getElementById("count");
+const counterEl       = document.getElementById("counter");
+const levelDisplayEl  = document.getElementById("levelDisplay");
+const powerDisplayEl  = document.getElementById("powerDisplay");
+const clickArea       = document.getElementById("clickArea");
+const lyovaImg        = document.getElementById("lyova");
+const fallbackEl      = document.getElementById("fallback");
+const upgradeBtn      = document.getElementById("upgradeBtn");
+const upgradeCostEl   = upgradeBtn.querySelector(".cost");
+const nickForm        = document.getElementById("nickForm");
+const nickInput       = document.getElementById("nickInput");
+const nickStatus      = document.getElementById("nickStatus");
+const nickDisplay     = document.getElementById("nickDisplay");
+const nickChangeBtn   = document.getElementById("nickChange");
+const nickSaveBtn     = document.getElementById("nickSave");
+const saveBtn         = document.getElementById("saveBtn");
+const saveStatus      = document.getElementById("saveStatus");
+const loadInput       = document.getElementById("loadCode");
+const loadBtn         = document.getElementById("loadBtn");
+const codeReveal      = document.getElementById("codeReveal");
+const codeRevealCode  = document.getElementById("codeRevealCode");
+const codeRevealClose = document.getElementById("codeRevealClose");
+const lbList          = document.getElementById("lbList");
+
+function fmt(n){ return Math.floor(n).toLocaleString("ru-RU"); }
+
+/* ==================== UI update ==================== */
+function updateUI(){
+  countEl.textContent        = fmt(state.clicks);
+  levelDisplayEl.textContent = state.level;
+  powerDisplayEl.textContent = state.clickPower;
+
+  upgradeCostEl.textContent = "(" + fmt(state.upgradeCost) + ")";
+  upgradeBtn.disabled = state.clicks < state.upgradeCost;
+
+  if (state.hasSavePrivilege){
+    saveBtn.hidden = true;
+    saveStatus.hidden = false;
+  } else {
+    saveBtn.hidden = false;
+    saveStatus.hidden = true;
+    const canBuy = state.clicks >= 10000;
+    saveBtn.disabled = !canBuy;
+  }
+}
+
+/* ==================== Ник ==================== */
 function showNickUI(){
   if (nick){
     nickForm.hidden = true;
@@ -357,14 +588,13 @@ function showNickUI(){
     nickDisplay.textContent = "";
   }
 }
-showNickUI();
 
 function saveNick(name){
   nick = name;
   localStorage.setItem("lyovaNick", nick);
   showNickUI();
-  myRef.update({ name: nick, clicks: clicks, updated: Date.now() })
-    .catch(err => console.warn("Firebase save error:", err));
+  pushLeaderboard(true);
+  pushSave(true);
 }
 
 nickSaveBtn.addEventListener("click", () => {
@@ -385,27 +615,33 @@ nickChangeBtn.addEventListener("click", () => {
   nickInput.focus();
 });
 
-/* ==================== Клик ==================== */
-let lastSave = 0;
-const SAVE_INTERVAL = 700; // мс между запросами в Firebase
+/* ==================== Прокачка ==================== */
+upgradeBtn.addEventListener("click", () => {
+  if (state.clicks < state.upgradeCost) return;
+  state.clicks -= state.upgradeCost;
+  state.level += 1;
+  state.clickPower += 1;
+  state.upgradeCost *= 2;
+  saveState();
+  updateUI();
+  pushLeaderboard(true);
+  pushSave(true);
+});
 
-function pushClicks(force){
-  if (!nick) return;
-  const now = Date.now();
-  if (!force && now - lastSave < SAVE_INTERVAL) return;
-  lastSave = now;
-  myRef.update({
-    name: nick,
-    clicks: clicks,
-    updated: now
-  }).catch(err => console.warn("Firebase update error:", err));
-}
+/* ==================== Клик ==================== */
+lyovaImg.addEventListener("error", () => {
+  lyovaImg.style.display = "none";
+  fallbackEl.style.display = "flex";
+});
 
 clickArea.addEventListener("click", (e) => {
-  clicks++;
-  countEl.textContent = clicks.toLocaleString("ru-RU");
-  setCookie("lyovaClicks", clicks, 365);
-  pushClicks(false);
+  const gain = state.clickPower;
+  state.clicks += gain;
+  state.totalEarned += gain;
+  saveState();
+  updateUI();
+  pushLeaderboard(false);
+  pushSave(false);
 
   counterEl.classList.remove("pop");
   void counterEl.offsetWidth;
@@ -416,40 +652,195 @@ clickArea.addEventListener("click", (e) => {
   clickArea.classList.add("bump");
   setTimeout(() => clickArea.classList.remove("bump"), 400);
 
-  spawnPlus(e.clientX, e.clientY);
+  spawnPlus(e.clientX, e.clientY, gain);
 });
 
-function spawnPlus(x, y){
+function spawnPlus(x, y, amount){
   const el = document.createElement("div");
   el.className = "plus";
-  el.textContent = "+1";
+  el.textContent = "+" + amount;
   el.style.left = (x + (Math.random() * 30 - 15)) + "px";
-  el.style.top = y + "px";
+  el.style.top  = y + "px";
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 950);
 }
 
-// сохранить при уходе со страницы
-window.addEventListener("beforeunload", () => {
-  if (nick) myRef.update({ name: nick, clicks: clicks, updated: Date.now() });
-});
-document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "hidden") pushClicks(true);
+/* ==================== Лидерборд push ==================== */
+let lastLeaderboardTime = 0;
+async function pushLeaderboard(force){
+  if (!nick) return;
+  const now = Date.now();
+  if (!force && now - lastLeaderboardTime < 700) return;
+  lastLeaderboardTime = now;
+  try {
+    await myRef.update({
+      name: nick,
+      clicks: state.totalEarned,       // значение для сортировки
+      totalEarned: state.totalEarned,  // дублируем для совместимости
+      level: state.level,
+      updated: now
+    });
+  } catch (e){
+    console.warn("Leaderboard error:", e);
+  }
+}
+
+/* ==================== Сохранение на сервер ==================== */
+let lastSaveTime = 0;
+async function pushSave(force){
+  if (!state.hasSavePrivilege || !state.saveCode) return;
+  const now = Date.now();
+  if (!force && now - lastSaveTime < 700) return;
+  lastSaveTime = now;
+  try {
+    await savesRef.child(state.saveCode).update({
+      clicks: state.clicks,
+      totalEarned: state.totalEarned,
+      level: state.level,
+      clickPower: state.clickPower,
+      upgradeCost: state.upgradeCost,
+      nick: nick || "",
+      userId: userId,
+      updated: now
+    });
+  } catch (e){
+    console.warn("Save error:", e);
+  }
+}
+
+/* ==================== Коды ==================== */
+function randomCode(){
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let c = "";
+  for (let i = 0; i < 6; i++) c += letters[Math.floor(Math.random() * 26)];
+  return c;
+}
+
+async function generateUniqueSaveCode(){
+  for (let i = 0; i < 10; i++){
+    const code = randomCode();
+    const snap = await savesRef.child(code).once("value");
+    if (!snap.exists()) return code;
+  }
+  throw new Error("Не удалось создать уникальный код");
+}
+
+/* ==================== Покупка сохранения ==================== */
+saveBtn.addEventListener("click", async () => {
+  if (state.hasSavePrivilege) return;
+  if (state.clicks < 10000) return;
+
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Сохранение...";
+
+  try {
+    const code = await generateUniqueSaveCode();
+    state.clicks -= 10000;
+    state.hasSavePrivilege = true;
+    state.saveCode = code;
+    localStorage.setItem("lyovaSaveCode", code);
+    saveState();
+    updateUI();
+    pushLeaderboard(true);
+    pushSave(true);
+    showCodeReveal(code);
+  } catch (e){
+    alert("Ошибка при сохранении: " + e.message);
+    saveBtn.textContent = "сохранить прогресс на сервер (10 000)";
+    saveBtn.disabled = state.clicks < 10000;
+  }
 });
 
-/* ==================== Таблица лидеров ==================== */
-const lbList = document.getElementById("lbList");
-const MAX_ENTRIES = 20;
+function showCodeReveal(code){
+  codeRevealCode.textContent = code;
+  codeReveal.hidden = false;
+}
 
-leaderRef.orderByChild("clicks").limitToLast(MAX_ENTRIES).on("value", (snap) => {
+codeRevealClose.addEventListener("click", () => {
+  codeReveal.hidden = true;
+});
+
+/* ==================== Загрузка сохранения ==================== */
+function applySaveData(data, code){
+  state.clicks         = data.clicks || 0;
+  state.totalEarned    = data.totalEarned || data.clicks || 0;
+  state.level          = data.level || 1;
+  state.clickPower     = data.clickPower || 1;
+  state.upgradeCost    = data.upgradeCost || 10000;
+  state.hasSavePrivilege = true;
+  state.saveCode       = code;
+  saveState();
+  localStorage.setItem("lyovaSaveCode", code);
+
+  if (data.userId){
+    userId = data.userId;
+    localStorage.setItem("lyovaUserId", userId);
+    myRef = leaderRef.child(userId);
+  }
+  if (data.nick){
+    nick = data.nick;
+    localStorage.setItem("lyovaNick", nick);
+  }
+  showNickUI();
+  updateUI();
+}
+
+loadBtn.addEventListener("click", async () => {
+  const code = loadInput.value.trim().toUpperCase();
+  if (!/^[A-Z]{6}$/.test(code)){
+    alert("Код должен состоять из 6 латинских букв");
+    return;
+  }
+
+  if (!confirm("Загрузить сохранение? Текущий прогресс будет перезаписан.")) return;
+
+  loadBtn.disabled = true;
+  try {
+    const snap = await savesRef.child(code).once("value");
+    if (!snap.exists()){
+      alert("Код не найден. Проверь, правильно ли он записан.");
+      return;
+    }
+    applySaveData(snap.val(), code);
+    pushLeaderboard(true);
+    pushSave(true);
+    alert("✓ Прогресс успешно загружен!");
+  } catch (e){
+    alert("Ошибка при загрузке: " + e.message);
+  } finally {
+    loadBtn.disabled = false;
+  }
+});
+
+loadInput.addEventListener("input", () => {
+  loadInput.value = loadInput.value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 6);
+});
+
+/* ==================== Автовосстановление ==================== */
+async function tryAutoRestore(){
+  if (state.hasSavePrivilege) return;
+  const savedCode = localStorage.getItem("lyovaSaveCode");
+  if (!savedCode) return;
+  try {
+    const snap = await savesRef.child(savedCode).once("value");
+    if (snap.exists()){
+      applySaveData(snap.val(), savedCode);
+    }
+  } catch (e){}
+}
+
+/* ==================== Лидерборд отображение ==================== */
+leaderRef.orderByChild("clicks").limitToLast(20).on("value", (snap) => {
   const items = [];
   snap.forEach(child => {
     const v = child.val();
-    if (v && typeof v.clicks === "number" && typeof v.name === "string"){
-      items.push({ id: child.key, name: v.name, clicks: v.clicks });
+    if (v && typeof v.name === "string"){
+      const score = (typeof v.totalEarned === "number") ? v.totalEarned
+                  : (typeof v.clicks === "number") ? v.clicks : 0;
+      items.push({ id: child.key, name: v.name, score: score });
     }
   });
-  items.sort((a, b) => b.clicks - a.clicks);
+  items.sort((a, b) => b.score - a.score);
   renderLeaderboard(items);
 }, (err) => {
   console.error("Leaderboard read error:", err);
@@ -482,7 +873,7 @@ function renderLeaderboard(items){
 
     const score = document.createElement("div");
     score.className = "lb-score";
-    score.textContent = item.clicks.toLocaleString("ru-RU");
+    score.textContent = item.score.toLocaleString("ru-RU");
 
     row.appendChild(rank);
     row.appendChild(name);
@@ -490,6 +881,24 @@ function renderLeaderboard(items){
     lbList.appendChild(row);
   });
 }
+
+/* ==================== Сохранение при уходе ==================== */
+window.addEventListener("beforeunload", () => {
+  if (nick) myRef.update({ name: nick, clicks: state.totalEarned, totalEarned: state.totalEarned, level: state.level, updated: Date.now() });
+  if (state.hasSavePrivilege && state.saveCode){
+    savesRef.child(state.saveCode).update({
+      clicks: state.clicks, totalEarned: state.totalEarned, level: state.level,
+      clickPower: state.clickPower, upgradeCost: state.upgradeCost,
+      nick: nick || "", userId: userId, updated: Date.now()
+    });
+  }
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden"){
+    pushLeaderboard(true);
+    pushSave(true);
+  }
+});
 
 /* ==================== Пузырьки ==================== */
 const bubblesBox = document.getElementById("bubbles");
@@ -514,8 +923,14 @@ setInterval(() => {
   if (bubblesBox.childElementCount < 90) createBubble(false);
 }, 280);
 
-/* ==================== Синхронизация при старте ==================== */
-if (nick) pushClicks(true);
+/* ==================== Инициализация ==================== */
+(async function init(){
+  await tryAutoRestore();
+  showNickUI();
+  updateUI();
+  if (nick) pushLeaderboard(true);
+  if (state.hasSavePrivilege) pushSave(true);
+})();
 </script>
 </body>
 </html>
