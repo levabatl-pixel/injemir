@@ -502,15 +502,17 @@
             text-shadow: 0 0 20px #ffd700;
         }
 
+        /* Цвета для TRICK (зеленый) и TREAT (красный) */
         .halloween-tab .h-spinner.trick {
-            color: #ffd700;
-            text-shadow: 0 0 30px #ffd700, 0 0 60px #ff8c00;
+            color: #38a169; /* Зеленый */
+            text-shadow: 0 0 30px #38a169, 0 0 60px #2f855a;
             transform: scale(1.2);
         }
 
         .halloween-tab .h-spinner.treat {
-            color: #6b7280;
-            text-shadow: none;
+            color: #e53e3e; /* Красный */
+            text-shadow: 0 0 30px #e53e3e, 0 0 60px #c53030;
+            transform: scale(1.2);
         }
 
         .halloween-tab .h-spin-btn {
@@ -834,13 +836,13 @@
                 <div class="h-title">TRICK OR TREAT RNG</div>
                 
                 <div class="h-stat">ваши конфеты: <span id="h-candy">0</span></div>
-                <div class="h-stat">ваша удача: <span id="h-luck">10</span>%</div>
+                <div class="h-stat">ваша удача: <span id="h-luck">25</span>%</div>
                 
                 <div class="h-spinner" id="h-spinner">крутите</div>
                 
                 <button class="h-spin-btn" id="h-spin-btn" onclick="spinHalloween()">крутить</button>
                 
-                <button class="h-upgrade-btn" id="h-upgrade-btn" onclick="upgradeLuck()">прокачать удачу (100 конфет)</button>
+                <button class="h-upgrade-btn" id="h-upgrade-btn" onclick="upgradeLuck()">прокачать удачу (50 конфет)</button>
                 
                 <div class="h-pumpkin-progress"><span id="h-pumpkin-total">0</span>/10000</div>
                 
@@ -959,7 +961,7 @@
         };
 
         if (!profileData.badges) profileData.badges = [];
-        if (!profileData.halloween) profileData.halloween = { candy: 0, luck: 10 };
+        if (!profileData.halloween) profileData.halloween = { candy: 0, luck: 25 };
 
         let spinningHalloween = false;
 
@@ -1105,13 +1107,13 @@
         let pumpkinTotal = 0;
 
         function updateHalloweenUI() {
-            if (!profileData.halloween) profileData.halloween = { candy: 0, luck: 10 };
+            if (!profileData.halloween) profileData.halloween = { candy: 0, luck: 25 };
             
             document.getElementById('h-candy').innerText = profileData.halloween.candy;
             document.getElementById('h-luck').innerText = profileData.halloween.luck;
             
             const upgradeBtn = document.getElementById('h-upgrade-btn');
-            if (profileData.halloween.candy < 100) {
+            if (profileData.halloween.candy < 50) {
                 upgradeBtn.disabled = true;
             } else {
                 upgradeBtn.disabled = false;
@@ -1157,11 +1159,11 @@
         }
 
         function upgradeLuck() {
-            if (profileData.halloween.candy < 100) {
-                alert("Недостаточно конфет! Нужно 100.");
+            if (profileData.halloween.candy < 50) {
+                alert("Недостаточно конфет! Нужно 50.");
                 return;
             }
-            profileData.halloween.candy -= 100;
+            profileData.halloween.candy -= 50;
             profileData.halloween.luck += 1;
             localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
             updateHalloweenUI();
@@ -1189,7 +1191,7 @@
             profileData.halloween.candy -= amount;
             localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
 
-            // Добавляем в общую тыкву через транзакцию (безопасно для многопользовательского режима)
+            // Добавляем в общую тыкву через транзакцию
             if (window.pumpkinRef) {
                 window.pumpkinRef.transaction(current => {
                     return (current || 0) + amount;
