@@ -84,6 +84,11 @@
             padding: 30px 25px;
             position: relative;
             overflow-y: auto;
+            transition: background 0.4s ease;
+        }
+
+        .content-area.halloween-active {
+            background: #0a0a0a;
         }
 
         .tab-content {
@@ -444,13 +449,194 @@
             line-height: 1.4;
         }
 
+        /* ================= ХЕЛЛОУИН ВКЛАДКА ================= */
+        .halloween-tab {
+            color: #fff;
+        }
+
+        .halloween-tab .h-title {
+            font-size: 30px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 35px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            filter: drop-shadow(0 0 20px rgba(255, 165, 0, 0.4));
+        }
+
+        .halloween-tab .h-stat {
+            font-size: 16px;
+            color: #cbd5e0;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .halloween-tab .h-stat span {
+            color: #ffd700;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .halloween-tab .h-spinner {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+            margin: 40px 0 20px;
+            min-height: 40px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: all 0.15s;
+        }
+
+        .halloween-tab .h-spinner.flashing {
+            color: #ffd700;
+            text-shadow: 0 0 20px #ffd700;
+        }
+
+        .halloween-tab .h-spinner.trick {
+            color: #ffd700;
+            text-shadow: 0 0 30px #ffd700, 0 0 60px #ff8c00;
+            transform: scale(1.2);
+        }
+
+        .halloween-tab .h-spinner.treat {
+            color: #6b7280;
+            text-shadow: none;
+        }
+
+        .halloween-tab .h-spin-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-radius: 50px;
+            border: none;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #1a1a1a;
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.4);
+        }
+
+        .halloween-tab .h-spin-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 165, 0, 0.6);
+        }
+
+        .halloween-tab .h-spin-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .halloween-tab .h-upgrade-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            border-radius: 50px;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+        }
+
+        .halloween-tab .h-upgrade-btn:hover:not(:disabled) {
+            background: rgba(255, 215, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .halloween-tab .h-upgrade-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .halloween-tab .h-pumpkin-progress {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffd700;
+            margin: 25px 0 10px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
+        }
+
+        .halloween-tab .h-pumpkin-progress span {
+            color: #ff8c00;
+        }
+
+        .halloween-tab .h-pumpkin {
+            text-align: center;
+            font-size: 85px;
+            margin: 5px 0 15px;
+            line-height: 1;
+            filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5));
+            animation: pumpkinBounce 3s ease-in-out infinite;
+        }
+
+        @keyframes pumpkinBounce {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .halloween-tab .h-pumpkin-text {
+            text-align: center;
+            font-size: 14px;
+            color: #a0aec0;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            padding: 0 10px;
+            font-weight: 600;
+        }
+
+        .halloween-tab .h-donate-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            border-radius: 50px;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .halloween-tab .h-donate-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
         /* НИЖНЯЯ НАВИГАЦИЯ */
         .bottom-nav {
             position: absolute;
             bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 95%; /* Увеличили, так как 4 кнопки */
+            width: 95%;
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -459,14 +645,14 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 8px;
+            padding: 6px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
             z-index: 10;
         }
 
         .nav-item {
-            width: 55px; /* Чуть уменьшили для 4 кнопок */
-            height: 55px;
+            width: 52px;
+            height: 52px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -475,7 +661,7 @@
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .nav-item svg { width: 26px; height: 26px; fill: #a0aec0; transition: all 0.3s ease; }
+        .nav-item svg { width: 24px; height: 24px; fill: #a0aec0; transition: all 0.3s ease; }
 
         .nav-item.active {
             background: #ffffff;
@@ -488,7 +674,7 @@
         }
 
         .nav-emoji {
-            font-size: 26px;
+            font-size: 24px;
             line-height: 1;
             transition: all 0.3s ease;
             filter: grayscale(100%);
@@ -633,16 +819,36 @@
             <div id="tab-announcements" class="tab-content">
                 <div class="title-main">Объявления</div>
                 
-                <!-- Кнопка добавления (в самом верху) -->
                 <div class="action-btn" style="margin-top: 0; margin-bottom: 20px; border-style: solid; background: rgba(255, 255, 255, 0.9);" onclick="openPasswordModal()">
                     <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                     добавить объявление
                 </div>
 
-                <!-- Список объявлений -->
                 <div id="announcements-list">
                     <div style="text-align: center; color: #718096; margin-top: 20px; font-weight: 600;">Загрузка объявлений...</div>
                 </div>
+            </div>
+
+            <!-- Вкладка Хеллоуин -->
+            <div id="tab-halloween" class="tab-content halloween-tab">
+                <div class="h-title">TRICK OR TREAT RNG</div>
+                
+                <div class="h-stat">ваши конфеты: <span id="h-candy">0</span></div>
+                <div class="h-stat">ваша удача: <span id="h-luck">10</span>%</div>
+                
+                <div class="h-spinner" id="h-spinner">крутите</div>
+                
+                <button class="h-spin-btn" id="h-spin-btn" onclick="spinHalloween()">крутить</button>
+                
+                <button class="h-upgrade-btn" id="h-upgrade-btn" onclick="upgradeLuck()">прокачать удачу (100 конфет)</button>
+                
+                <div class="h-pumpkin-progress"><span id="h-pumpkin-total">0</span>/10000</div>
+                
+                <div class="h-pumpkin">🎃</div>
+                
+                <div class="h-pumpkin-text">наполните тыкву конфетами вместе с остальными и получите значок</div>
+                
+                <button class="h-donate-btn" onclick="openDonateModal()">сдать конфеты</button>
             </div>
 
             <!-- Вкладка Профиль -->
@@ -678,15 +884,18 @@
             <div class="nav-item" onclick="switchTab('announcements', this)">
                 <div class="nav-emoji">📢</div>
             </div>
+            <div class="nav-item" onclick="switchTab('halloween', this)">
+                <div class="nav-emoji">🎃</div>
+            </div>
             <div class="nav-item" onclick="switchTab('events', this)">
-                <div class="nav-emoji" style="filter: grayscale(100%); opacity: 0.5;">🎉</div> <!-- Заглушка вместо событий -->
+                <div class="nav-emoji" style="filter: grayscale(100%); opacity: 0.5;">🎉</div>
             </div>
             <div class="nav-item" onclick="switchTab('profile', this)">
                 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             </div>
         </div>
 
-        <!-- Модалка ДЗ -->
+        <!-- Модалки -->
         <div class="modal-overlay" id="editModal" onclick="closeModalOnOverlay(event)">
             <div class="modal-content">
                 <button class="close-btn" onclick="closeModal('editModal')">✕</button>
@@ -705,7 +914,6 @@
             </div>
         </div>
 
-        <!-- Модалка Пароля -->
         <div class="modal-overlay" id="passwordModal" onclick="closeModalOnOverlay(event)">
             <div class="modal-content">
                 <button class="close-btn" onclick="closeModal('passwordModal')">✕</button>
@@ -715,7 +923,6 @@
             </div>
         </div>
 
-        <!-- Модалка Создания Объявления -->
         <div class="modal-overlay" id="createAnnouncementModal" onclick="closeModalOnOverlay(event)">
             <div class="modal-content">
                 <button class="close-btn" onclick="closeModal('createAnnouncementModal')">✕</button>
@@ -726,7 +933,15 @@
             </div>
         </div>
 
-        <!-- Уведомление (Тост) -->
+        <div class="modal-overlay" id="donateModal" onclick="closeModalOnOverlay(event)">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal('donateModal')">✕</button>
+                <div class="modal-title">Сдать конфеты в тыкву</div>
+                <input type="number" class="modal-input" id="donateAmountInput" placeholder="Сколько конфет?" min="1">
+                <button class="save-btn" onclick="donateCandy()">Сдать</button>
+            </div>
+        </div>
+
         <div class="toast" id="toast">Неверный пароль!</div>
     </div>
 
@@ -735,7 +950,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        // ==================== ЛОГИКА ПРОФИЛЯ (LOCAL STORAGE) ====================
+        // ==================== ЛОГИКА ПРОФИЛЯ ====================
         let profileData = JSON.parse(localStorage.getItem('inzhemir_profile')) || {
             coins: 0,
             streak: 0,
@@ -744,6 +959,9 @@
         };
 
         if (!profileData.badges) profileData.badges = [];
+        if (!profileData.halloween) profileData.halloween = { candy: 0, luck: 10 };
+
+        let spinningHalloween = false;
 
         function updateProfileUI() {
             document.getElementById('coin-balance').innerText = profileData.coins;
@@ -883,7 +1101,106 @@
             return 'неделю и больше назад';
         }
 
-        // ==================== FIREBASE (ДЗ И ОБЪЯВЛЕНИЯ) ====================
+        // ==================== ХЕЛЛОУИН ====================
+        let pumpkinTotal = 0;
+
+        function updateHalloweenUI() {
+            if (!profileData.halloween) profileData.halloween = { candy: 0, luck: 10 };
+            
+            document.getElementById('h-candy').innerText = profileData.halloween.candy;
+            document.getElementById('h-luck').innerText = profileData.halloween.luck;
+            
+            const upgradeBtn = document.getElementById('h-upgrade-btn');
+            if (profileData.halloween.candy < 100) {
+                upgradeBtn.disabled = true;
+            } else {
+                upgradeBtn.disabled = false;
+            }
+        }
+
+        function spinHalloween() {
+            if (spinningHalloween) return;
+            spinningHalloween = true;
+
+            const spinner = document.getElementById('h-spinner');
+            const btn = document.getElementById('h-spin-btn');
+            btn.disabled = true;
+
+            let counter = 0;
+            spinner.className = 'h-spinner flashing';
+            
+            const interval = setInterval(() => {
+                spinner.innerText = (counter % 2 === 0) ? 'trick' : 'treat';
+                counter++;
+            }, 100);
+
+            setTimeout(() => {
+                clearInterval(interval);
+
+                // Определяем результат: chance to TRICK = luck%
+                const isTrick = (Math.random() * 100) < profileData.halloween.luck;
+
+                if (isTrick) {
+                    spinner.innerText = 'trick';
+                    spinner.className = 'h-spinner trick';
+                    profileData.halloween.candy += 10;
+                    localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
+                    updateHalloweenUI();
+                } else {
+                    spinner.innerText = 'treat';
+                    spinner.className = 'h-spinner treat';
+                }
+
+                btn.disabled = false;
+                spinningHalloween = false;
+            }, 5000);
+        }
+
+        function upgradeLuck() {
+            if (profileData.halloween.candy < 100) {
+                alert("Недостаточно конфет! Нужно 100.");
+                return;
+            }
+            profileData.halloween.candy -= 100;
+            profileData.halloween.luck += 1;
+            localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
+            updateHalloweenUI();
+        }
+
+        function openDonateModal() {
+            document.getElementById('donateAmountInput').value = '';
+            document.getElementById('donateModal').classList.add('active');
+        }
+
+        function donateCandy() {
+            const input = document.getElementById('donateAmountInput');
+            const amount = parseInt(input.value);
+
+            if (isNaN(amount) || amount <= 0) {
+                alert("Введите корректное количество конфет.");
+                return;
+            }
+            if (amount > profileData.halloween.candy) {
+                alert(`У вас только ${profileData.halloween.candy} конфет!`);
+                return;
+            }
+
+            // Списываем у игрока
+            profileData.halloween.candy -= amount;
+            localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
+
+            // Добавляем в общую тыкву через транзакцию (безопасно для многопользовательского режима)
+            if (window.pumpkinRef) {
+                window.pumpkinRef.transaction(current => {
+                    return (current || 0) + amount;
+                });
+            }
+
+            closeModal('donateModal');
+            updateHalloweenUI();
+        }
+
+        // ==================== FIREBASE ====================
         if (typeof firebase === 'undefined') {
             document.getElementById('homework-list').innerHTML = '<div style="color: #e53e3e; font-size: 14px; text-align: center;">Ошибка: Не удалось загрузить Firebase.</div>';
             document.getElementById('announcements-list').innerHTML = '<div style="color: #e53e3e; font-size: 14px; text-align: center;">Ошибка: Не удалось загрузить Firebase.</div>';
@@ -900,10 +1217,17 @@
 
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
+            window.pumpkinRef = db.ref('pumpkin/total');
 
             let currentEditKey = '';
 
-            // --- ЛОГИКА ДЗ ---
+            // --- ТЫКВА (общая) ---
+            window.pumpkinRef.on('value', (snapshot) => {
+                pumpkinTotal = snapshot.val() || 0;
+                document.getElementById('h-pumpkin-total').innerText = pumpkinTotal;
+            });
+
+            // --- ДЗ ---
             db.ref('homework').on('value', (snapshot) => {
                 let data = snapshot.val();
                 const container = document.getElementById('homework-list');
@@ -1050,7 +1374,7 @@
                 }
             }
 
-            // --- ЛОГИКА ОБЪЯВЛЕНИЙ ---
+            // --- ОБЪЯВЛЕНИЯ ---
             db.ref('announcements').on('value', (snapshot) => {
                 let data = snapshot.val();
                 const container = document.getElementById('announcements-list');
@@ -1065,7 +1389,6 @@
                     return { key: key, ...data[key] };
                 });
 
-                // Сортируем: новые сверху
                 itemsArray.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
                 itemsArray.forEach(item => {
@@ -1082,7 +1405,6 @@
                 });
             });
 
-            // Функции модалок объявлений (глобальные для onclick)
             window.openPasswordModal = function() {
                 document.getElementById('passwordInput').value = '';
                 document.getElementById('passwordModal').classList.add('active');
@@ -1090,30 +1412,17 @@
 
             window.checkPassword = function() {
                 const pass = document.getElementById('passwordInput').value;
-                const correctPass = "a8d3m9i66N)("; // Пароль с учетом регистра
+                const correctPass = "a8d3m9i66N)(";
 
                 if (pass === correctPass) {
                     closeModal('passwordModal');
-                    // Открываем окно создания
                     document.getElementById('announcementTitleInput').value = '';
                     document.getElementById('announcementTextInput').value = '';
                     document.getElementById('createAnnouncementModal').classList.add('active');
                 } else {
-                    // Показываем уведомление об ошибке
                     const toast = document.getElementById('toast');
                     toast.classList.add('show');
-                    
-                    // Скрываем через 3 секунды
-                    setTimeout(() => {
-                        toast.classList.remove('show');
-                    }, 3000);
-                    
-                    // Трясем окно для эффекта ошибки (опционально)
-                    const modalContent = document.querySelector('#passwordModal .modal-content');
-                    modalContent.style.transform = 'translateX(-10px)';
-                    setTimeout(() => modalContent.style.transform = 'translateX(10px)', 100);
-                    setTimeout(() => modalContent.style.transform = 'translateX(-5px)', 200);
-                    setTimeout(() => modalContent.style.transform = 'translateX(0)', 300);
+                    setTimeout(() => toast.classList.remove('show'), 3000);
                 }
             }
 
@@ -1152,18 +1461,23 @@
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             
-            // Если вкладка "events" не существует, ничего не делаем (так как мы её убрали из интерфейса)
             const targetTab = document.getElementById('tab-' + tabName);
-            if (targetTab) {
-                targetTab.classList.add('active');
+            if (targetTab) targetTab.classList.add('active');
+            element.classList.add('active');
+
+            const contentArea = document.querySelector('.content-area');
+            if (tabName === 'halloween') {
+                contentArea.classList.add('halloween-active');
+            } else {
+                contentArea.classList.remove('halloween-active');
             }
             
-            element.classList.add('active');
-            
             if(tabName === 'profile') updateProfileUI();
+            if(tabName === 'halloween') updateHalloweenUI();
         }
 
         updateProfileUI();
+        updateHalloweenUI();
     </script>
 </body>
 </html>
