@@ -400,64 +400,48 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* ВКЛАДКА СОБЫТИЙ */
-        .event-card {
-            border-radius: 25px;
-            padding: 20px;
-            margin-bottom: 20px;
+        /* ВКЛАДКА ОБЪЯВЛЕНИЙ */
+        .announcement-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 1);
+            border-radius: 25px; 
+            padding: 15px 20px;
+            margin-bottom: 15px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
-            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
         }
 
-        .event-card.event-pink {
-            background: linear-gradient(135deg, #ff007f 0%, #ff4b91 100%);
-            border: 2px solid rgba(255,255,255,0.4);
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
         }
 
-        .event-title {
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .event-date {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .event-btn {
-            background: rgba(255, 255, 255, 0.95);
-            border: none;
-            border-radius: 15px;
-            padding: 12px;
-            font-size: 16px;
-            font-weight: 800;
+        .announcement-title {
             color: #2d3748;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-size: 20px;
+            font-weight: 800;
+            line-height: 1.2;
         }
 
-        .event-btn:hover {
-            transform: translateY(-2px);
-            background: #ffffff;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        .announcement-date {
+            font-size: 12px;
+            color: #a0aec0;
+            font-weight: 600;
+            white-space: nowrap;
+            margin-left: 10px;
+            margin-top: 4px;
         }
 
-        .event-btn:disabled {
-            background: rgba(255,255,255,0.5);
-            color: #718096;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+        .announcement-text {
+            color: #4a5568;
+            font-size: 16px;
+            font-weight: 600;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.4;
         }
 
         /* НИЖНЯЯ НАВИГАЦИЯ */
@@ -466,7 +450,7 @@
             bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
+            width: 95%; /* Увеличили, так как 4 кнопки */
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -481,8 +465,8 @@
         }
 
         .nav-item {
-            width: 60px;
-            height: 60px;
+            width: 55px; /* Чуть уменьшили для 4 кнопок */
+            height: 55px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -491,7 +475,7 @@
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .nav-item svg { width: 28px; height: 28px; fill: #a0aec0; transition: all 0.3s ease; }
+        .nav-item svg { width: 26px; height: 26px; fill: #a0aec0; transition: all 0.3s ease; }
 
         .nav-item.active {
             background: #ffffff;
@@ -504,7 +488,7 @@
         }
 
         .nav-emoji {
-            font-size: 28px;
+            font-size: 26px;
             line-height: 1;
             transition: all 0.3s ease;
             filter: grayscale(100%);
@@ -576,7 +560,7 @@
         }
 
         .modal-input:focus { border: 1px solid #8ec5fc; }
-        .modal-textarea { height: 140px; resize: none; line-height: 1.3; }
+        .modal-textarea { height: 120px; resize: none; line-height: 1.3; }
 
         .save-btn {
             width: 100%; padding: 14px;
@@ -588,6 +572,30 @@
         }
 
         .save-btn:hover { background: #1a365d; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(43, 108, 176, 0.4); }
+
+        /* УВЕДОМЛЕНИЕ (ТОСТ) */
+        .toast {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(229, 62, 62, 0.95);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(229, 62, 62, 0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 200;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
         
         ::-webkit-scrollbar { display: none; }
     </style>
@@ -621,14 +629,19 @@
                 </div>
             </div>
 
-            <!-- Вкладка События -->
-            <div id="tab-events" class="tab-content">
-                <div class="title-main">События</div>
+            <!-- Вкладка Объявления -->
+            <div id="tab-announcements" class="tab-content">
+                <div class="title-main">Объявления</div>
                 
-                <div class="event-card event-pink">
-                    <div class="event-title">Медиабитва</div>
-                    <div class="event-date">действует до 30.10.26</div>
-                    <button class="event-btn" id="btn-event-mediabitva" onclick="buyBadge('mediabitva', 7)">купить за 7 инжекоинов значок 📷</button>
+                <!-- Кнопка добавления (в самом верху) -->
+                <div class="action-btn" style="margin-top: 0; margin-bottom: 20px; border-style: solid; background: rgba(255, 255, 255, 0.9);" onclick="openPasswordModal()">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    добавить объявление
+                </div>
+
+                <!-- Список объявлений -->
+                <div id="announcements-list">
+                    <div style="text-align: center; color: #718096; margin-top: 20px; font-weight: 600;">Загрузка объявлений...</div>
                 </div>
             </div>
 
@@ -662,15 +675,18 @@
             <div class="nav-item active" onclick="switchTab('tasks', this)">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
             </div>
+            <div class="nav-item" onclick="switchTab('announcements', this)">
+                <div class="nav-emoji">📢</div>
+            </div>
             <div class="nav-item" onclick="switchTab('events', this)">
-                <div class="nav-emoji">🎉</div>
+                <div class="nav-emoji" style="filter: grayscale(100%); opacity: 0.5;">🎉</div> <!-- Заглушка вместо событий -->
             </div>
             <div class="nav-item" onclick="switchTab('profile', this)">
                 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             </div>
         </div>
 
-        <!-- Модалки ДЗ -->
+        <!-- Модалка ДЗ -->
         <div class="modal-overlay" id="editModal" onclick="closeModalOnOverlay(event)">
             <div class="modal-content">
                 <button class="close-btn" onclick="closeModal('editModal')">✕</button>
@@ -688,6 +704,30 @@
                 <button class="save-btn" onclick="addNewSubject()">Добавить в список</button>
             </div>
         </div>
+
+        <!-- Модалка Пароля -->
+        <div class="modal-overlay" id="passwordModal" onclick="closeModalOnOverlay(event)">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal('passwordModal')">✕</button>
+                <div class="modal-title">Введите пароль</div>
+                <input type="password" class="modal-input" id="passwordInput" placeholder="Пароль...">
+                <button class="save-btn" onclick="checkPassword()">Проверить</button>
+            </div>
+        </div>
+
+        <!-- Модалка Создания Объявления -->
+        <div class="modal-overlay" id="createAnnouncementModal" onclick="closeModalOnOverlay(event)">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal('createAnnouncementModal')">✕</button>
+                <div class="modal-title">Новое объявление</div>
+                <input type="text" class="modal-input" id="announcementTitleInput" placeholder="Заголовок...">
+                <textarea class="modal-input modal-textarea" id="announcementTextInput" placeholder="Текст объявления..."></textarea>
+                <button class="save-btn" onclick="publishAnnouncement()">Объявить</button>
+            </div>
+        </div>
+
+        <!-- Уведомление (Тост) -->
+        <div class="toast" id="toast">Неверный пароль!</div>
     </div>
 
     <!-- Firebase SDK -->
@@ -748,7 +788,6 @@
             }
 
             renderBadges();
-            updateEventButtons();
         }
 
         function claimDaily() {
@@ -779,7 +818,7 @@
             'inzhemir_3': { emoji: '⚙', name: 'выход инжемира 3' },
             'mediabitva': { emoji: '📷', name: 'медиабитва 2026' },
             'dr_ep_26': { emoji: '🎂', name: 'ДР ЕП 26' },
-            'yarn_ball': { emoji: '🧶', name: 'за вклад' } // <--- ДОБАВЛЕН НОВЫЙ ЗНАЧОК
+            'yarn_ball': { emoji: '🧶', name: 'за вклад' } 
         };
 
         function renderBadges() {
@@ -819,33 +858,6 @@
             document.querySelectorAll('.badge-item').forEach(b => b.classList.remove('active-tooltip'));
         });
 
-        function buyBadge(badgeId, price) {
-            if (profileData.badges.includes(badgeId)) {
-                alert("Вы уже купили этот значок!");
-                return;
-            }
-            if (profileData.coins < price) {
-                alert(`Недостаточно инжекоинов! Вам нужно ${price}, а у вас ${profileData.coins}.`);
-                return;
-            }
-            profileData.coins -= price;
-            profileData.badges.push(badgeId);
-            localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
-            updateProfileUI();
-            alert(`Успешно куплено! Списано ${price} инжекоинов.`);
-        }
-
-        function updateEventButtons() {
-            const btn = document.getElementById('btn-event-mediabitva');
-            if (profileData.badges.includes('mediabitva')) {
-                btn.disabled = true;
-                btn.innerText = "значок получен 📷";
-            } else {
-                btn.disabled = false;
-                btn.innerText = "купить за 7 инжекоинов значок 📷";
-            }
-        }
-
         setInterval(updateProfileUI, 1000);
 
         // ==================== ВСПОМОГАТЕЛЬНАЯ ЛОГИКА ДАТ ====================
@@ -871,9 +883,10 @@
             return 'неделю и больше назад';
         }
 
-        // ==================== ЛОГИКА ДЗ (FIREBASE) ====================
+        // ==================== FIREBASE (ДЗ И ОБЪЯВЛЕНИЯ) ====================
         if (typeof firebase === 'undefined') {
             document.getElementById('homework-list').innerHTML = '<div style="color: #e53e3e; font-size: 14px; text-align: center;">Ошибка: Не удалось загрузить Firebase.</div>';
+            document.getElementById('announcements-list').innerHTML = '<div style="color: #e53e3e; font-size: 14px; text-align: center;">Ошибка: Не удалось загрузить Firebase.</div>';
         } else {
             const firebaseConfig = {
                 apiKey: "AIzaSyAU4opyTFmHt7LsSC2ue8y4S4T_rtWYBOo",
@@ -890,6 +903,7 @@
 
             let currentEditKey = '';
 
+            // --- ЛОГИКА ДЗ ---
             db.ref('homework').on('value', (snapshot) => {
                 let data = snapshot.val();
                 const container = document.getElementById('homework-list');
@@ -1035,6 +1049,92 @@
                     db.ref('homework/' + key).remove();
                 }
             }
+
+            // --- ЛОГИКА ОБЪЯВЛЕНИЙ ---
+            db.ref('announcements').on('value', (snapshot) => {
+                let data = snapshot.val();
+                const container = document.getElementById('announcements-list');
+                container.innerHTML = '';
+
+                if (!data) {
+                    container.innerHTML = '<div style="color: #718096; font-size: 14px; margin-bottom: 15px;">Объявлений пока нет.</div>';
+                    return;
+                }
+
+                let itemsArray = Object.keys(data).map(key => {
+                    return { key: key, ...data[key] };
+                });
+
+                // Сортируем: новые сверху
+                itemsArray.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+                itemsArray.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'announcement-card';
+                    card.innerHTML = `
+                        <div class="announcement-header">
+                            <div class="announcement-title">${item.title}</div>
+                            <div class="announcement-date">${getRelativeDate(item.createdAt)}</div>
+                        </div>
+                        <div class="announcement-text">${item.text}</div>
+                    `;
+                    container.appendChild(card);
+                });
+            });
+
+            // Функции модалок объявлений (глобальные для onclick)
+            window.openPasswordModal = function() {
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordModal').classList.add('active');
+            }
+
+            window.checkPassword = function() {
+                const pass = document.getElementById('passwordInput').value;
+                const correctPass = "a8d3m9i66N)("; // Пароль с учетом регистра
+
+                if (pass === correctPass) {
+                    closeModal('passwordModal');
+                    // Открываем окно создания
+                    document.getElementById('announcementTitleInput').value = '';
+                    document.getElementById('announcementTextInput').value = '';
+                    document.getElementById('createAnnouncementModal').classList.add('active');
+                } else {
+                    // Показываем уведомление об ошибке
+                    const toast = document.getElementById('toast');
+                    toast.classList.add('show');
+                    
+                    // Скрываем через 3 секунды
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 3000);
+                    
+                    // Трясем окно для эффекта ошибки (опционально)
+                    const modalContent = document.querySelector('#passwordModal .modal-content');
+                    modalContent.style.transform = 'translateX(-10px)';
+                    setTimeout(() => modalContent.style.transform = 'translateX(10px)', 100);
+                    setTimeout(() => modalContent.style.transform = 'translateX(-5px)', 200);
+                    setTimeout(() => modalContent.style.transform = 'translateX(0)', 300);
+                }
+            }
+
+            window.publishAnnouncement = function() {
+                const title = document.getElementById('announcementTitleInput').value.trim();
+                const text = document.getElementById('announcementTextInput').value.trim();
+
+                if (!title || !text) {
+                    alert("Пожалуйста, заполните заголовок и текст объявления.");
+                    return;
+                }
+
+                const newKey = db.ref('announcements').push().key;
+                db.ref('announcements/' + newKey).set({
+                    title: title,
+                    text: text,
+                    createdAt: Date.now()
+                }).then(() => {
+                    closeModal('createAnnouncementModal');
+                }).catch(error => alert("Ошибка при публикации: " + error.message));
+            }
         }
 
         // ==================== ОБЩИЕ ФУНКЦИИ ====================
@@ -1051,7 +1151,13 @@
         window.switchTab = function(tabName, element) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            document.getElementById('tab-' + tabName).classList.add('active');
+            
+            // Если вкладка "events" не существует, ничего не делаем (так как мы её убрали из интерфейса)
+            const targetTab = document.getElementById('tab-' + tabName);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+            
             element.classList.add('active');
             
             if(tabName === 'profile') updateProfileUI();
