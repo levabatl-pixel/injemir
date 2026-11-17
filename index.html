@@ -727,7 +727,7 @@
                 </div>
             </div>
 
-            <!-- Вкладка События (возвращена) -->
+            <!-- Вкладка События -->
             <div id="tab-events" class="tab-content">
                 <div class="title-main">События</div>
                 <div class="subtitle">Скоро здесь появятся события 🎉</div>
@@ -992,26 +992,51 @@
             return 'неделю и больше назад';
         }
 
-        // ==================== ПЕРЕСЛАТЬ ДЗ ====================
-        async function forwardHomework(name, text) {
+        // ==================== ПЕРЕСЛАТЬ ДЗ (системная плашка) ====================
+        function forwardHomework(name, text) {
             const msg = `дз по "${name}"\n\n"${text}"\n\nпереслано из сайта/приложения инжемирv3`;
-            try {
-                if (navigator.share) {
-                    await navigator.share({ text: msg });
-                } else if (navigator.clipboard && navigator.clipboard.writeText) {
-                    await navigator.clipboard.writeText(msg);
-                    showToast('скопировано в буфер обмена');
-                } else {
-                    prompt('Скопируйте текст:', msg);
-                }
-            } catch (e) {
-                if (e && e.name === 'AbortError') return;
+
+            const shareData = {
+                title: `ДЗ по ${name}`,
+                text: msg
+            };
+
+            // Системное меню «Поделиться» (Web Share API).
+            // Вызывается СИНХРОННО в обработчике клика — жест пользователя сохраняется,
+            // это обязательное условие для показа системной плашки.
+            if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+                let canShareOk = true;
                 try {
-                    await navigator.clipboard.writeText(msg);
-                    showToast('скопировано в буфер обмена');
-                } catch (err) {
-                    prompt('Скопируйте текст:', msg);
+                    if (typeof navigator.canShare === 'function') {
+                        canShareOk = navigator.canShare(shareData);
+                    }
+                } catch (e) {
+                    canShareOk = true;
                 }
+
+                if (canShareOk) {
+                    navigator.share(shareData).catch(err => {
+                        // Пользователь отменил системное меню — ничего не делаем
+                        if (err && (err.name === 'AbortError' || err.name === 'NotAllowedError')) return;
+                        // Иначе — копируем в буфер
+                        fallbackCopy(msg);
+                    });
+                    return;
+                }
+            }
+
+            // Если системное меню недоступно — копируем в буфер обмена
+            fallbackCopy(msg);
+        }
+
+        function fallbackCopy(msg) {
+            const onSuccess = () => showToast('текст скопирован — вставьте в мессенджер');
+            const onFail = () => prompt('Скопируйте текст:', msg);
+
+            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                navigator.clipboard.writeText(msg).then(onSuccess).catch(onFail);
+            } else {
+                onFail();
             }
         }
 
