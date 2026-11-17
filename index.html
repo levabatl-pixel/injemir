@@ -42,7 +42,6 @@
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border: 2px solid rgba(255, 255, 255, 0.9);
-            border-radius: 0px;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -85,10 +84,6 @@
             position: relative;
             overflow-y: auto;
             transition: background 0.4s ease;
-        }
-
-        .content-area.halloween-active {
-            background: #0a0a0a;
         }
 
         .tab-content {
@@ -223,6 +218,7 @@
 
         .task-icon.edit-icon:hover { fill: #2b6cb0; }
         .task-icon.delete-icon:hover { fill: #e53e3e; }
+        .task-icon.share-icon:hover { fill: #38a169; }
 
         .task-content {
             color: #4a5568;
@@ -261,6 +257,121 @@
         }
 
         .action-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+        /* МЕССЕНДЖЕР */
+        #tab-messenger {
+            display: flex;
+            flex-direction: column;
+            bottom: 0;
+            padding-bottom: 0;
+        }
+
+        #tab-messenger .chat-title {
+            font-size: 40px;
+            color: #1a202c;
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1;
+            letter-spacing: 1px;
+        }
+
+        #tab-messenger .chat-messages {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding-bottom: 170px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chat-empty {
+            color: #718096;
+            font-size: 14px;
+            text-align: center;
+            padding: 30px 10px;
+            font-weight: 600;
+        }
+
+        .chat-msg {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 1);
+            border-radius: 18px;
+            padding: 8px 14px;
+            max-width: 88%;
+            align-self: flex-start;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .chat-msg-name {
+            font-size: 11px;
+            color: #2b6cb0;
+            font-weight: 800;
+            margin-bottom: 3px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .chat-msg-text {
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.3;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .chat-input-row {
+            position: absolute;
+            bottom: 100px;
+            left: 0;
+            right: 0;
+            display: flex;
+            gap: 8px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 100px;
+            border: 2px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 16px;
+            color: #2d3748;
+            padding: 10px 15px;
+            letter-spacing: 0.5px;
+            min-width: 0;
+        }
+
+        .chat-input::placeholder { color: #a0aec0; }
+
+        .chat-send-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: #2b6cb0;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .chat-send-btn:hover { background: #1a365d; transform: scale(1.05); }
+        .chat-send-btn:active { transform: scale(0.95); }
 
         /* ПРОФИЛЬ */
         .profile-widgets {
@@ -344,6 +455,16 @@
             transition: transform 1s linear;
         }
 
+        .profile-name-edit {
+            cursor: pointer;
+            font-size: 28px;
+            color: #718096;
+            transition: all 0.2s;
+            line-height: 1;
+        }
+
+        .profile-name-edit:hover { color: #2b6cb0; transform: rotate(-10deg) scale(1.1); }
+
         /* Значки в профиле */
         .badges-container {
             display: flex;
@@ -403,233 +524,6 @@
         .badge-item.active-tooltip .badge-tooltip {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
-        }
-
-        /* ВКЛАДКА ОБЪЯВЛЕНИЙ */
-        .announcement-card {
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(255, 255, 255, 1);
-            border-radius: 25px; 
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-        }
-
-        .announcement-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 8px;
-        }
-
-        .announcement-title {
-            color: #2d3748;
-            font-size: 20px;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-
-        .announcement-date {
-            font-size: 12px;
-            color: #a0aec0;
-            font-weight: 600;
-            white-space: nowrap;
-            margin-left: 10px;
-            margin-top: 4px;
-        }
-
-        .announcement-text {
-            color: #4a5568;
-            font-size: 16px;
-            font-weight: 600;
-            white-space: pre-wrap;
-            word-break: break-word;
-            line-height: 1.4;
-        }
-
-        /* ================= ХЕЛЛОУИН ВКЛАДКА ================= */
-        .halloween-tab {
-            color: #fff;
-        }
-
-        .halloween-tab .h-title {
-            font-size: 30px;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 35px;
-            margin-top: 10px;
-            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            line-height: 1.2;
-            filter: drop-shadow(0 0 20px rgba(255, 165, 0, 0.4));
-        }
-
-        .halloween-tab .h-stat {
-            font-size: 16px;
-            color: #cbd5e0;
-            text-align: center;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
-        .halloween-tab .h-stat span {
-            color: #ffd700;
-            font-weight: 800;
-            font-size: 18px;
-        }
-
-        .halloween-tab .h-spinner {
-            text-align: center;
-            font-size: 26px;
-            font-weight: 800;
-            color: #fff;
-            margin: 40px 0 20px;
-            min-height: 40px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            transition: all 0.15s;
-        }
-
-        .halloween-tab .h-spinner.flashing {
-            color: #ffd700;
-            text-shadow: 0 0 20px #ffd700;
-        }
-
-        /* Цвета для TRICK (зеленый) и TREAT (красный) */
-        .halloween-tab .h-spinner.trick {
-            color: #38a169; /* Зеленый */
-            text-shadow: 0 0 30px #38a169, 0 0 60px #2f855a;
-            transform: scale(1.2);
-        }
-
-        .halloween-tab .h-spinner.treat {
-            color: #e53e3e; /* Красный */
-            text-shadow: 0 0 30px #e53e3e, 0 0 60px #c53030;
-            transform: scale(1.2);
-        }
-
-        .halloween-tab .h-spin-btn {
-            display: block;
-            width: 100%;
-            padding: 18px;
-            margin-bottom: 15px;
-            border-radius: 50px;
-            border: none;
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            font-size: 22px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            color: #1a1a1a;
-            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.4);
-        }
-
-        .halloween-tab .h-spin-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 165, 0, 0.6);
-        }
-
-        .halloween-tab .h-spin-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .halloween-tab .h-upgrade-btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 20px;
-            border-radius: 50px;
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: 1px;
-            background: rgba(255, 215, 0, 0.15);
-            color: #ffd700;
-            border: 2px solid rgba(255, 215, 0, 0.5);
-        }
-
-        .halloween-tab .h-upgrade-btn:hover:not(:disabled) {
-            background: rgba(255, 215, 0, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .halloween-tab .h-upgrade-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .halloween-tab .h-pumpkin-progress {
-            text-align: center;
-            font-size: 26px;
-            font-weight: 800;
-            color: #ffd700;
-            margin: 25px 0 10px;
-            letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
-        }
-
-        .halloween-tab .h-pumpkin-progress span {
-            color: #ff8c00;
-        }
-
-        .halloween-tab .h-pumpkin {
-            text-align: center;
-            font-size: 85px;
-            margin: 5px 0 15px;
-            line-height: 1;
-            filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5));
-            animation: pumpkinBounce 3s ease-in-out infinite;
-        }
-
-        @keyframes pumpkinBounce {
-            0%, 100% { transform: translateY(0) rotate(-2deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
-        }
-
-        .halloween-tab .h-pumpkin-text {
-            text-align: center;
-            font-size: 14px;
-            color: #a0aec0;
-            margin-bottom: 20px;
-            line-height: 1.4;
-            padding: 0 10px;
-            font-weight: 600;
-        }
-
-        .halloween-tab .h-donate-btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 20px;
-            border-radius: 50px;
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            font-size: 16px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .halloween-tab .h-donate-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
         }
 
         /* НИЖНЯЯ НАВИГАЦИЯ */
@@ -767,17 +661,21 @@
             bottom: 100px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: rgba(229, 62, 62, 0.95);
+            background: rgba(45, 55, 72, 0.95);
             color: white;
             padding: 12px 24px;
             border-radius: 50px;
             font-size: 16px;
             font-weight: 700;
-            box-shadow: 0 10px 25px rgba(229, 62, 62, 0.4);
+            box-shadow: 0 10px 25px rgba(45, 55, 72, 0.4);
             opacity: 0;
             pointer-events: none;
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: 200;
+            white-space: nowrap;
+            max-width: 90%;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
 
         .toast.show {
@@ -817,45 +715,24 @@
                 </div>
             </div>
 
-            <!-- Вкладка Объявления -->
-            <div id="tab-announcements" class="tab-content">
-                <div class="title-main">Объявления</div>
-                
-                <div class="action-btn" style="margin-top: 0; margin-bottom: 20px; border-style: solid; background: rgba(255, 255, 255, 0.9);" onclick="openPasswordModal()">
-                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                    добавить объявление
+            <!-- Вкладка Мессенджер -->
+            <div id="tab-messenger" class="tab-content">
+                <div class="chat-title">Чат</div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-empty">Загрузка сообщений...</div>
                 </div>
-
-                <div id="announcements-list">
-                    <div style="text-align: center; color: #718096; margin-top: 20px; font-weight: 600;">Загрузка объявлений...</div>
+                <div class="chat-input-row">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Сообщение..." maxlength="500">
+                    <button class="chat-send-btn" onclick="sendMessage()">➤</button>
                 </div>
-            </div>
-
-            <!-- Вкладка Хеллоуин -->
-            <div id="tab-halloween" class="tab-content halloween-tab">
-                <div class="h-title">TRICK OR TREAT RNG</div>
-                
-                <div class="h-stat">ваши конфеты: <span id="h-candy">0</span></div>
-                <div class="h-stat">ваша удача: <span id="h-luck">25</span>%</div>
-                
-                <div class="h-spinner" id="h-spinner">крутите</div>
-                
-                <button class="h-spin-btn" id="h-spin-btn" onclick="spinHalloween()">крутить</button>
-                
-                <button class="h-upgrade-btn" id="h-upgrade-btn" onclick="upgradeLuck()">прокачать удачу (10 конфет)</button>
-                
-                <div class="h-pumpkin-progress"><span id="h-pumpkin-total">0</span>/10000</div>
-                
-                <div class="h-pumpkin">🎃</div>
-                
-                <div class="h-pumpkin-text">наполните тыкву конфетами вместе с остальными и получите значок</div>
-                
-                <button class="h-donate-btn" onclick="openDonateModal()">сдать конфеты</button>
             </div>
 
             <!-- Вкладка Профиль -->
             <div id="tab-profile" class="tab-content">
-                <div class="title-main">Вы</div>
+                <div class="title-main" style="display: flex; align-items: center; gap: 15px;">
+                    <span id="profile-title" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 260px;">Ученик</span>
+                    <span class="profile-name-edit" onclick="openNameModal()">✎</span>
+                </div>
                 <div class="subtitle">инжекоины: <span class="highlight" id="coin-balance">0</span></div>
                 
                 <div class="profile-widgets">
@@ -883,14 +760,8 @@
             <div class="nav-item active" onclick="switchTab('tasks', this)">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
             </div>
-            <div class="nav-item" onclick="switchTab('announcements', this)">
-                <div class="nav-emoji">📢</div>
-            </div>
-            <div class="nav-item" onclick="switchTab('halloween', this)">
-                <div class="nav-emoji">🎃</div>
-            </div>
-            <div class="nav-item" onclick="switchTab('events', this)">
-                <div class="nav-emoji" style="filter: grayscale(100%); opacity: 0.5;">🎉</div>
+            <div class="nav-item" onclick="switchTab('messenger', this)">
+                <div class="nav-emoji">💬</div>
             </div>
             <div class="nav-item" onclick="switchTab('profile', this)">
                 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -916,35 +787,16 @@
             </div>
         </div>
 
-        <div class="modal-overlay" id="passwordModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal-overlay" id="nameModal" onclick="closeModalOnOverlay(event)">
             <div class="modal-content">
-                <button class="close-btn" onclick="closeModal('passwordModal')">✕</button>
-                <div class="modal-title">Введите пароль</div>
-                <input type="password" class="modal-input" id="passwordInput" placeholder="Пароль...">
-                <button class="save-btn" onclick="checkPassword()">Проверить</button>
+                <button class="close-btn" onclick="closeModal('nameModal')">✕</button>
+                <div class="modal-title">Ваше имя в чате</div>
+                <input type="text" class="modal-input" id="nameInput" placeholder="Ученик" maxlength="24">
+                <button class="save-btn" onclick="saveName()">Сохранить</button>
             </div>
         </div>
 
-        <div class="modal-overlay" id="createAnnouncementModal" onclick="closeModalOnOverlay(event)">
-            <div class="modal-content">
-                <button class="close-btn" onclick="closeModal('createAnnouncementModal')">✕</button>
-                <div class="modal-title">Новое объявление</div>
-                <input type="text" class="modal-input" id="announcementTitleInput" placeholder="Заголовок...">
-                <textarea class="modal-input modal-textarea" id="announcementTextInput" placeholder="Текст объявления..."></textarea>
-                <button class="save-btn" onclick="publishAnnouncement()">Объявить</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="donateModal" onclick="closeModalOnOverlay(event)">
-            <div class="modal-content">
-                <button class="close-btn" onclick="closeModal('donateModal')">✕</button>
-                <div class="modal-title">Сдать конфеты в тыкву</div>
-                <input type="number" class="modal-input" id="donateAmountInput" placeholder="Сколько конфет?" min="1">
-                <button class="save-btn" onclick="donateCandy()">Сдать</button>
-            </div>
-        </div>
-
-        <div class="toast" id="toast">Неверный пароль!</div>
+        <div class="toast" id="toast"></div>
     </div>
 
     <!-- Firebase SDK -->
@@ -952,6 +804,21 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
+        // ==================== ВСПОМОГАТЕЛЬНОЕ ====================
+        function escapeHtml(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, c => (
+                {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
+            ));
+        }
+
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            toast.innerText = text;
+            toast.classList.add('show');
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
         // ==================== ЛОГИКА ПРОФИЛЯ ====================
         let profileData = JSON.parse(localStorage.getItem('inzhemir_profile')) || {
             coins: 0,
@@ -961,13 +828,12 @@
         };
 
         if (!profileData.badges) profileData.badges = [];
-        if (!profileData.halloween) profileData.halloween = { candy: 0, luck: 25 };
-
-        let spinningHalloween = false;
+        if (!profileData.name) profileData.name = 'Ученик';
 
         function updateProfileUI() {
             document.getElementById('coin-balance').innerText = profileData.coins;
             document.getElementById('streak-days').innerText = profileData.streak;
+            document.getElementById('profile-title').innerText = profileData.name || 'Ученик';
             
             const emojiEl = document.getElementById('streak-emoji');
             if (profileData.streak >= 51) emojiEl.innerText = '🧡';
@@ -1032,6 +898,20 @@
                 setTimeout(() => btn.style.transform = "scale(1)", 150);
             }
         }
+
+        // ==================== ИМЯ ====================
+        window.openNameModal = function() {
+            document.getElementById('nameInput').value = profileData.name || 'Ученик';
+            document.getElementById('nameModal').classList.add('active');
+        };
+
+        window.saveName = function() {
+            const val = document.getElementById('nameInput').value.trim();
+            profileData.name = val.length > 0 ? val : 'Ученик';
+            localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
+            updateProfileUI();
+            closeModal('nameModal');
+        };
 
         // ==================== ЗНАЧКИ ====================
         const badgeInfo = {
@@ -1103,109 +983,55 @@
             return 'неделю и больше назад';
         }
 
-        // ==================== ХЕЛЛОУИН ====================
-        let pumpkinTotal = 0;
-
-        function updateHalloweenUI() {
-            if (!profileData.halloween) profileData.halloween = { candy: 0, luck: 25 };
-            
-            document.getElementById('h-candy').innerText = profileData.halloween.candy;
-            document.getElementById('h-luck').innerText = profileData.halloween.luck;
-            
-            const upgradeBtn = document.getElementById('h-upgrade-btn');
-            if (profileData.halloween.candy < 10) {
-                upgradeBtn.disabled = true;
-            } else {
-                upgradeBtn.disabled = false;
-            }
-        }
-
-        function spinHalloween() {
-            if (spinningHalloween) return;
-            spinningHalloween = true;
-
-            const spinner = document.getElementById('h-spinner');
-            const btn = document.getElementById('h-spin-btn');
-            btn.disabled = true;
-
-            let counter = 0;
-            spinner.className = 'h-spinner flashing';
-            
-            const interval = setInterval(() => {
-                spinner.innerText = (counter % 2 === 0) ? 'trick' : 'treat';
-                counter++;
-            }, 100);
-
-            setTimeout(() => {
-                clearInterval(interval);
-
-                // Определяем результат: chance to TRICK = luck%
-                const isTrick = (Math.random() * 100) < profileData.halloween.luck;
-
-                if (isTrick) {
-                    spinner.innerText = 'trick';
-                    spinner.className = 'h-spinner trick';
-                    profileData.halloween.candy += 10;
-                    localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
-                    updateHalloweenUI();
+        // ==================== ПЕРЕСЛАТЬ ДЗ ====================
+        async function forwardHomework(name, text) {
+            const msg = `дз по "${name}"\n\n"${text}"\n\nпереслано из сайта/приложения инжемирv3`;
+            try {
+                if (navigator.share) {
+                    await navigator.share({ text: msg });
+                } else if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(msg);
+                    showToast('скопировано в буфер обмена');
                 } else {
-                    spinner.innerText = 'treat';
-                    spinner.className = 'h-spinner treat';
+                    prompt('Скопируйте текст:', msg);
                 }
-
-                btn.disabled = false;
-                spinningHalloween = false;
-            }, 5000);
+            } catch (e) {
+                if (e && e.name === 'AbortError') return;
+                try {
+                    await navigator.clipboard.writeText(msg);
+                    showToast('скопировано в буфер обмена');
+                } catch (err) {
+                    prompt('Скопируйте текст:', msg);
+                }
+            }
         }
 
-        function upgradeLuck() {
-            if (profileData.halloween.candy < 10) {
-                alert("Недостаточно конфет! Нужно 10.");
+        // ==================== МЕССЕНДЖЕР ====================
+        window.sendMessage = function() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            if (!window.__messagesRef) {
+                showToast('чат недоступен');
                 return;
             }
-            profileData.halloween.candy -= 10;
-            profileData.halloween.luck += 1;
-            localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
-            updateHalloweenUI();
-        }
-
-        function openDonateModal() {
-            document.getElementById('donateAmountInput').value = '';
-            document.getElementById('donateModal').classList.add('active');
-        }
-
-        function donateCandy() {
-            const input = document.getElementById('donateAmountInput');
-            const amount = parseInt(input.value);
-
-            if (isNaN(amount) || amount <= 0) {
-                alert("Введите корректное количество конфет.");
-                return;
-            }
-            if (amount > profileData.halloween.candy) {
-                alert(`У вас только ${profileData.halloween.candy} конфет!`);
-                return;
-            }
-
-            // Списываем у игрока
-            profileData.halloween.candy -= amount;
-            localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
-
-            // Добавляем в общую тыкву через транзакцию
-            if (window.pumpkinRef) {
-                window.pumpkinRef.transaction(current => {
-                    return (current || 0) + amount;
-                });
-            }
-
-            closeModal('donateModal');
-            updateHalloweenUI();
-        }
+            const name = profileData.name || 'Ученик';
+            window.__messagesRef.push().set({
+                name: name,
+                text: text,
+                createdAt: Date.now()
+            }).then(() => {
+                input.value = '';
+            }).catch(err => {
+                showToast('ошибка отправки');
+                console.error(err);
+            });
+        };
 
         // ==================== FIREBASE ====================
         if (typeof firebase === 'undefined') {
             document.getElementById('homework-list').innerHTML = '<div style="color: #e53e3e; font-size: 14px; text-align: center;">Ошибка: Не удалось загрузить Firebase.</div>';
-            document.getElementById('announcements-list').innerHTML = '<div style="color: #e53e3e; font-size: 14px; text-align: center;">Ошибка: Не удалось загрузить Firebase.</div>';
+            document.getElementById('chat-messages').innerHTML = '<div class="chat-empty" style="color:#e53e3e;">Ошибка: Firebase недоступен</div>';
         } else {
             const firebaseConfig = {
                 apiKey: "AIzaSyAU4opyTFmHt7LsSC2ue8y4S4T_rtWYBOo",
@@ -1219,14 +1045,43 @@
 
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
-            window.pumpkinRef = db.ref('pumpkin/total');
 
             let currentEditKey = '';
 
-            // --- ТЫКВА (общая) ---
-            window.pumpkinRef.on('value', (snapshot) => {
-                pumpkinTotal = snapshot.val() || 0;
-                document.getElementById('h-pumpkin-total').innerText = pumpkinTotal;
+            // --- МЕССЕНДЖЕР ---
+            window.__messagesRef = db.ref('messages');
+            window.__messagesRef.on('value', (snapshot) => {
+                const container = document.getElementById('chat-messages');
+                if (!container) return;
+
+                const isNearBottom = (container.scrollHeight - container.scrollTop - container.clientHeight) < 150;
+                const oldScroll = container.scrollTop;
+
+                const data = snapshot.val();
+                container.innerHTML = '';
+
+                if (!data) {
+                    container.innerHTML = '<div class="chat-empty">Сообщений пока нет — напишите первым!</div>';
+                    return;
+                }
+
+                const items = Object.keys(data).map(k => ({ key: k, ...data[k] }));
+
+                items.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'chat-msg';
+                    el.innerHTML = `
+                        <div class="chat-msg-name">${escapeHtml(item.name || 'ученик')}</div>
+                        <div class="chat-msg-text">${escapeHtml(item.text || '')}</div>
+                    `;
+                    container.appendChild(el);
+                });
+
+                if (isNearBottom) {
+                    container.scrollTop = container.scrollHeight;
+                } else {
+                    container.scrollTop = oldScroll;
+                }
             });
 
             // --- ДЗ ---
@@ -1291,7 +1146,7 @@
                         const div = document.createElement('div');
                         div.className = 'recent-card';
                         div.innerHTML = `
-                            <span class="r-subject">${item.name}</span>
+                            <span class="r-subject">${escapeHtml(item.name)}</span>
                             <span class="r-date">${getRelativeDate(item.updatedAt)}</span>
                         `;
                         recentList.appendChild(div);
@@ -1312,21 +1167,34 @@
 
                     const card = document.createElement('div');
                     card.className = 'task-card';
-                    card.onclick = () => openEditModal(item.key, name, text);
-
                     card.innerHTML = `
                         <div class="task-header">
                             <div class="task-subject-group">
-                                <span class="task-subject">${name}</span>
+                                <span class="task-subject">${escapeHtml(name)}</span>
                                 <span class="task-date">изменено: ${dateStr}</span>
                             </div>
                             <div class="task-actions">
+                                <svg class="task-icon share-icon" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
                                 <svg class="task-icon edit-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                                <svg class="task-icon delete-icon" onclick="deleteSubject(event, '${item.key}')" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                <svg class="task-icon delete-icon" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
                             </div>
                         </div>
-                        <div class="task-content">${text}</div>
+                        <div class="task-content">${escapeHtml(text)}</div>
                     `;
+
+                    card.querySelector('.share-icon').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        forwardHomework(name, text);
+                    });
+                    card.querySelector('.edit-icon').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openEditModal(item.key, name, text);
+                    });
+                    card.querySelector('.delete-icon').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        deleteSubject(e, item.key);
+                    });
+
                     container.appendChild(card);
                 });
             }
@@ -1375,77 +1243,6 @@
                     db.ref('homework/' + key).remove();
                 }
             }
-
-            // --- ОБЪЯВЛЕНИЯ ---
-            db.ref('announcements').on('value', (snapshot) => {
-                let data = snapshot.val();
-                const container = document.getElementById('announcements-list');
-                container.innerHTML = '';
-
-                if (!data) {
-                    container.innerHTML = '<div style="color: #718096; font-size: 14px; margin-bottom: 15px;">Объявлений пока нет.</div>';
-                    return;
-                }
-
-                let itemsArray = Object.keys(data).map(key => {
-                    return { key: key, ...data[key] };
-                });
-
-                itemsArray.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-                itemsArray.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'announcement-card';
-                    card.innerHTML = `
-                        <div class="announcement-header">
-                            <div class="announcement-title">${item.title}</div>
-                            <div class="announcement-date">${getRelativeDate(item.createdAt)}</div>
-                        </div>
-                        <div class="announcement-text">${item.text}</div>
-                    `;
-                    container.appendChild(card);
-                });
-            });
-
-            window.openPasswordModal = function() {
-                document.getElementById('passwordInput').value = '';
-                document.getElementById('passwordModal').classList.add('active');
-            }
-
-            window.checkPassword = function() {
-                const pass = document.getElementById('passwordInput').value;
-                const correctPass = "a8d3m9i66N)(";
-
-                if (pass === correctPass) {
-                    closeModal('passwordModal');
-                    document.getElementById('announcementTitleInput').value = '';
-                    document.getElementById('announcementTextInput').value = '';
-                    document.getElementById('createAnnouncementModal').classList.add('active');
-                } else {
-                    const toast = document.getElementById('toast');
-                    toast.classList.add('show');
-                    setTimeout(() => toast.classList.remove('show'), 3000);
-                }
-            }
-
-            window.publishAnnouncement = function() {
-                const title = document.getElementById('announcementTitleInput').value.trim();
-                const text = document.getElementById('announcementTextInput').value.trim();
-
-                if (!title || !text) {
-                    alert("Пожалуйста, заполните заголовок и текст объявления.");
-                    return;
-                }
-
-                const newKey = db.ref('announcements').push().key;
-                db.ref('announcements/' + newKey).set({
-                    title: title,
-                    text: text,
-                    createdAt: Date.now()
-                }).then(() => {
-                    closeModal('createAnnouncementModal');
-                }).catch(error => alert("Ошибка при публикации: " + error.message));
-            }
         }
 
         // ==================== ОБЩИЕ ФУНКЦИИ ====================
@@ -1466,20 +1263,24 @@
             const targetTab = document.getElementById('tab-' + tabName);
             if (targetTab) targetTab.classList.add('active');
             element.classList.add('active');
-
-            const contentArea = document.querySelector('.content-area');
-            if (tabName === 'halloween') {
-                contentArea.classList.add('halloween-active');
-            } else {
-                contentArea.classList.remove('halloween-active');
-            }
             
-            if(tabName === 'profile') updateProfileUI();
-            if(tabName === 'halloween') updateHalloweenUI();
+            if (tabName === 'profile') updateProfileUI();
+            if (tabName === 'messenger') {
+                const c = document.getElementById('chat-messages');
+                if (c) c.scrollTop = c.scrollHeight;
+                setTimeout(() => document.getElementById('chat-input').focus(), 300);
+            }
         }
 
+        // Enter для отправки в чате
+        document.getElementById('chat-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
         updateProfileUI();
-        updateHalloweenUI();
     </script>
 </body>
 </html>
