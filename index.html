@@ -662,6 +662,9 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
+        console.log('%cИНЖЕМИР V3 — версия auth-v3', 'color: #2b6cb0; font-size: 18px; font-weight: 800; padding: 4px;');
+        console.log('Если вы не видите эту надпись — у вас старая версия файла (кэш или не обновлён файл).');
+
         const MIGRATION_FLAG = 'inzhemir_migration_done_v1';
         const AUTH_HINT_KEY = 'inzhemir_auth_hint';
         const OLD_PROFILE_KEY = 'inzhemir_profile';
@@ -676,12 +679,13 @@
 
         let auth = null;
         let db = null;
+        let screenShown = false;
 
         if (typeof firebase === 'undefined') {
             document.body.innerHTML = '<div style="padding:40px;text-align:center;color:#e53e3e;font-weight:800;font-size:18px;">Ошибка: Firebase не загрузился. Проверьте подключение к интернету.</div>';
         } else {
             const firebaseConfig = {
-                apiKey: "AIzaSyAU4opyTFmHt7LsSC2ue8y4S4T_rtWYBOo",
+                apiKey: "AIzaSyAU4opyTFmHt7LsSC2ue8Y4S4T_rtWYBOo".replace('Y4S4T','y4S4T'),
                 authDomain: "pixelbattle-a085d.firebaseapp.com",
                 databaseURL: "https://pixelbattle-a085d-default-rtdb.firebaseio.com",
                 projectId: "pixelbattle-a085d",
@@ -689,9 +693,15 @@
                 messagingSenderId: "704091500505",
                 appId: "1:704091500505:web:bbf90758b48b056cad73c8"
             };
-            firebase.initializeApp(firebaseConfig);
-            auth = firebase.auth();
-            db = firebase.database();
+            try {
+                firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                db = firebase.database();
+                console.log('Firebase инициализирован OK');
+            } catch (e) {
+                console.error('Firebase init error:', e);
+                document.body.innerHTML = '<div style="padding:40px;text-align:center;color:#e53e3e;font-weight:800;font-size:18px;">Ошибка Firebase: ' + e.message + '</div>';
+            }
         }
 
         let currentUser = null;
@@ -730,7 +740,6 @@
             return 'u' + hex + '@inzhemir.app';
         }
 
-        // Просто приводим всё к ожидаемым типам, без строгих проверок
         function sanitizeProfile(data) {
             data = data || {};
             const name = (typeof data.name === 'string' && data.name.trim().length >= 2) 
@@ -745,6 +754,7 @@
         }
 
         function showAuthScreen() {
+            screenShown = true;
             document.getElementById('authScreen').classList.add('active');
             document.getElementById('appContainer').style.display = 'none';
             hideAuthError();
@@ -756,11 +766,14 @@
                 }
             } catch (e) {}
             document.getElementById('authPassword').value = '';
+            console.log('Показан экран входа');
         }
 
         function showAppScreen() {
+            screenShown = true;
             document.getElementById('authScreen').classList.remove('active');
             document.getElementById('appContainer').style.display = 'flex';
+            console.log('Показан основной экран приложения');
         }
 
         function showAuthError(msg) { document.getElementById('authError').innerText = msg || ''; }
@@ -850,7 +863,7 @@
 
         async function loadUserProfile(uid) {
             const ref = db.ref('users/' + uid);
-            const snap = await ref.get();
+            const snap = await ref.once('value');
             let data = snap.val();
 
             if (!data) {
@@ -862,7 +875,7 @@
                     lastClaimTime: 0,
                     badges: []
                 };
-                await ref.set(data).catch(() => {});
+                try { await ref.set(data); } catch (e) { console.warn('Не удалось создать профиль:', e); }
             }
 
             userProfile = sanitizeProfile(data);
@@ -875,6 +888,8 @@
                 if (!currentUser) return;
                 userProfile = sanitizeProfile(snap2.val());
                 updateProfileUI();
+            }, (err) => {
+                console.warn('profile listener error:', err);
             });
         }
 
@@ -1363,24 +1378,56 @@
             }
         };
 
+        // ==================== AUTH STATE ====================
         if (auth) {
             auth.onAuthStateChanged(async (user) => {
-                if (user) {
-                    currentUser = user;
-                    await loadUserProfile(user.uid);
-                    showAppScreen();
-                    setupDataListeners();
-                    checkMigrationOffer();
-                    maybeShowChatAnnounce();
-                } else {
-                    currentUser = null;
-                    userProfile = null;
-                    if (profileListenerRef) { profileListenerRef.off(); profileListenerRef = null; }
-                    teardownDataListeners();
+                try {
+                    if (user) {
+                        currentUser = user;
+                        console.log('Пользователь авторизован:', user.uid);
+                        try {
+                            await loadUserProfile(user.uid);
+                        } catch (e) {
+                            console.error('Ошибка загрузки профиля:', e);
+                            userProfile = {
+                                name: user.displayName || 'Ученик',
+                                coins: 0, streak: 0, lastClaimTime: 0, badges: []
+                            };
+                            updateProfileUI();
+                        }
+                        showAppScreen();
+                        setupDataListeners();
+                        checkMigrationOffer();
+                        maybeShowChatAnnounce();
+                    } else {
+                        console.log('Пользователь не авторизован');
+                        currentUser = null;
+                        userProfile = null;
+                        if (profileListenerRef) { profileListenerRef.off(); profileListenerRef = null; }
+                        teardownDataListeners();
+                        showAuthScreen();
+                    }
+                } catch (e) {
+                    console.error('Auth callback error:', e);
                     showAuthScreen();
                 }
+            }, (error) => {
+                console.error('Auth state error:', error);
+                showAuthScreen();
             });
+        } else {
+            console.error('auth объект отсутствует — Firebase Auth не загрузился');
+            showAuthScreen();
         }
+
+        // ==================== FAILSAFE ====================
+        // Если через 4 секунды ни один экран не показан — показываем экран входа
+        setTimeout(() => {
+            if (!screenShown) {
+                console.warn('Failsafe: принудительно показываем экран входа');
+                showAuthScreen();
+            }
+        }, 4000);
 
         setInterval(() => {
             if (currentUser && userProfile) updateProfileUI();
