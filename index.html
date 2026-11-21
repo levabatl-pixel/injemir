@@ -11,9 +11,9 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Impact', 'Arial Black', sans-serif; 
+            font-family: 'Impact', 'Arial Black', sans-serif;
             user-select: none;
-            letter-spacing: 0.5px; 
+            letter-spacing: 0.5px;
         }
 
         body {
@@ -91,7 +91,7 @@
             top: 30px;
             left: 25px;
             right: 25px;
-            padding-bottom: 130px; 
+            padding-bottom: 130px;
             opacity: 0;
             transform: translateY(30px);
             pointer-events: none;
@@ -161,7 +161,7 @@
         .task-card {
             background: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(255, 255, 255, 1);
-            border-radius: 25px; 
+            border-radius: 25px;
             padding: 15px 20px;
             margin-bottom: 15px;
             display: flex;
@@ -237,13 +237,13 @@
             color: #2d3748;
             font-size: 18px;
             font-weight: 700;
-            margin-top: 25px; 
-            margin-bottom: 30px; 
+            margin-top: 25px;
+            margin-bottom: 30px;
             cursor: pointer;
             width: 100%;
             padding: 15px;
             background: rgba(255, 255, 255, 0.8);
-            border-radius: 50px; 
+            border-radius: 50px;
             border: 2px dashed rgba(160, 174, 192, 0.5);
             transition: all 0.3s ease;
         }
@@ -401,7 +401,7 @@
             margin-bottom: 5px;
             transition: transform 0.3s;
         }
-        
+
         .streak-box:hover .streak-emoji { transform: scale(1.2); }
 
         .streak-count {
@@ -464,6 +464,28 @@
         }
 
         .profile-name-edit:hover { color: #2b6cb0; transform: rotate(-10deg) scale(1.1); }
+
+        /* Кнопка выхода из аккаунта */
+        .logout-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(229, 62, 62, 0.35);
+            color: #e53e3e;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #e53e3e;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(229, 62, 62, 0.25);
+        }
 
         /* Значки в профиле */
         .badges-container {
@@ -654,6 +676,101 @@
         }
 
         .save-btn:hover { background: #1a365d; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(43, 108, 176, 0.4); }
+        .save-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* ЭКРАН АВТОРИЗАЦИИ */
+        .auth-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .auth-overlay.visible { opacity: 1; pointer-events: auto; }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 2px solid rgba(255, 255, 255, 1);
+            border-radius: 30px;
+            padding: 30px 25px;
+            width: 90%;
+            max-width: 360px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .auth-overlay.visible .auth-card { transform: scale(1) translateY(0); }
+
+        .auth-logo {
+            font-size: 34px;
+            color: #1a202c;
+            font-weight: 800;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .auth-subtitle {
+            font-size: 15px;
+            color: #718096;
+            font-weight: 700;
+            text-align: center;
+            margin: 8px 0 22px;
+        }
+
+        .auth-input { margin-bottom: 12px; }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .auth-switch span {
+            color: #2b6cb0;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        .auth-switch span:hover { text-decoration: underline; }
+
+        .auth-error {
+            color: #e53e3e;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 12px;
+            min-height: 16px;
+        }
+
+        /* МОДАЛКА ПЕРЕНОСА КУКИ-ДАННЫХ */
+        .migration-text {
+            color: #4a5568;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.45;
+            margin-bottom: 18px;
+        }
+
+        .migration-text b { color: #2d3748; }
+
+        .migration-timer {
+            text-align: center;
+            font-size: 13px;
+            color: #718096;
+            font-weight: 700;
+            margin-top: 12px;
+        }
 
         /* УВЕДОМЛЕНИЕ (ТОСТ) */
         .toast {
@@ -682,13 +799,32 @@
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
-        
+
         ::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
+    <!-- ==================== ЭКРАН ВХОДА / РЕГИСТРАЦИИ ==================== -->
+    <div class="auth-overlay visible" id="auth-overlay">
+        <div class="auth-card">
+            <div class="auth-logo">ИНЖЕМИР V3</div>
+            <div class="auth-subtitle" id="auth-subtitle">вход в аккаунт</div>
+
+            <input type="text" class="modal-input auth-input" id="auth-username"
+                   placeholder="Юзернейм (кириллица, без пробелов)" maxlength="20" autocomplete="off">
+            <input type="password" class="modal-input auth-input" id="auth-password"
+                   placeholder="Пароль" maxlength="64">
+
+            <button class="save-btn" id="auth-btn" onclick="authSubmit()">Войти</button>
+
+            <div class="auth-switch" id="auth-switch">нет аккаунта? <span onclick="toggleAuthMode()">зарегистрироваться</span></div>
+            <div class="auth-error" id="auth-error"></div>
+        </div>
+    </div>
+
+    <!-- ==================== ПРИЛОЖЕНИЕ ==================== -->
+    <div class="app-container" id="app">
         <header>
             <h1>ИНЖЕМИР V3</h1>
             <svg class="settings-icon" viewBox="0 0 24 24">
@@ -700,7 +836,7 @@
             <!-- Вкладка ДЗ -->
             <div id="tab-tasks" class="tab-content active">
                 <div class="title-main">Д/З</div>
-                
+
                 <div class="recent-section" id="recent-section" style="display: none;">
                     <div class="recent-title">Последние изменения</div>
                     <div id="recent-list"></div>
@@ -740,13 +876,13 @@
                     <span class="profile-name-edit" onclick="openNameModal()">✎</span>
                 </div>
                 <div class="subtitle">инжекоины: <span class="highlight" id="coin-balance">0</span></div>
-                
+
                 <div class="profile-widgets">
                     <div class="streak-box">
                         <div class="streak-emoji" id="streak-emoji">🥶</div>
                         <div class="streak-count"><span id="streak-days">0</span> дн.</div>
                     </div>
-                    
+
                     <button class="daily-btn ready" id="daily-btn" onclick="claimDaily()">
                         <div class="daily-title">Дейлик🎁</div>
                         <div class="daily-sub" id="daily-text">Забрать 1</div>
@@ -755,9 +891,9 @@
                 </div>
 
                 <div class="subtitle" style="margin-top: 25px;">значки:</div>
-                <div class="badges-container" id="badges-container">
-                    <!-- Сюда будут добавляться значки -->
-                </div>
+                <div class="badges-container" id="badges-container"></div>
+
+                <button class="logout-btn" onclick="logout()">Выйти из аккаунта</button>
             </div>
         </div>
 
@@ -805,6 +941,16 @@
             </div>
         </div>
 
+        <!-- Модалка переноса старых куки-данных -->
+        <div class="modal-overlay" id="migrationModal">
+            <div class="modal-content">
+                <div class="modal-title">Найдены старые данные</div>
+                <div class="migration-text" id="migration-text">На этом устройстве найдены ваши старые данные из куки. Их можно один раз перенести на аккаунт. После закрытия этого окна данные с устройства будут удалены навсегда.</div>
+                <button class="save-btn" id="migration-btn" onclick="applyMigration()" disabled>Подождите...</button>
+                <div class="migration-timer" id="migration-timer">закрыть можно будет через 10 с</div>
+            </div>
+        </div>
+
         <div class="toast" id="toast"></div>
     </div>
 
@@ -814,6 +960,9 @@
 
     <script>
         // ==================== ВСПОМОГАТЕЛЬНОЕ ====================
+        const LS_PROFILE = 'inzhemir_profile'; // старые куки-данные
+        const LS_SESSION = 'inzhemir_session'; // текущая сессия (автовход)
+
         function escapeHtml(s) {
             return String(s == null ? '' : s).replace(/[&<>"']/g, c => (
                 {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
@@ -828,22 +977,245 @@
             window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // ==================== ЛОГИКА ПРОФИЛЯ ====================
-        let profileData = JSON.parse(localStorage.getItem('inzhemir_profile')) || {
-            coins: 0,
-            streak: 0,
-            lastClaimTime: 0,
-            badges: []
+        // Хэш пароля. Если доступен crypto.subtle — SHA-256, иначе простой запасной вариант.
+        async function hashPassword(pw) {
+            const salted = 'inzhemir_v3::' + pw;
+            if (window.crypto && crypto.subtle && crypto.subtle.digest) {
+                try {
+                    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(salted));
+                    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+                } catch (e) { /* упадём в запасной вариант */ }
+            }
+            let h = 5381;
+            for (let i = 0; i < salted.length; i++) {
+                h = ((h << 5) + h + salted.charCodeAt(i)) >>> 0;
+            }
+            return 'fb' + h.toString(16);
+        }
+
+        // ==================== АВТОРИЗАЦИЯ ====================
+        // База (правила остаются открытыми):
+        //   accounts/{юзернейм} = { password: <хэш>, createdAt }
+        //   users/{юзернейм}/profile = { coins, streak, lastClaimTime, badges, name, migrated }
+        //   homework/..., messages/... — общие для всех
+
+        let authMode = 'login';
+        let currentUser = null;
+        let profileData = { coins: 0, streak: 0, lastClaimTime: 0, badges: [], name: 'Ученик', migrated: false };
+        let profileRef = null;
+        let migrationTimerInterval = null;
+
+        function validateUsername(u) {
+            if (typeof u !== 'string') return false;
+            if (u.length < 3 || u.length > 20) return false;
+            return /^[А-Яа-яЁё]+$/.test(u);
+        }
+
+        window.toggleAuthMode = function() {
+            authMode = (authMode === 'login') ? 'register' : 'login';
+            document.getElementById('auth-subtitle').innerText = authMode === 'login' ? 'вход в аккаунт' : 'регистрация';
+            document.getElementById('auth-btn').innerText = authMode === 'login' ? 'Войти' : 'Зарегистрироваться';
+            document.getElementById('auth-switch').innerHTML = authMode === 'login'
+                ? 'нет аккаунта? <span onclick="toggleAuthMode()">зарегистрироваться</span>'
+                : 'уже есть аккаунт? <span onclick="toggleAuthMode()">войти</span>';
+            document.getElementById('auth-error').innerText = '';
         };
 
-        if (!profileData.badges) profileData.badges = [];
-        if (!profileData.name) profileData.name = 'Ученик';
+        window.authSubmit = async function() {
+            const username = document.getElementById('auth-username').value.trim();
+            const password = document.getElementById('auth-password').value;
+            const errEl = document.getElementById('auth-error');
+            const btn = document.getElementById('auth-btn');
+            errEl.innerText = '';
+
+            if (!validateUsername(username)) {
+                errEl.innerText = 'юзернейм: только кириллица, без пробелов, 3–20 символов';
+                return;
+            }
+            if (!password || password.length < 4) {
+                errEl.innerText = 'пароль: минимум 4 символа';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = 'Проверка...';
+
+            const hash = await hashPassword(password);
+            const accountRef = firebase.database().ref('accounts/' + username);
+
+            try {
+                const snap = await accountRef.once('value');
+                const existing = snap.val();
+
+                if (authMode === 'login') {
+                    if (!existing) {
+                        errEl.innerText = 'аккаунт не найден';
+                    } else if (existing.password !== hash) {
+                        errEl.innerText = 'неверный пароль';
+                    } else {
+                        enterApp(username);
+                        return;
+                    }
+                } else {
+                    if (existing) {
+                        errEl.innerText = 'такой юзернейм уже занят';
+                    } else {
+                        await accountRef.set({
+                            password: hash,
+                            createdAt: Date.now()
+                        });
+                        enterApp(username);
+                        return;
+                    }
+                }
+            } catch (e) {
+                errEl.innerText = 'ошибка соединения с базой';
+                console.error(e);
+            }
+
+            btn.disabled = false;
+            btn.innerText = authMode === 'login' ? 'Войти' : 'Зарегистрироваться';
+        };
+
+        function enterApp(username) {
+            currentUser = username;
+            localStorage.setItem(LS_SESSION, username);
+            document.getElementById('auth-username').value = '';
+            document.getElementById('auth-password').value = '';
+            document.getElementById('auth-overlay').classList.remove('visible');
+            document.getElementById('auth-btn').disabled = false;
+            document.getElementById('auth-btn').innerText = authMode === 'login' ? 'Войти' : 'Зарегистрироваться';
+
+            profileRef = firebase.database().ref('users/' + username + '/profile');
+
+            profileRef.on('value', (snap) => {
+                const val = snap.val();
+                profileData = {
+                    coins: (val && typeof val.coins === 'number') ? val.coins : 0,
+                    streak: (val && typeof val.streak === 'number') ? val.streak : 0,
+                    lastClaimTime: (val && typeof val.lastClaimTime === 'number') ? val.lastClaimTime : 0,
+                    badges: (val && Array.isArray(val.badges)) ? val.badges : [],
+                    name: (val && val.name) ? val.name : 'Ученик',
+                    migrated: !!(val && val.migrated)
+                };
+                updateProfileUI();
+            });
+
+            // Проверка старых куки-данных после первой загрузки профиля
+            profileRef.once('value').then((snap) => {
+                const val = snap.val() || {};
+                const old = getOldCookieData();
+                if (old && !val.migrated) {
+                    showMigrationModal(old);
+                }
+            });
+        }
+
+        window.logout = function() {
+            if (!confirm('Выйти из аккаунта?')) return;
+            if (profileRef) profileRef.off();
+            profileRef = null;
+            currentUser = null;
+            localStorage.removeItem(LS_SESSION);
+            profileData = { coins: 0, streak: 0, lastClaimTime: 0, badges: [], name: 'Ученик', migrated: false };
+            document.getElementById('auth-overlay').classList.add('visible');
+            showToast('вы вышли из аккаунта');
+        };
+
+        // ==================== ПЕРЕНОС СТАРЫХ КУКИ-ДАННЫХ ====================
+        function getOldCookieData() {
+            try {
+                const raw = localStorage.getItem(LS_PROFILE);
+                if (!raw) return null;
+                const old = JSON.parse(raw);
+                const hasSomething =
+                    (old.coins && old.coins > 0) ||
+                    (old.streak && old.streak > 0) ||
+                    (Array.isArray(old.badges) && old.badges.length > 0) ||
+                    (old.name && old.name !== 'Ученик');
+                return hasSomething ? old : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function showMigrationModal(old) {
+            const badgesCount = Array.isArray(old.badges) ? old.badges.length : 0;
+            document.getElementById('migration-text').innerHTML =
+                `На этом устройстве найдены ваши старые данные:<br><br>` +
+                `инжекоины: <b>${old.coins || 0}</b><br>` +
+                `серия дейликов: <b>${old.streak || 0}</b><br>` +
+                `значки: <b>${badgesCount}</b><br><br>` +
+                `Нажмите «Перенести» — всё уйдёт на аккаунт <b>${escapeHtml(currentUser)}</b>, ` +
+                `а данные с устройства будут удалены.`;
+
+            document.getElementById('migration-btn').disabled = true;
+            document.getElementById('migration-btn').innerText = 'Подождите...';
+            document.getElementById('migrationModal').classList.add('active');
+
+            let secondsLeft = 10;
+            const timerEl = document.getElementById('migration-timer');
+            timerEl.innerText = `закрыть можно будет через ${secondsLeft} с`;
+
+            clearInterval(migrationTimerInterval);
+            migrationTimerInterval = setInterval(() => {
+                secondsLeft--;
+                if (secondsLeft <= 0) {
+                    clearInterval(migrationTimerInterval);
+                    const btn = document.getElementById('migration-btn');
+                    btn.disabled = false;
+                    btn.innerText = 'Перенести и закрыть';
+                    timerEl.innerText = 'теперь можно перенести данные';
+                } else {
+                    timerEl.innerText = `закрыть можно будет через ${secondsLeft} с`;
+                }
+            }, 1000);
+        }
+
+        window.applyMigration = function() {
+            const raw = localStorage.getItem(LS_PROFILE);
+            if (!raw) { closeModal('migrationModal'); return; }
+
+            let old = null;
+            try { old = JSON.parse(raw); } catch (e) { old = null; }
+
+            if (old) {
+                profileData.coins += (typeof old.coins === 'number' ? old.coins : 0);
+                profileData.streak = Math.max(profileData.streak || 0, old.streak || 0);
+                profileData.lastClaimTime = Math.max(profileData.lastClaimTime || 0, old.lastClaimTime || 0);
+
+                if ((!profileData.name || profileData.name === 'Ученик') && old.name) {
+                    profileData.name = old.name;
+                }
+
+                if (Array.isArray(old.badges)) {
+                    const merged = new Set(profileData.badges || []);
+                    old.badges.forEach(b => merged.add(b));
+                    profileData.badges = Array.from(merged);
+                }
+            }
+
+            profileData.migrated = true; // уведомление больше никогда не появится
+            profileRef.set(profileData);
+
+            // Уничтожаем куки-данные на устройстве
+            localStorage.removeItem(LS_PROFILE);
+
+            clearInterval(migrationTimerInterval);
+            closeModal('migrationModal');
+            showToast('данные перенесены на аккаунт');
+        };
+
+        // ==================== ЛОГИКА ПРОФИЛЯ ====================
+        function saveProfile() {
+            if (profileRef) profileRef.set(profileData);
+        }
 
         function updateProfileUI() {
             document.getElementById('coin-balance').innerText = profileData.coins;
             document.getElementById('streak-days').innerText = profileData.streak;
             document.getElementById('profile-title').innerText = profileData.name || 'Ученик';
-            
+
             const emojiEl = document.getElementById('streak-emoji');
             if (profileData.streak >= 51) emojiEl.innerText = '🧡';
             else if (profileData.streak >= 21) emojiEl.innerText = '🔥';
@@ -853,17 +1225,15 @@
             const btn = document.getElementById('daily-btn');
             const text = document.getElementById('daily-text');
             const progressBar = document.getElementById('daily-progress-bar');
-            
+
             const now = Date.now();
             const cooldown = 24 * 60 * 60 * 1000;
             const timePassed = now - profileData.lastClaimTime;
 
-            if (profileData.lastClaimTime > 0 && timePassed > 48 * 60 * 60 * 1000) {
-                if (profileData.streak > 0) {
-                    profileData.streak = 0;
-                    localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
-                    updateProfileUI();
-                }
+            // Сброс серии, если пропустили больше суток
+            if (profileData.lastClaimTime > 0 && timePassed > 48 * 60 * 60 * 1000 && profileData.streak > 0) {
+                profileData.streak = 0;
+                saveProfile();
             }
 
             if (timePassed >= cooldown) {
@@ -892,16 +1262,15 @@
 
             if (timePassed >= cooldown || profileData.lastClaimTime === 0) {
                 if (profileData.lastClaimTime > 0 && timePassed > 48 * 60 * 60 * 1000) {
-                    profileData.streak = 1; 
+                    profileData.streak = 1;
                 } else {
                     profileData.streak += 1;
                 }
 
                 profileData.coins += 1;
                 profileData.lastClaimTime = now;
-                localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
-                updateProfileUI();
-                
+                saveProfile();
+
                 const btn = document.getElementById('daily-btn');
                 btn.style.transform = "scale(0.95)";
                 setTimeout(() => btn.style.transform = "scale(1)", 150);
@@ -917,8 +1286,7 @@
         window.saveName = function() {
             const val = document.getElementById('nameInput').value.trim();
             profileData.name = val.length > 0 ? val : 'Ученик';
-            localStorage.setItem('inzhemir_profile', JSON.stringify(profileData));
-            updateProfileUI();
+            saveProfile();
             closeModal('nameModal');
         };
 
@@ -927,14 +1295,14 @@
             'inzhemir_3': { emoji: '⚙', name: 'выход инжемира 3' },
             'mediabitva': { emoji: '📷', name: 'медиабитва 2026' },
             'dr_ep_26': { emoji: '🎂', name: 'ДР ЕП 26' },
-            'yarn_ball': { emoji: '🧶', name: 'за вклад' } 
+            'yarn_ball': { emoji: '🧶', name: 'за вклад' }
         };
 
         function renderBadges() {
             const container = document.getElementById('badges-container');
             container.innerHTML = '';
 
-            if (profileData.badges.length === 0) {
+            if (!profileData.badges || profileData.badges.length === 0) {
                 container.innerHTML = '<div style="color: #718096; font-size: 14px; font-style: italic;">Пока нет значков</div>';
                 return;
             }
@@ -949,7 +1317,7 @@
                     ${info.emoji}
                     <div class="badge-tooltip">${info.name}</div>
                 `;
-                
+
                 el.onclick = (e) => {
                     e.stopPropagation();
                     const isActive = el.classList.contains('active-tooltip');
@@ -967,18 +1335,16 @@
             document.querySelectorAll('.badge-item').forEach(b => b.classList.remove('active-tooltip'));
         });
 
-        setInterval(updateProfileUI, 1000);
-
         // ==================== ВСПОМОГАТЕЛЬНАЯ ЛОГИКА ДАТ ====================
         function getRelativeDate(timestamp) {
-            if (!timestamp) return null; 
+            if (!timestamp) return null;
 
             const now = new Date();
             const past = new Date(timestamp);
-            
+
             const d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const d2 = new Date(past.getFullYear(), past.getMonth(), past.getDate());
-            
+
             const diffTime = Math.abs(d1 - d2);
             const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
@@ -1001,9 +1367,6 @@
                 text: msg
             };
 
-            // Системное меню «Поделиться» (Web Share API).
-            // Вызывается СИНХРОННО в обработчике клика — жест пользователя сохраняется,
-            // это обязательное условие для показа системной плашки.
             if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
                 let canShareOk = true;
                 try {
@@ -1016,16 +1379,13 @@
 
                 if (canShareOk) {
                     navigator.share(shareData).catch(err => {
-                        // Пользователь отменил системное меню — ничего не делаем
                         if (err && (err.name === 'AbortError' || err.name === 'NotAllowedError')) return;
-                        // Иначе — копируем в буфер
                         fallbackCopy(msg);
                     });
                     return;
                 }
             }
 
-            // Если системное меню недоступно — копируем в буфер обмена
             fallbackCopy(msg);
         }
 
@@ -1157,7 +1517,7 @@
             function renderHomeworks(data) {
                 const container = document.getElementById('homework-list');
                 container.innerHTML = '';
-                
+
                 let itemsArray = Object.keys(data).map(key => {
                     return { key: key, ...data[key] };
                 });
@@ -1293,11 +1653,11 @@
         window.switchTab = function(tabName, element) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            
+
             const targetTab = document.getElementById('tab-' + tabName);
             if (targetTab) targetTab.classList.add('active');
             element.classList.add('active');
-            
+
             if (tabName === 'profile') updateProfileUI();
             if (tabName === 'messenger') {
                 const c = document.getElementById('chat-messages');
@@ -1314,7 +1674,35 @@
             }
         });
 
-        updateProfileUI();
+        // Enter в поле пароля = нажать кнопку входа
+        document.getElementById('auth-password').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                authSubmit();
+            }
+        });
+
+        setInterval(() => {
+            if (currentUser) updateProfileUI();
+        }, 1000);
+
+        // ==================== АВТОВХОД ПРИ ЗАПУСКЕ ====================
+        (async function tryAutoLogin() {
+            const saved = localStorage.getItem(LS_SESSION);
+            if (!saved || typeof firebase === 'undefined') return;
+
+            try {
+                const snap = await firebase.database().ref('accounts/' + saved).once('value');
+                if (snap.exists()) {
+                    enterApp(saved);
+                } else {
+                    localStorage.removeItem(LS_SESSION);
+                }
+            } catch (e) {
+                // если база недоступна — покажем экран входа как обычно
+                console.error(e);
+            }
+        })();
     </script>
 </body>
 </html>
