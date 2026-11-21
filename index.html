@@ -749,6 +749,7 @@
         }
 
         .auth-input { margin-bottom: 12px; }
+        .auth-input:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .auth-switch {
             text-align: center;
@@ -833,12 +834,12 @@
             <div class="auth-logo">ИНЖЕМИР V3</div>
             <div class="auth-subtitle" id="auth-subtitle">вход в аккаунт</div>
 
-            <input type="text" class="modal-input auth-input" id="auth-username"
+            <input type="text" class="modal-input auth-input" id="auth-username" disabled
                    placeholder="Юзернейм (кириллица, без пробелов)" maxlength="20" autocomplete="off">
-            <input type="password" class="modal-input auth-input" id="auth-password"
+            <input type="password" class="modal-input auth-input" id="auth-password" disabled
                    placeholder="Пароль" maxlength="64">
 
-            <button class="save-btn" id="auth-btn" onclick="authSubmit()">Войти</button>
+            <button class="save-btn" id="auth-btn" onclick="authSubmit()" disabled>Проверка...</button>
 
             <div class="auth-switch" id="auth-switch">нет аккаунта? <span onclick="toggleAuthMode()">зарегистрироваться</span></div>
             <div class="auth-error" id="auth-error"></div>
@@ -1016,6 +1017,31 @@
             return 'fb' + h.toString(16);
         }
 
+        // ==================== БЛОКИРОВКА ФОРМЫ ВХОДА ====================
+        // Пока идёт проверка куки-сессии (автовход), форма заблокирована —
+        // чтобы при плохом соединении нельзя было начать вводить данные
+        // и внезапно «улететь» в аккаунт посреди набора.
+        let authLocked = true;
+
+        function setAuthLocked(locked, text) {
+            authLocked = locked;
+            const btn = document.getElementById('auth-btn');
+            const u = document.getElementById('auth-username');
+            const p = document.getElementById('auth-password');
+            btn.disabled = locked;
+            u.disabled = locked;
+            p.disabled = locked;
+            if (locked) {
+                btn.innerText = text || 'Проверка...';
+            } else {
+                btn.innerText = authMode === 'login' ? 'Войти' : 'Зарегистрироваться';
+            }
+        }
+
+        function unlockAuthForm() {
+            setAuthLocked(false);
+        }
+
         // ==================== АВТОРИЗАЦИЯ ====================
         // База (правила остаются открытыми):
         //   accounts/{юзернейм} = { password: <хэш>, createdAt }
@@ -1035,6 +1061,7 @@
         }
 
         window.toggleAuthMode = function() {
+            if (authLocked) return; // пока идёт проверка — переключение недоступно
             authMode = (authMode === 'login') ? 'register' : 'login';
             document.getElementById('auth-subtitle').innerText = authMode === 'login' ? 'вход в аккаунт' : 'регистрация';
             document.getElementById('auth-btn').innerText = authMode === 'login' ? 'Войти' : 'Зарегистрироваться';
@@ -1048,7 +1075,6 @@
             const username = document.getElementById('auth-username').value.trim();
             const password = document.getElementById('auth-password').value;
             const errEl = document.getElementById('auth-error');
-            const btn = document.getElementById('auth-btn');
             errEl.innerText = '';
 
             if (!validateUsername(username)) {
@@ -1060,8 +1086,7 @@
                 return;
             }
 
-            btn.disabled = true;
-            btn.innerText = 'Проверка...';
+            setAuthLocked(true);
 
             const hash = await hashPassword(password);
             const accountRef = firebase.database().ref('accounts/' + username);
@@ -1096,8 +1121,7 @@
                 console.error(e);
             }
 
-            btn.disabled = false;
-            btn.innerText = authMode === 'login' ? 'Войти' : 'Зарегистрироваться';
+            unlockAuthForm();
         };
 
         function enterApp(username) {
@@ -1105,9 +1129,12 @@
             localStorage.setItem(LS_SESSION, username);
             document.getElementById('auth-username').value = '';
             document.getElementById('auth-password').value = '';
+            document.getElementById('auth-error').innerText = '';
             document.getElementById('auth-overlay').classList.remove('visible');
-            document.getElementById('auth-btn').disabled = false;
-            document.getElementById('auth-btn').innerText = authMode === 'login' ? 'Войти' : 'Зарегистрироваться';
+            authMode = 'login';
+            document.getElementById('auth-subtitle').innerText = 'вход в аккаунт';
+            document.getElementById('auth-switch').innerHTML = 'нет аккаунта? <span onclick="toggleAuthMode()">зарегистрироваться</span>';
+            unlockAuthForm();
 
             profileRef = firebase.database().ref('users/' + username + '/profile');
 
@@ -1142,6 +1169,7 @@
             localStorage.removeItem(LS_SESSION);
             profileData = { coins: 0, streak: 0, lastClaimTime: 0, badges: [], name: 'Ученик', migrated: false };
             document.getElementById('auth-overlay').classList.add('visible');
+            unlockAuthForm();
             showToast('вы вышли из аккаунта');
         };
 
@@ -1719,7 +1747,7 @@
         document.getElementById('auth-password').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                authSubmit();
+                if (!authLocked) authSubmit();
             }
         });
 
@@ -1728,9 +1756,15 @@
         }, 1000);
 
         // ==================== АВТОВХОД ПРИ ЗАПУСКЕ ====================
+        // Проверка куки-сессии идёт ДО того, как форма входа станет доступной:
+        // пока она крутится, поля заблокированы и набрать половину данных нельзя.
         (async function tryAutoLogin() {
             const saved = localStorage.getItem(LS_SESSION);
-            if (!saved || typeof firebase === 'undefined') return;
+
+            if (!saved || typeof firebase === 'undefined') {
+                unlockAuthForm();
+                return;
+            }
 
             try {
                 const snap = await firebase.database().ref('accounts/' + saved).once('value');
@@ -1738,10 +1772,12 @@
                     enterApp(saved);
                 } else {
                     localStorage.removeItem(LS_SESSION);
+                    unlockAuthForm();
                 }
             } catch (e) {
-                // если база недоступна — покажем экран входа как обычно
+                // если база недоступна — просто разблокируем форму входа
                 console.error(e);
+                unlockAuthForm();
             }
         })();
     </script>
