@@ -474,6 +474,7 @@
             background: rgba(255, 255, 255, 0.7);
             border: 2px solid rgba(229, 62, 62, 0.35);
             color: #e53e3e;
+            font-family: 'Impact', 'Arial Black', sans-serif;
             font-weight: 800;
             font-size: 16px;
             cursor: pointer;
@@ -485,6 +486,27 @@
             color: #ffffff;
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(229, 62, 62, 0.25);
+        }
+
+        /* Кнопка отказа в модалке переноса */
+        .decline-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(229, 62, 62, 0.35);
+            color: #e53e3e;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .decline-btn:hover {
+            background: #e53e3e;
+            color: #ffffff;
         }
 
         /* Значки в профиле */
@@ -945,9 +967,10 @@
         <div class="modal-overlay" id="migrationModal">
             <div class="modal-content">
                 <div class="modal-title">Найдены старые данные</div>
-                <div class="migration-text" id="migration-text">На этом устройстве найдены ваши старые данные из куки. Их можно один раз перенести на аккаунт. После закрытия этого окна данные с устройства будут удалены навсегда.</div>
-                <button class="save-btn" id="migration-btn" onclick="applyMigration()" disabled>Подождите...</button>
-                <div class="migration-timer" id="migration-timer">закрыть можно будет через 10 с</div>
+                <div class="migration-text" id="migration-text"></div>
+                <button class="save-btn" id="migration-btn" onclick="applyMigration()">Перенести данные</button>
+                <button class="decline-btn" id="migration-decline-btn" onclick="declineMigration()" style="display: none;">Отказаться и закрыть</button>
+                <div class="migration-timer" id="migration-timer">отказаться можно будет через 10 с</div>
             </div>
         </div>
 
@@ -1146,64 +1169,82 @@
                 `инжекоины: <b>${old.coins || 0}</b><br>` +
                 `серия дейликов: <b>${old.streak || 0}</b><br>` +
                 `значки: <b>${badgesCount}</b><br><br>` +
-                `Нажмите «Перенести» — всё уйдёт на аккаунт <b>${escapeHtml(currentUser)}</b>, ` +
-                `а данные с устройства будут удалены.`;
+                `Нажмите «Перенести» — всё уйдёт на аккаунт <b>${escapeHtml(currentUser)}</b>. ` +
+                `Если откажетесь — данные с устройства будут удалены навсегда.`;
 
-            document.getElementById('migration-btn').disabled = true;
-            document.getElementById('migration-btn').innerText = 'Подождите...';
+            // Кнопка переноса доступна сразу, в любой момент
+            const migrateBtn = document.getElementById('migration-btn');
+            migrateBtn.disabled = false;
+            migrateBtn.innerText = 'Перенести данные';
+            migrateBtn.style.display = 'block';
+
+            // Кнопка отказа появится только через 10 секунд
+            const declineBtn = document.getElementById('migration-decline-btn');
+            declineBtn.style.display = 'none';
+
             document.getElementById('migrationModal').classList.add('active');
 
             let secondsLeft = 10;
             const timerEl = document.getElementById('migration-timer');
-            timerEl.innerText = `закрыть можно будет через ${secondsLeft} с`;
+            timerEl.innerText = `отказаться можно будет через ${secondsLeft} с`;
 
             clearInterval(migrationTimerInterval);
             migrationTimerInterval = setInterval(() => {
                 secondsLeft--;
                 if (secondsLeft <= 0) {
                     clearInterval(migrationTimerInterval);
-                    const btn = document.getElementById('migration-btn');
-                    btn.disabled = false;
-                    btn.innerText = 'Перенести и закрыть';
-                    timerEl.innerText = 'теперь можно перенести данные';
+                    declineBtn.style.display = 'block';
+                    timerEl.innerText = 'можно перенести данные или отказаться от них';
                 } else {
-                    timerEl.innerText = `закрыть можно будет через ${secondsLeft} с`;
+                    timerEl.innerText = `отказаться можно будет через ${secondsLeft} с`;
                 }
             }, 1000);
         }
 
+        function destroyOldCookieData() {
+            localStorage.removeItem(LS_PROFILE);
+            clearInterval(migrationTimerInterval);
+            closeModal('migrationModal');
+        }
+
         window.applyMigration = function() {
             const raw = localStorage.getItem(LS_PROFILE);
-            if (!raw) { closeModal('migrationModal'); return; }
 
-            let old = null;
-            try { old = JSON.parse(raw); } catch (e) { old = null; }
+            if (raw) {
+                let old = null;
+                try { old = JSON.parse(raw); } catch (e) { old = null; }
 
-            if (old) {
-                profileData.coins += (typeof old.coins === 'number' ? old.coins : 0);
-                profileData.streak = Math.max(profileData.streak || 0, old.streak || 0);
-                profileData.lastClaimTime = Math.max(profileData.lastClaimTime || 0, old.lastClaimTime || 0);
+                if (old) {
+                    profileData.coins += (typeof old.coins === 'number' ? old.coins : 0);
+                    profileData.streak = Math.max(profileData.streak || 0, old.streak || 0);
+                    profileData.lastClaimTime = Math.max(profileData.lastClaimTime || 0, old.lastClaimTime || 0);
 
-                if ((!profileData.name || profileData.name === 'Ученик') && old.name) {
-                    profileData.name = old.name;
-                }
+                    if ((!profileData.name || profileData.name === 'Ученик') && old.name) {
+                        profileData.name = old.name;
+                    }
 
-                if (Array.isArray(old.badges)) {
-                    const merged = new Set(profileData.badges || []);
-                    old.badges.forEach(b => merged.add(b));
-                    profileData.badges = Array.from(merged);
+                    if (Array.isArray(old.badges)) {
+                        const merged = new Set(profileData.badges || []);
+                        old.badges.forEach(b => merged.add(b));
+                        profileData.badges = Array.from(merged);
+                    }
                 }
             }
 
             profileData.migrated = true; // уведомление больше никогда не появится
             profileRef.set(profileData);
 
-            // Уничтожаем куки-данные на устройстве
-            localStorage.removeItem(LS_PROFILE);
-
-            clearInterval(migrationTimerInterval);
-            closeModal('migrationModal');
+            destroyOldCookieData();
             showToast('данные перенесены на аккаунт');
+        };
+
+        window.declineMigration = function() {
+            // Отказ: данные с устройства уничтожаются, окно больше не покажется
+            profileData.migrated = true;
+            profileRef.set(profileData);
+
+            destroyOldCookieData();
+            showToast('старые данные удалены');
         };
 
         // ==================== ЛОГИКА ПРОФИЛЯ ====================
